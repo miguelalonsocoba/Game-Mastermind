@@ -2,50 +2,76 @@ const { Console } = require(`console-mpds`);
 const console = new Console();
 
 let columnProposedCombinations = [
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
 ];
 const COLOR_OPTIONS = [
-  [`0`, `RED`],
-  [`1`, `GREEN`],
-  [`2`, `BLUE`],
-  [`3`, `YELLOW`],
-  [`4`, `CYAN`],
-  [`5`, `MAGENTA`],
+  [`0`, `R`],
+  [`1`, `G`],
+  [`2`, `B`],
+  [`3`, `Y`],
+  [`4`, `C`],
+  [`5`, `M`],
 ];
 let columnResult = [
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
-  [`Na`, `Na`, `Na`, `Na`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
+  [`N`, `N`, `N`, `N`],
 ];
 let counterOfProposedCombination = 6;
+let correctCombination = false;
 
-generateSecreteCombination();
+const combinationSecrete = generateSecreteCombination();
+do {
+  const NUMBER_OF_PROPOSED_COLORS = 4;
+  for (let i = 0; i < NUMBER_OF_PROPOSED_COLORS; i++) {
+    console.writeln(`Value i: ${i}`);
+    showBoard(combinationSecrete);
+    let repeatedColor = placeColorInPosition(chooseOptionOfColor(), setColorInPorposedCombination());
+    console.griteln(`repetedColor: ${repeatedColor}`);
+    if (repeatedColor) {
+      i--;
+    }
+  }
+  checkColorPositions();
+  counterOfProposedCombination--;
+  console.writeln(`CounterOfProposedCombination: ${counterOfProposedCombination}`);
+} while (true);
 
-// do {
-//   for (let i = 0; i < columnProposedCombinations[0].length; i++) {
-//     showBoard();
-//     placeColorInPosition(chooseOptionOfColor(), setColorInPorposedCombination());
-//     console.writeln(columnProposedCombinations);
-//   }
-//   checkColorPositions(columnProposedCombinations);
-//   counterOfProposedCombination--;
-// } while (true);
+function showBoard(combinationSecrete) {
+  showMainPanel(columnResult, columnProposedCombinations);
+  showSecreteCombination(combinationSecrete);
+}
 
-function checkColorPositions(columnProposedCombinations) {}
+function showMainPanel(columnResult, columnProposedCombinations) {
+  console.write(`Proposed:  `);
+  console.writeln(`Results:`);
+  for (let i = 0; i < columnProposedCombinations.length; i++) {
+    console.write(`${columnProposedCombinations[i]}  |  `);
+    console.writeln(`${columnResult[i]}`);
+  }
+}
+
+function showSecreteCombination(secreteCombination) {
+  if (correctCombination) {
+    console.writeln(`Secrete combination: ${secreteCombination}`);
+  } else {
+    console.writeln(`Secrete combination: ****`);
+  }
+}
 
 function placeColorInPosition(color, position) {
   let repeatedColor = false;
-  if (columnProposedCombinations[counterOfProposedCombination][position] === `Na`) {
+  if (columnProposedCombinations[counterOfProposedCombination][position] === `N`) {
     for (let i = 0; i <= columnProposedCombinations[counterOfProposedCombination].length; i++) {
       if (columnProposedCombinations[counterOfProposedCombination][i] === color) {
         repeatedColor = true;
@@ -55,36 +81,7 @@ function placeColorInPosition(color, position) {
       }
     }
   }
-}
-
-function setColorInPorposedCombination() {
-  let position = console.readNumber(`Select the position to place the chosen color:`);
-  return position;
-}
-
-function showBoard() {
-  showMainPanel(columnResult, columnProposedCombinations);
-  showSecreteCombination(generateSecretCombination());
-}
-
-function generateSecreteCombination() {
-  const MAX = 6;
-  const MIN = 0;
-  const FULL = 4;
-  let combinationSecrete = [];
-  for (let i = 0; i !== FULL; i++) {
-    console.writeln(`Length: ${combinationSecrete.length}`);
-    combinationSecrete[i] = Math.floor(Math.random() * (MAX - MIN)) + MIN;
-  }
-}
-
-function showMainPanel(columnResult, columnProposedCombinations) {
-  console.write(`Proposed\nCombinations: `);
-  console.writeln(` Results:`);
-  for (let i = 0; i < columnProposedCombinations.length; i++) {
-    console.write(`${columnProposedCombinations[i]}  |  `);
-    console.writeln(`${columnResult[i]}`);
-  }
+  return repeatedColor;
 }
 
 function chooseOptionOfColor() {
@@ -116,6 +113,47 @@ function chooseOptionOfColor() {
   }
 }
 
-function showSecreteCombination(secreteCombination) {
-  console.writeln(`Secrete combination: ${secreteCombination}`);
+function setColorInPorposedCombination() {
+  let position = console.readNumber(`Select the position to place the chosen color (0-3):`);
+  return position;
+}
+
+function checkColorPositions() {
+  console.writeln(`checkColorPosition()`);
+  correctlyPositioned();
+  // contemplated();
+}
+
+function correctlyPositioned() {
+  for (let i = 0; i < columnProposedCombinations[counterOfProposedCombination].length; i++) {
+    if (columnProposedCombinations[columnProposedCombinations[counterOfProposedCombination][i] === combinationSecrete[i]]) {
+      columnResult[counterOfProposedCombination][i] = `B`;
+    }
+  }
+}
+
+function generateSecreteCombination() {
+  const MAX = 6;
+  const MIN = 0;
+  const FULL = 4;
+  let combinationSecrete = [];
+  for (let i = 0; i !== FULL; i++) {
+    const randomNumber = Math.floor(Math.random() * (MAX - MIN)) + MIN;
+    console.writeln(`Random number: ${randomNumber}`);
+    if (combinationSecrete.length === 0) {
+      combinationSecrete[0] = randomNumber;
+    } else {
+      let uniqueRandomNumber = true;
+      for (let j = 0; uniqueRandomNumber && j < combinationSecrete.length; j++) {
+        if (randomNumber === combinationSecrete[j]) {
+          uniqueRandomNumber = false;
+          i--;
+        }
+      }
+      if (uniqueRandomNumber) {
+        combinationSecrete[i] = randomNumber;
+      }
+    }
+  }
+  return combinationSecrete;
 }
