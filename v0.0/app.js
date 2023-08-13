@@ -30,14 +30,15 @@ let columnResult = [
 let counterOfProposedCombination = 6;
 let correctCombination = false;
 
-const combinationSecrete = generateSecreteCombination();
+const secreteCombination = generateSecreteCombination();
+console.writeln("Secrete combination: " + secreteCombination);
 do {
   const NUMBER_OF_PROPOSED_COLORS = 4;
   for (let i = 0; i < NUMBER_OF_PROPOSED_COLORS; i++) {
-    console.writeln(`Value i: ${i}`);
-    showBoard(combinationSecrete);
+    // console.writeln(`Value i: ${i}`);
+    showBoard(secreteCombination);
     let repeatedColor = placeColorInPosition(chooseOptionOfColor(), setColorInPorposedCombination());
-    console.griteln(`repetedColor: ${repeatedColor}`);
+    console.writeln(`repetedColor: ${repeatedColor}`);
     if (repeatedColor) {
       i--;
     }
@@ -47,9 +48,34 @@ do {
   console.writeln(`CounterOfProposedCombination: ${counterOfProposedCombination}`);
 } while (true);
 
-function showBoard(combinationSecrete) {
+function generateSecreteCombination() {
+  const MINIIMUM_RANGE = 0;
+  const MAXIMUM_RANGE = 6;
+  const COMPLETE_COMBINATION_NUMBER = 4;
+  let secreteCombination = [];
+  for (let i = 0; i < COMPLETE_COMBINATION_NUMBER; i++) {
+    const randomNumber = Math.floor(Math.random() * (MAXIMUM_RANGE - MINIIMUM_RANGE)) + MINIIMUM_RANGE;
+    if (secreteCombination.length === 0) {
+      secreteCombination[0] = randomNumber;
+    } else {
+      let uniqueRandomNumber = true;
+      for (let j = 0; uniqueRandomNumber && j < secreteCombination.length; j++) {
+        if (randomNumber === secreteCombination[j]) {
+          uniqueRandomNumber = false;
+          i--;
+        }
+      }
+      if (uniqueRandomNumber) {
+        secreteCombination[i] = randomNumber;
+      }
+    }
+  }
+  return secreteCombination;
+}
+
+function showBoard(secreteCombination) {
   showMainPanel(columnResult, columnProposedCombinations);
-  showSecreteCombination(combinationSecrete);
+  showSecreteCombination(secreteCombination);
 }
 
 function showMainPanel(columnResult, columnProposedCombinations) {
@@ -114,7 +140,18 @@ function chooseOptionOfColor() {
 }
 
 function setColorInPorposedCombination() {
-  let position = console.readNumber(`Select the position to place the chosen color (0-3):`);
+  const MINIMUM_POSITION = 0;
+  const MAXIMUM_POSITION = 3;
+  let position;
+  let correctPosition = false;
+  do {
+    position = console.readNumber(`Select the position to place the chosen color (${MINIMUM_POSITION}-${MAXIMUM_POSITION}):`);
+    correctPosition = MINIMUM_POSITION <= position && position <= MAXIMUM_POSITION;
+    console.writeln(`Correct Position: ${correctPosition}`);
+    if (!correctPosition) {
+      console.writeln(`Invelid option!!! Try again...`);
+    }
+  } while (!correctPosition);
   return position;
 }
 
@@ -126,34 +163,8 @@ function checkColorPositions() {
 
 function correctlyPositioned() {
   for (let i = 0; i < columnProposedCombinations[counterOfProposedCombination].length; i++) {
-    if (columnProposedCombinations[columnProposedCombinations[counterOfProposedCombination][i] === combinationSecrete[i]]) {
+    if (columnProposedCombinations[columnProposedCombinations[counterOfProposedCombination][i] === secreteCombination[i]]) {
       columnResult[counterOfProposedCombination][i] = `B`;
     }
   }
-}
-
-function generateSecreteCombination() {
-  const MAX = 6;
-  const MIN = 0;
-  const FULL = 4;
-  let combinationSecrete = [];
-  for (let i = 0; i !== FULL; i++) {
-    const randomNumber = Math.floor(Math.random() * (MAX - MIN)) + MIN;
-    console.writeln(`Random number: ${randomNumber}`);
-    if (combinationSecrete.length === 0) {
-      combinationSecrete[0] = randomNumber;
-    } else {
-      let uniqueRandomNumber = true;
-      for (let j = 0; uniqueRandomNumber && j < combinationSecrete.length; j++) {
-        if (randomNumber === combinationSecrete[j]) {
-          uniqueRandomNumber = false;
-          i--;
-        }
-      }
-      if (uniqueRandomNumber) {
-        combinationSecrete[i] = randomNumber;
-      }
-    }
-  }
-  return combinationSecrete;
 }
