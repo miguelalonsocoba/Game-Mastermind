@@ -11,6 +11,7 @@ function playMastermind() {
     showGameTitle();
     showAttempts();
     const secreteCombination = getSecreteCombination();
+    console.writeln(`Secret Combination: ${secreteCombination}`);
 
     function showGameTitle() {
       console.writeln("----- MASTERMIND -----");
@@ -32,8 +33,8 @@ function playMastermind() {
         } else {
           i--;
         }
-        console.writeln(`Secret Combination: ${secretCombination}`);
       }
+      return secretCombination;
 
       function generateSecretValue() {
         const MINIMUM_RANGE = 0;
@@ -46,11 +47,10 @@ function playMastermind() {
           return false;
         } else {
           for (let j = 0; j < secretCombination.length; j++) {
-            if (secretCombination[secretValue] === secretCombination[j]) {
+            if (ALLOWED_COLORS[secretValue] === secretCombination[j]) {
               return true;
             }
           }
-          console.writeln(`IF------------`);
           return false;
         }
       }
