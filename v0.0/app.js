@@ -13,7 +13,11 @@ function playMastermind() {
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
     const secreteCombination = getSecreteCombination();
     console.writeln(`Secret Combination: ${secreteCombination}`);
-    const proposedCombination = proposeCombination();
+    let proposedCombination = proposeCombination();
+    // console.writeln(proposedCombination); // Error
+    // if (proposedCombination.length === 2) {
+    //   console.writeln(proposedCombination[1]);
+    // }
 
     function showGameTitle() {
       console.writeln("----- MASTERMIND -----");
@@ -60,20 +64,24 @@ function playMastermind() {
 
     function proposeCombination() {
       const proposedCombination = console.readString(`Propose a combination:`);
-      let isValidcombination;
-      isValidcombination = validateCombination(proposedCombination);
+      let isValidcombination = validateCombination(proposedCombination);
+      console.writeln(`Validate combination: ${isValidcombination.length}`);
 
       function validateCombination(proposedCombination) {
-        let response = [];
+        let response = [`true`];
         if (!validateLength(proposedCombination)) {
           response[0] = `false`;
           response[1] = `Wrong proposed combination length!!!`;
+          console.writeln(`Response: ${response.length}`);
+          return response;
         }
         if (!validateColors(proposedCombination)) {
           response[0] = `false`;
           response[1] = `Wrong colors, they must be : rgbycm`;
+          console.writeln(`Response: ${response.length}`);
+          return response;
         }
-
+        console.writeln(`Response: ${response.length}`);
         return response;
 
         function validateLength(proposedCombination) {
@@ -81,13 +89,18 @@ function playMastermind() {
         }
 
         function validateColors(proposedCombination) {
-          for (let i = 0; i < proposeCombination.length; i++) {
-            let colorIsPresent = true;
-            for (let j = 0; colorIsPresent && j < ALLOWED_COLORS.length; j++) {
+          for (let i = 0; i < proposedCombination.length; i++) {
+              let colorIsValid = false;
+            for (let j = 0; !colorIsValid && j < ALLOWED_COLORS.length; j++) {
               if (proposedCombination[i] === ALLOWED_COLORS[j]) {
+                colorIsValid = true;
               }
             }
+            if (!colorIsValid) {
+              return colorIsValid;
+            }
           }
+          return true;
         }
       }
     }
