@@ -63,25 +63,27 @@ function playMastermind() {
     }
 
     function proposeCombination() {
-      const proposedCombination = console.readString(`Propose a combination:`);
-      let isValidcombination = validateCombination(proposedCombination);
-      console.writeln(`Validate combination: ${isValidcombination.length}`);
+      let isValidcombination;
+      do {
+        const proposedCombination = console.readString(`Propose a combination:`);
+        isValidcombination = validateCombination(proposedCombination);
+        if (isValidcombination.length === 2) {
+          console.writeln(isValidcombination[1]);
+        }
+      } while (isValidcombination.length === 2);
 
       function validateCombination(proposedCombination) {
         let response = [`true`];
         if (!validateLength(proposedCombination)) {
           response[0] = `false`;
           response[1] = `Wrong proposed combination length!!!`;
-          console.writeln(`Response: ${response.length}`);
           return response;
         }
         if (!validateColors(proposedCombination)) {
           response[0] = `false`;
           response[1] = `Wrong colors, they must be : rgbycm`;
-          console.writeln(`Response: ${response.length}`);
           return response;
         }
-        console.writeln(`Response: ${response.length}`);
         return response;
 
         function validateLength(proposedCombination) {
