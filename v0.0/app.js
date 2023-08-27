@@ -16,13 +16,14 @@ function playMastermind() {
     do {
       showAttempts();
       let proposedCombination = proposeCombination();
-      console.writeln(`Proposed combination ${proposedCombination}`);
+      // console.writeln(`Proposed combination ${proposedCombination}`);
 
       let resultProposedCombination = compareCombinations(secretCombination, proposedCombination);
-      console.writeln(`Result proposed combination: ${resultProposedCombination}`);
+      // console.writeln(`Result proposed combination: ${resultProposedCombination}`);
 
       correctCombination = proposedCombinationIsCorrect(resultProposedCombination);
-      console.writeln(`Correct combination: ${correctCombination}`);
+      // console.writeln(`Correct combination: ${correctCombination}`);
+      showResult(proposedCombination, resultProposedCombination); // To be defined
       increaseByOneAttempts();
     } while (correctCombination === false && numberOfAttempts <= 10);
 
