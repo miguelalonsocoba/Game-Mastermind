@@ -9,15 +9,22 @@ function playMastermind() {
   function playGame() {
     let numberOfAttempts = 0;
     showGameTitle();
-    showAttempts();
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
-    const secreteCombination = getSecreteCombination();
-    console.writeln(`Secret Combination: ${secreteCombination}`);
-    let proposedCombination = proposeCombination();
-    // console.writeln(proposedCombination); // Error
-    // if (proposedCombination.length === 2) {
-    //   console.writeln(proposedCombination[1]);
-    // }
+    const secretCombination = getSecreteCombination();
+    console.writeln(`Secret Combination: ${secretCombination}`);
+    let correctCombination = false;
+    do {
+      showAttempts();
+      let proposedCombination = proposeCombination();
+      console.writeln(`Proposed combination ${proposedCombination}`);
+
+      let resultProposedCombination = compareCombinations(secretCombination, proposedCombination);
+      console.writeln(`Result proposed combination: ${resultProposedCombination}`);
+
+      correctCombination = proposedCombinationIsCorrect(resultProposedCombination);
+      console.writeln(`Correct combination: ${correctCombination}`);
+      increaseByOneAttempts();
+    } while (correctCombination === false && numberOfAttempts <= 10);
 
     function showGameTitle() {
       console.writeln("----- MASTERMIND -----");
@@ -64,13 +71,16 @@ function playMastermind() {
 
     function proposeCombination() {
       let isValidcombination;
+      let proposedCombination;
       do {
-        const proposedCombination = console.readString(`Propose a combination:`);
+        proposedCombination = console.readString(`Propose a combination:`);
         isValidcombination = validateCombination(proposedCombination);
-        if (isValidcombination.length === 2) {
+        if (isValidcombination[0] === `false`) {
           console.writeln(isValidcombination[1]);
         }
-      } while (isValidcombination.length === 2);
+      } while (isValidcombination[0] === `false`);
+      // increaseAttempts();
+      return proposedCombination;
 
       function validateCombination(proposedCombination) {
         let response = [`true`];
@@ -92,7 +102,7 @@ function playMastermind() {
 
         function validateColors(proposedCombination) {
           for (let i = 0; i < proposedCombination.length; i++) {
-              let colorIsValid = false;
+            let colorIsValid = false;
             for (let j = 0; !colorIsValid && j < ALLOWED_COLORS.length; j++) {
               if (proposedCombination[i] === ALLOWED_COLORS[j]) {
                 colorIsValid = true;
@@ -105,6 +115,46 @@ function playMastermind() {
           return true;
         }
       }
+
+      function increaseAttempts() {
+        numberOfAttempts++;
+      }
+    }
+
+    function compareCombinations(secretCombination, proposedCombination) {
+      const WELL_POSITIONED = `b`;
+      const POORLY_POSITIONED = `w`;
+      let resultProposedCombination = [];
+      for (let i = 0; i < proposedCombination.length; i++) {
+        let isEquals = false;
+        if (proposedCombination[i] === secretCombination[i]) {
+          isEquals = true;
+          resultProposedCombination[i] = WELL_POSITIONED;
+        }
+        for (let j = 0; !isEquals && j < secretCombination.length; j++) {
+          if (proposedCombination[i] === secretCombination[j]) {
+            isEquals = true;
+            resultProposedCombination[i] = POORLY_POSITIONED;
+          }
+        }
+        if (resultProposedCombination[i] === undefined) {
+          resultProposedCombination[i] = `Na`;
+        }
+      }
+      return resultProposedCombination;
+    }
+
+    function proposedCombinationIsCorrect(combination) {
+      for (let i = 0; i < combination.length; i++) {
+        if (combination[i] === `Na`) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function increaseByOneAttempts() {
+      numberOfAttempts++;
     }
   }
 }
