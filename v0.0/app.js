@@ -4,10 +4,14 @@ const console = new Console();
 playMastermind();
 
 function playMastermind() {
-  playGame();
+  do {
+    playGame();
+    console.writeln(`Hello`);
+  } while (isResumed());
 
   function playGame() {
     let numberOfAttempts = 0;
+    const ALLOWED_ATTEMPTS = 10;
     showGameTitle();
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
     const secretCombination = getSecreteCombination();
@@ -19,17 +23,13 @@ function playMastermind() {
       let proposedCombination = proposeCombination();
       let resultProposedCombination = compareCombinations(secretCombination, proposedCombination);
       correctCombination = proposedCombinationIsCorrect(resultProposedCombination);
-      
-      showResult(proposedCombination, resultProposedCombination); 
+
+      showResult(proposedCombination, resultProposedCombination);
       increaseByOneAttempts();
     } while (correctCombination === false && numberOfAttempts <= ALLOWED_ATTEMPTS);
 
     function showGameTitle() {
       console.writeln("----- MASTERMIND -----");
-    }
-
-    function showAttempts() {
-      console.writeln(`\n${numberOfAttempts} attempt(s):}\n****`);
     }
 
     function getSecreteCombination() {
@@ -67,6 +67,10 @@ function playMastermind() {
       }
     }
 
+    function showAttempts() {
+      console.writeln(`\n${numberOfAttempts} attempt(s):}\n****`);
+    }
+
     function proposeCombination() {
       let isValidcombination;
       let proposedCombination;
@@ -92,6 +96,10 @@ function playMastermind() {
           response[1] = `Wrong colors, they must be : rgbycm`;
           return response;
         }
+        if (thereAreRepeatedColors(proposedCombination)) {
+          response[0] = `false`;
+          response[1] = `Wrong, there are repeated colors`;
+        }
         return response;
 
         function validateLength(proposedCombination) {
@@ -111,6 +119,17 @@ function playMastermind() {
             }
           }
           return true;
+        }
+
+        function thereAreRepeatedColors(combination) {
+          let color;
+          for (let colorCombination of combination) {
+            if (colorCombination === color) {
+              return true;
+            }
+            color = colorCombination;
+          }
+          return false;
         }
       }
 
@@ -158,5 +177,20 @@ function playMastermind() {
     function showResult(proposedCombination, resultProposedCombination) {
       console.writeln(`${proposedCombination} --> ${resultProposedCombination}`);
     }
+  }
+
+  function isResumed() {
+    let resutl;
+    let answer;
+    let error = false;
+    do {
+      answer = console.readString(`Do you want play again?`);
+      resutl = answer === `yes`;
+      error = !resutl && answer !== `not`;
+      if (error) {
+        console.writeln(`Please, respond "yes" or "not"`);
+      }
+    } while (error);
+    return resutl;
   }
 }
