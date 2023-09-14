@@ -13,6 +13,7 @@ function playMastermind() {
     const secretCombination = getSecreteCombination();
     console.writeln(`Secret Combination: ${secretCombination}`);
     let correctCombination = false;
+    const ALLOWED_ATTEMPTS = 10;
     do {
       showAttempts();
       let proposedCombination = proposeCombination();
@@ -21,7 +22,7 @@ function playMastermind() {
       
       showResult(proposedCombination, resultProposedCombination); 
       increaseByOneAttempts();
-    } while (correctCombination === false && numberOfAttempts <= 10);
+    } while (correctCombination === false && numberOfAttempts <= ALLOWED_ATTEMPTS);
 
     function showGameTitle() {
       console.writeln("----- MASTERMIND -----");
