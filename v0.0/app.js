@@ -6,7 +6,6 @@ playMastermind();
 function playMastermind() {
   do {
     playGame();
-    console.writeln(`Hello`);
   } while (isResumed());
 
   function playGame() {
@@ -16,17 +15,15 @@ function playMastermind() {
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
     const secretCombination = getSecreteCombination();
     console.writeln(`Secret Combination: ${secretCombination}`);
-    let correctCombination = false;
-    const ALLOWED_ATTEMPTS = 10;
+    let correctCombination;
     do {
       showAttempts();
-      let proposedCombination = proposeCombination();
-      let resultProposedCombination = compareCombinations(secretCombination, proposedCombination);
+      const proposedCombination = proposeCombination();
+      const resultProposedCombination = compareCombinations(secretCombination, proposedCombination);
       correctCombination = proposedCombinationIsCorrect(resultProposedCombination);
-
       showResult(proposedCombination, resultProposedCombination);
       increaseByOneAttempts();
-    } while (correctCombination === false && numberOfAttempts <= ALLOWED_ATTEMPTS);
+    } while (!correctCombination && numberOfAttempts <= ALLOWED_ATTEMPTS);
 
     function showGameTitle() {
       console.writeln("----- MASTERMIND -----");
@@ -68,7 +65,7 @@ function playMastermind() {
     }
 
     function showAttempts() {
-      console.writeln(`\n${numberOfAttempts} attempt(s):}\n****`);
+      console.writeln(`\n${numberOfAttempts} attempt(s):\n****`);
     }
 
     function proposeCombination() {
@@ -81,7 +78,6 @@ function playMastermind() {
           console.writeln(isValidcombination[1]);
         }
       } while (isValidcombination[0] === `false`);
-      // increaseAttempts();
       return proposedCombination;
 
       function validateCombination(proposedCombination) {
@@ -122,19 +118,15 @@ function playMastermind() {
         }
 
         function thereAreRepeatedColors(combination) {
-          let color;
-          for (let colorCombination of combination) {
-            if (colorCombination === color) {
-              return true;
+          for (let i = 0; i < (combination.length - 1); i++) {
+            for (let j = (i + 1); j < combination.length; j ++) {
+              if ( combination[i] === combination[j] ) {
+                return true;
+              }
             }
-            color = colorCombination;
           }
           return false;
         }
-      }
-
-      function increaseAttempts() {
-        numberOfAttempts++;
       }
     }
 
