@@ -9,24 +9,27 @@ function playMastermind() {
   } while (isResumed());
 
   function playGame() {
+    let numberOfAttempts = 1;
     const ALLOWED_ATTEMPTS = 10;
+    showGameTitle();
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
     const secretCombination = getSecreteCombination();
     console.writeln(`Secret Combination: ${secretCombination}`);
-    let attempts = 1;
-    let isCorrectCombination;
-
-    showGameTitle();
+    let correctCombination;
     do {
-      showAttempts(attempts);
+      showAttempts();
       const proposedCombination = proposeCombination();
       const resultProposedCombination = compareCombinations(secretCombination, proposedCombination);
-      isCorrectCombination = isCorrect(resultProposedCombination);
+      correctCombination = proposedCombinationIsCorrect(resultProposedCombination);
       showResult(proposedCombination, resultProposedCombination);
-      showWinningMessage(isCorrectCombination);
-      attempts = increaseByOne(attempts);
-      showLosingMessage(attempts);
-    } while (!isCorrectCombination && attempts <= ALLOWED_ATTEMPTS);
+      increaseByOneAttempts();
+      if (correctCombination) {
+        showWinningMessage();
+      }
+    } while (!correctCombination && numberOfAttempts <= ALLOWED_ATTEMPTS);
+    if (numberOfAttempts > ALLOWED_ATTEMPTS) {
+      showLosingMessage();
+    }
 
     function showGameTitle() {
       console.writeln("----- MASTERMIND -----");
@@ -67,8 +70,8 @@ function playMastermind() {
       }
     }
 
-    function showAttempts(attempts) {
-      console.writeln(`\n${attempts}° attempt(s):\n****`);
+    function showAttempts() {
+      console.writeln(`\n${numberOfAttempts} attempt(s):\n****`);
     }
 
     function proposeCombination() {
@@ -156,35 +159,31 @@ function playMastermind() {
       return resultProposedCombination;
     }
 
-    function isCorrect(combination) {
+    function proposedCombinationIsCorrect(combination) {
       for (let i = 0; i < combination.length; i++) {
-        if (combination[i] === `Na` || combination[i] === `w`) {
+        if (combination[i] === `Na`) {
           return false;
         }
       }
       return true;
     }
 
-    function increaseByOne(attempts) {
-      return ++attempts;
+    function increaseByOneAttempts() {
+      numberOfAttempts++;
     }
 
     function showResult(proposedCombination, resultProposedCombination) {
       console.writeln(`${proposedCombination} --> ${resultProposedCombination}`);
     }
 
-    function showWinningMessage(correctCombination) {
-      if (correctCombination) {
-        const WINNING_MESSAGE = `:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`;
-        console.writeln(WINNING_MESSAGE);
-      }
+    function showWinningMessage() {
+      const WINNING_MESSAGE = `Well done, you have won.`;
+      console.writeln(WINNING_MESSAGE);
     }
 
-    function showLosingMessage(attempts) {
-      if (attempts > ALLOWED_ATTEMPTS) {
-        const LOST_MESSAGE = `:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`;
-        console.writeln(LOST_MESSAGE);
-      }
+    function showLosingMessage() {
+      const LOST_MESSAGE = `Sorry, you lost`;
+      console.writeln(LOST_MESSAGE);
     }
   }
 
