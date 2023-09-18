@@ -162,12 +162,13 @@ function playMastermind() {
     }
 
     function isCorrect(combination) {
-      for (let i = 0; i < combination.length; i++) {
+      let isCorrect = true;
+      for (let i = 0; isCorrect && i < combination.length; i++) {
         if (combination[i] === `Na` || combination[i] === `w`) {
-          return false;
+          isCorrect = false;
         }
       }
-      return true;
+      return isCorrect;
     }
 
     function increaseByOne() {
