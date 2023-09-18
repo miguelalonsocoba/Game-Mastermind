@@ -161,7 +161,7 @@ function playMastermind() {
 
     function proposedCombinationIsCorrect(combination) {
       for (let i = 0; i < combination.length; i++) {
-        if (combination[i] === `Na`) {
+        if (combination[i] === `Na` || combination[i] === `w`) {
           return false;
         }
       }
