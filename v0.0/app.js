@@ -126,14 +126,15 @@ function playMastermind() {
         }
 
         function thereAreRepeatedColors(combination) {
-          for (let i = 0; i < combination.length - 1; i++) {
-            for (let j = i + 1; j < combination.length; j++) {
+          let itIsRepeated = false;
+          for (let i = 0; !itIsRepeated && i < combination.length - 1; i++) {
+            for (let j = i + 1; !itIsRepeated && j < combination.length; j++) {
               if (combination[i] === combination[j]) {
-                return true;
+                itIsRepeated = true;
               }
             }
           }
-          return false;
+          return itIsRepeated;
         }
       }
     }
