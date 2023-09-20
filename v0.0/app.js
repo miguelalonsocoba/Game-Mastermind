@@ -50,8 +50,8 @@ function playMastermind() {
           itIsRepeated = false;
         } else {
           itIsRepeated = false;
-          for (let j = 0; !itIsRepeated && j < secretCombination.length; j++) {
-            if (secretCombination[j] === colors[randomNumber]) {
+          for (let i = 0; !itIsRepeated && i < secretCombination.length; i++) {
+            if (secretCombination[i] === colors[randomNumber]) {
               itIsRepeated = true;
             }
           }
