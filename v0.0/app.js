@@ -144,22 +144,29 @@ function playMastermind() {
       const POORLY_POSITIONED = `w`;
       let resultProposedCombination = [];
       for (let i = 0; i < proposedCombination.length; i++) {
-        let isEquals = false;
-        if (proposedCombination[i] === secretCombination[i]) {
-          isEquals = true;
+        if (verifyCorrectPositioned(proposedCombination[i], secretCombination[i])) {
           resultProposedCombination[i] = WELL_POSITIONED;
-        }
-        for (let j = 0; !isEquals && j < secretCombination.length; j++) {
-          if (proposedCombination[i] === secretCombination[j]) {
-            isEquals = true;
-            resultProposedCombination[i] = POORLY_POSITIONED;
-          }
-        }
-        if (resultProposedCombination[i] === undefined) {
+        } else if (verifyPoorlyPositioned(secretCombination, proposedCombination[i])) {
+          resultProposedCombination[i] = POORLY_POSITIONED;
+        } else {
           resultProposedCombination[i] = `Na`;
         }
       }
       return resultProposedCombination;
+
+      function verifyCorrectPositioned(proposedColor, secretColor) {
+        return proposedColor === secretColor;
+      }
+
+      function verifyPoorlyPositioned(secretCombination, colorToVerify) {
+        let isEquals = false;
+        for (let j = 0; !isEquals && j < secretCombination.length; j++) {
+          if (colorToVerify === secretCombination[j]) {
+            isEquals = true;
+          }
+        }
+        return isEquals;
+      }
     }
 
     function isCorrect(combination) {
