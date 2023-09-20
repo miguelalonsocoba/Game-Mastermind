@@ -21,18 +21,18 @@ function playMastermind() {
       const resultProposedCombination = compare(secretCombination, proposedCombination);
       isCorrectCombination = isCorrect(resultProposedCombination);
       showResult(proposedCombination, resultProposedCombination);
-      attempts += increaseByOne();
+      attempts = increaseByOne(attempts);
       showWinningMessage(isCorrectCombination);
     } while (!isCorrectCombination && attempts <= ALLOWED_ATTEMPTS);
     showLosingMessage(attempts);
 
-    function getSecreteCombination(colors) {
+    function getSecreteCombination(allowedColors) {
       const COMBINATION_LENGTH = 4;
       let secretCombination = [];
       for (let i = 0; i < COMBINATION_LENGTH; i++) {
-        const randomNumber = generateRandomNumber(colors.length);
-        if (!colorIsRepeated(randomNumber, secretCombination, colors)) {
-          secretCombination[i] = colors[randomNumber];
+        const randomNumber = generateRandomNumber(allowedColors.length);
+        if (!colorIsRepeated(randomNumber, secretCombination, allowedColors)) {
+          secretCombination[i] = allowedColors[randomNumber];
         } else {
           i--;
         }
@@ -75,26 +75,26 @@ function playMastermind() {
       }
     }
 
-    function askForValidCombinationProposal(colors) {
+    function askForValidCombinationProposal(allowedColors) {
       let isValidcombination;
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination:`);
-        isValidcombination = validateCombination(proposedCombination, colors);
+        isValidcombination = validateCombination(proposedCombination, allowedColors);
         if (isValidcombination[0] === `false`) {
           console.writeln(isValidcombination[1]);
         }
       } while (isValidcombination[0] === `false`);
       return proposedCombination;
 
-      function validateCombination(proposedCombination, colors) {
+      function validateCombination(proposedCombination, allowedColors) {
         let response = [`true`];
         if (!validateLength(proposedCombination)) {
           response[0] = `false`;
           response[1] = `Wrong proposed combination length!!! (Correct length 4). Please try again`;
           return response;
         }
-        if (!validateColors(proposedCombination, colors)) {
+        if (!validateColors(proposedCombination, allowedColors)) {
           response[0] = `false`;
           response[1] = `Wrong colors, they must be : rgbycm. Please try again`;
           return response;
@@ -110,11 +110,11 @@ function playMastermind() {
           return proposedCombination.length === COMBINATION_LENGTH;
         }
 
-        function validateColors(proposedCombination, colors) {
+        function validateColors(proposedCombination, allowedColors) {
           for (let i = 0; i < proposedCombination.length; i++) {
             let colorIsValid = false;
-            for (let j = 0; !colorIsValid && j < colors.length; j++) {
-              if (proposedCombination[i] === colors[j]) {
+            for (let j = 0; !colorIsValid && j < allowedColors.length; j++) {
+              if (proposedCombination[i] === allowedColors[j]) {
                 colorIsValid = true;
               }
             }
@@ -169,22 +169,22 @@ function playMastermind() {
       }
     }
 
-    function isCorrect(combination) {
+    function isCorrect(resultProposedCombination) {
       let isCorrect = true;
-      for (let i = 0; isCorrect && i < combination.length; i++) {
-        if (combination[i] === `Na` || combination[i] === `w`) {
+      for (let i = 0; isCorrect && i < resultProposedCombination.length; i++) {
+        if (resultProposedCombination[i] === `Na` || resultProposedCombination[i] === `w`) {
           isCorrect = false;
         }
       }
       return isCorrect;
     }
 
-    function increaseByOne() {
-      return 1;
+    function increaseByOne(attempts) {
+      return attempts + 1;
     }
 
     function showResult(proposedCombination, resultProposedCombination) {
-      console.writeln(`Result: ${proposedCombination} --> ${resultProposedCombination}`);
+      console.writeln(`\nResult: ${proposedCombination} --> ${resultProposedCombination}`);
     }
 
     function showWinningMessage(isCorrectCombination) {
