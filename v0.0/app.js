@@ -11,13 +11,14 @@ function playMastermind() {
   function playGame() {
     const ALLOWED_ATTEMPTS = 10;
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
+    const COMBINATION_LENGTH = 4;
     let attempts = 1;
     let isCorrectCombination;
-    const secretCombination = getSecreteCombination(ALLOWED_COLORS);
+    const secretCombination = getSecreteCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
     console.writeln(`Secret Combination: ${secretCombination}`);
     do {
       showHeaders(attempts);
-      const proposedCombination = askForValidCombinationProposal(ALLOWED_COLORS);
+      const proposedCombination = askForValidCombinationProposal(ALLOWED_COLORS, COMBINATION_LENGTH);
       const resultProposedCombination = compare(secretCombination, proposedCombination);
       isCorrectCombination = isCorrect(resultProposedCombination);
       showResult(proposedCombination, resultProposedCombination);
@@ -26,10 +27,9 @@ function playMastermind() {
     } while (!isCorrectCombination && attempts <= ALLOWED_ATTEMPTS);
     showLosingMessage(attempts);
 
-    function getSecreteCombination(allowedColors) {
-      const COMBINATION_LENGTH = 4;
+    function getSecreteCombination(allowedColors, combinationLength) {
       let secretCombination = [];
-      for (let i = 0; i < COMBINATION_LENGTH; i++) {
+      for (let i = 0; i < combinationLength; i++) {
         const randomNumber = generateRandomNumber(allowedColors.length);
         if (!colorIsRepeated(randomNumber, secretCombination, allowedColors)) {
           secretCombination[i] = allowedColors[randomNumber];
@@ -75,21 +75,21 @@ function playMastermind() {
       }
     }
 
-    function askForValidCombinationProposal(allowedColors) {
+    function askForValidCombinationProposal(allowedColors, combinationLength) {
       let isValidcombination;
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination:`);
-        isValidcombination = validateCombination(proposedCombination, allowedColors);
+        isValidcombination = validateCombination(proposedCombination, allowedColors, combinationLength);
         if (isValidcombination[0] === `false`) {
           console.writeln(isValidcombination[1]);
         }
       } while (isValidcombination[0] === `false`);
       return proposedCombination;
 
-      function validateCombination(proposedCombination, allowedColors) {
+      function validateCombination(proposedCombination, allowedColors, combinationLength) {
         let response = [`true`];
-        if (!validateLength(proposedCombination)) {
+        if (!validateLength(proposedCombination, combinationLength)) {
           response[0] = `false`;
           response[1] = `Wrong proposed combination length!!! (Correct length 4). Please try again`;
           return response;
@@ -105,9 +105,8 @@ function playMastermind() {
         }
         return response;
 
-        function validateLength(proposedCombination) {
-          const COMBINATION_LENGTH = 4;
-          return proposedCombination.length === COMBINATION_LENGTH;
+        function validateLength(proposedCombination, combinationLength) {
+          return proposedCombination.length === combinationLength;
         }
 
         function validateColors(proposedCombination, allowedColors) {
