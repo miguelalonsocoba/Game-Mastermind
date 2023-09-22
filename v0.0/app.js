@@ -29,31 +29,24 @@ function playMastermind() {
 
     function getSecreteCombination(allowedColors, combinationLength) {
       let secretCombination = [];
+      let randomNumber;
       for (let i = 0; i < combinationLength; i++) {
-        const randomNumber = generateRandomNumber(allowedColors.length);
-        if (!colorIsRepeated(randomNumber, secretCombination, allowedColors)) {
-          secretCombination[i] = allowedColors[randomNumber];
-        } else {
-          i--;
-        }
+        do {
+          randomNumber = generateRandomNumber(allowedColors.length);
+        } while (isRepeatedColor(allowedColors[randomNumber], secretCombination));
+        secretCombination[i] = allowedColors[randomNumber];
       }
       return secretCombination;
 
       function generateRandomNumber(length) {
-        const MINIMUM_RANGE = 0;
-        return Math.floor(Math.random() * (length - MINIMUM_RANGE)) + MINIMUM_RANGE;
+        return parseInt(Math.random() * length);
       }
 
-      function colorIsRepeated(randomNumber, secretCombination, colors) {
-        let itIsRepeated;
-        if (secretCombination.length === 0) {
-          itIsRepeated = false;
-        } else {
-          itIsRepeated = false;
-          for (let i = 0; !itIsRepeated && i < secretCombination.length; i++) {
-            if (secretCombination[i] === colors[randomNumber]) {
-              itIsRepeated = true;
-            }
+      function isRepeatedColor(color, secretCombination) {
+        let itIsRepeated = false;
+        for (let i = 0; !itIsRepeated && i < secretCombination.length; i++) {
+          if (color === secretCombination[i]) {
+            itIsRepeated = true;
           }
         }
         return itIsRepeated;
