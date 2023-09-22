@@ -202,13 +202,16 @@ function playMastermind() {
   }
 
   function isResumed() {
-    let error = false;
+    let error;
     let answer;
     do {
       answer = console.readString(`Do you want play again? (yes / not):`);
-      if (answer !== `yes` && answer !== `not`) {
-        error = true;
+      error = answer !== `yes` && answer !== `not`;
+      if (error) {
         console.writeln(`Please, responde "yes" or "not".`);
+      }
+      if (answer === `not`) {
+        console.writeln(`End of game. Come back soon`);
       }
     } while (error);
     return answer === `yes` ? true : false;
