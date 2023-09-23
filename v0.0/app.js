@@ -12,19 +12,20 @@ function playMastermind() {
     const MAXIMUN_ATTEMPTS = 10;
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
     const COMBINATION_LENGTH = 4;
-    let attempts = 1;
+    let attempts = 0;
     let isCorrectCombination;
     const secretCombination = getSecreteCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
     console.writeln(`Secret Combination: ${secretCombination}`);
+    let resultProposedCombinations = [];
     do {
       showHeaders(attempts);
       const proposedCombination = askForValidCombinationProposal(ALLOWED_COLORS, COMBINATION_LENGTH);
-      const resultProposedCombination = compare(secretCombination, proposedCombination);
-      isCorrectCombination = isCorrect(resultProposedCombination);
-      showResult(proposedCombination, resultProposedCombination);
+      resultProposedCombinations[attempts] = compare(secretCombination, proposedCombination);
+      isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
+      showResult(proposedCombination, resultProposedCombinations);
       attempts = increaseByOne(attempts);
-      showWinningMessage(isCorrectCombination);
-    } while (!isCorrectCombination && attempts <= MAXIMUN_ATTEMPTS);
+    } while (!isCorrectCombination && attempts < MAXIMUN_ATTEMPTS);
+    showWinningMessage(isCorrectCombination);
     showLosingMessage(attempts, MAXIMUN_ATTEMPTS);
 
     function getSecreteCombination(allowedColors, combinationLength) {
@@ -54,7 +55,7 @@ function playMastermind() {
     }
 
     function showHeaders(attempts) {
-      if (attempts === 1) {
+      if (attempts === 0) {
         showGameTitle();
       }
       showAttempts(attempts);
@@ -64,7 +65,7 @@ function playMastermind() {
       }
 
       function showAttempts(attempts) {
-        console.writeln(`\n${attempts} attempt(s):\n****`);
+        console.writeln(`\n${attempts + 1} attempt(s):\n****`);
       }
     }
 
@@ -109,9 +110,10 @@ function playMastermind() {
         }
 
         function thereAreRepeatedColors(proposedCombination) {
+          const COLOR_NO_FOUND = -1;
           let uniqueColors = [];
           for (let color of proposedCombination) {
-            if (uniqueColors.indexOf(color) === -1) {
+            if (uniqueColors.indexOf(color) === COLOR_NO_FOUND) {
               uniqueColors[uniqueColors.length] = color;
             }
           }
@@ -163,8 +165,12 @@ function playMastermind() {
       return attempts + 1;
     }
 
-    function showResult(proposedCombination, resultProposedCombination) {
-      console.writeln(`\nResult: ${proposedCombination} --> ${resultProposedCombination}`);
+    function showResult(proposedCombination, resultProposedCombinations) {
+      let msg = `\nResults:\n`;
+      for (let resultProposedCombination of resultProposedCombinations) {
+        msg += `${proposedCombination} --> ${resultProposedCombination}\n`;
+      }
+      console.writeln(msg);
     }
 
     function showWinningMessage(isCorrectCombination) {
