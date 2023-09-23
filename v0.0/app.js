@@ -108,16 +108,14 @@ function playMastermind() {
           return nValidColors === proposedCombination.length;
         }
 
-        function thereAreRepeatedColors(combination) {
-          let itIsRepeated = false;
-          for (let i = 0; !itIsRepeated && i < combination.length - 1; i++) {
-            for (let j = i + 1; !itIsRepeated && j < combination.length; j++) {
-              if (combination[i] === combination[j]) {
-                itIsRepeated = true;
-              }
+        function thereAreRepeatedColors(proposedCombination) {
+          let uniqueColors = [];
+          for (let color of proposedCombination) {
+            if (uniqueColors.indexOf(color) === -1) {
+              uniqueColors[uniqueColors.length] = color;
             }
           }
-          return itIsRepeated;
+          return uniqueColors.length < proposedCombination.length;
         }
       }
     }
