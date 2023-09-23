@@ -31,11 +31,11 @@ function playMastermind() {
     function getSecreteCombination(allowedColors, combinationLength) {
       let secretCombination = [];
       for (let i = 0; i < combinationLength; i++) {
-        let randomNumber;
+        let randomColor;
         do {
-          randomNumber = generateRandomNumber(allowedColors.length);
-        } while (isRepeatedColor(allowedColors[randomNumber], secretCombination));
-        secretCombination[i] = allowedColors[randomNumber];
+          randomColor = allowedColors[generateRandomNumber(allowedColors.length)];
+        } while (isRepeatedColor(randomColor, secretCombination));
+        secretCombination[i] = randomColor;
       }
       return secretCombination;
 
