@@ -9,7 +9,7 @@ function playMastermind() {
   } while (isResumed());
 
   function playGame() {
-    const ALLOWED_ATTEMPTS = 10;
+    const MAXIMUN_ATTEMPTS = 10;
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
     const COMBINATION_LENGTH = 4;
     let attempts = 1;
@@ -24,8 +24,8 @@ function playMastermind() {
       showResult(proposedCombination, resultProposedCombination);
       attempts = increaseByOne(attempts);
       showWinningMessage(isCorrectCombination);
-    } while (!isCorrectCombination && attempts <= ALLOWED_ATTEMPTS);
-    showLosingMessage(attempts);
+    } while (!isCorrectCombination && attempts <= MAXIMUN_ATTEMPTS);
+    showLosingMessage(attempts, MAXIMUN_ATTEMPTS);
 
     function getSecreteCombination(allowedColors, combinationLength) {
       let secretCombination = [];
@@ -181,15 +181,13 @@ function playMastermind() {
 
     function showWinningMessage(isCorrectCombination) {
       if (isCorrectCombination) {
-        const WINNING_MESSAGE = `:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`;
-        console.writeln(WINNING_MESSAGE);
+        console.writeln(`:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`);
       }
     }
 
-    function showLosingMessage(attempts) {
-      if (attempts > ALLOWED_ATTEMPTS) {
-        const LOST_MESSAGE = `:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`;
-        console.writeln(LOST_MESSAGE);
+    function showLosingMessage(attempts, maximunAttempts) {
+      if (attempts > maximunAttempts) {
+        console.writeln(`:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`);
       }
     }
   }
