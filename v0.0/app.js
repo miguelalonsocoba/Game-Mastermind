@@ -14,11 +14,12 @@ function playMastermind() {
     const COMBINATION_LENGTH = 4;
     let attempts = 0;
     let isCorrectCombination;
+    let resultProposedCombinations = [];
     const secretCombination = getSecreteCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
     console.writeln(`Secret Combination: ${secretCombination}`);
-    let resultProposedCombinations = [];
+    showGameTitle();
     do {
-      showHeaders(attempts);
+      showAttempts(attempts);
       const proposedCombination = askForValidCombinationProposal(ALLOWED_COLORS, COMBINATION_LENGTH);
       resultProposedCombinations[attempts] = compare(secretCombination, proposedCombination);
       isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
@@ -27,6 +28,10 @@ function playMastermind() {
     } while (!isCorrectCombination && attempts < MAXIMUN_ATTEMPTS);
     showWinningMessage(isCorrectCombination);
     showLosingMessage(attempts, MAXIMUN_ATTEMPTS);
+
+    function showGameTitle() {
+      console.writeln("\n\n----- MASTERMIND -----");
+    }
 
     function getSecreteCombination(allowedColors, combinationLength) {
       let secretCombination = [];
@@ -54,19 +59,8 @@ function playMastermind() {
       }
     }
 
-    function showHeaders(attempts) {
-      if (attempts === 0) {
-        showGameTitle();
-      }
-      showAttempts(attempts);
-
-      function showGameTitle() {
-        console.writeln("\n\n----- MASTERMIND -----");
-      }
-
-      function showAttempts(attempts) {
-        console.writeln(`\n${attempts + 1} attempt(s):\n****`);
-      }
+    function showAttempts(attempts) {
+      console.writeln(`\n${attempts + 1} attempt(s):\n****`);
     }
 
     function askForValidCombinationProposal(allowedColors, combinationLength) {
