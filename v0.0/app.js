@@ -30,8 +30,8 @@ function playMastermind() {
 
     function getSecreteCombination(allowedColors, combinationLength) {
       let secretCombination = [];
-      let randomNumber;
       for (let i = 0; i < combinationLength; i++) {
+        let randomNumber;
         do {
           randomNumber = generateRandomNumber(allowedColors.length);
         } while (isRepeatedColor(allowedColors[randomNumber], secretCombination));
@@ -70,7 +70,6 @@ function playMastermind() {
     }
 
     function askForValidCombinationProposal(allowedColors, combinationLength) {
-      let isValidcombination;
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination:`);
