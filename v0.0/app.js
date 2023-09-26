@@ -17,10 +17,10 @@ function playMastermind() {
     let resultProposedCombinations = [];
     const secretCombination = getSecreteCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
     console.writeln(`Secret Combination: ${secretCombination}`);
-    showGameTitle();
+    showTitle();
     do {
       showAttempts(attempts);
-      const proposedCombination = askForValidCombinationProposal(ALLOWED_COLORS, COMBINATION_LENGTH);
+      const proposedCombination = getValidProposedCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
       resultProposedCombinations[attempts] = compare(secretCombination, proposedCombination);
       isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
       showResult(proposedCombination, resultProposedCombinations);
@@ -29,7 +29,7 @@ function playMastermind() {
     showWinningMessage(isCorrectCombination);
     showLosingMessage(attempts, MAXIMUN_ATTEMPTS);
 
-    function showGameTitle() {
+    function showTitle() {
       console.writeln("\n\n----- MASTERMIND -----");
     }
 
@@ -63,7 +63,7 @@ function playMastermind() {
       console.writeln(`\n${attempts + 1} attempt(s):\n****`);
     }
 
-    function askForValidCombinationProposal(allowedColors, combinationLength) {
+    function getValidProposedCombination(allowedColors, combinationLength) {
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination:`);
@@ -78,7 +78,7 @@ function playMastermind() {
         } else if (!validateColors(proposedCombination, allowedColors)) {
           console.writeln(`Wrong colors, they must be : rgbycm. Please try again`);
           isValid = false;
-        } else if (thereAreRepeatedColors(proposedCombination)) {
+        } else if (validateRepeatedColors(proposedCombination)) {
           console.writeln(`Wrong, there are repeated colors. Please try again`);
           isValid = false;
         }
@@ -102,7 +102,7 @@ function playMastermind() {
           return nValidColors === proposedCombination.length;
         }
 
-        function thereAreRepeatedColors(proposedCombination) {
+        function validateRepeatedColors(proposedCombination) {
           const COLOR_NO_FOUND = -1;
           let uniqueColors = [];
           for (let color of proposedCombination) {
