@@ -29,7 +29,9 @@ function playMastermind() {
     if (isCorrectCombination) {
       showWinningMessage();
     }
-    showLosingMessage(attempts, MAXIMUN_ATTEMPTS);
+    if (attempts > MAXIMUN_ATTEMPTS) {
+      showLosingMessage();
+    }
 
     function getSecreteCombinationWithoutRepeatedColors(allowedColors, combinationLength) {
       let secretCombination = [];
@@ -173,10 +175,8 @@ function playMastermind() {
       console.writeln(`:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`);
     }
 
-    function showLosingMessage(attempts, maximunAttempts) {
-      if (attempts > maximunAttempts) {
-        console.writeln(`:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`);
-      }
+    function showLosingMessage() {
+      console.writeln(`:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`);
     }
   }
 
