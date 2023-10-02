@@ -26,7 +26,9 @@ function playMastermind() {
       showResult(proposedCombination, resultProposedCombinations);
       attempts = increaseByOne(attempts);
     } while (!isCorrectCombination && attempts < MAXIMUN_ATTEMPTS);
-    showWinningMessage(isCorrectCombination);
+    if (isCorrectCombination) {
+      showWinningMessage();
+    }
     showLosingMessage(attempts, MAXIMUN_ATTEMPTS);
 
     function getSecreteCombinationWithoutRepeatedColors(allowedColors, combinationLength) {
@@ -71,6 +73,7 @@ function playMastermind() {
       return proposedCombination;
 
       function validateCombination(proposedCombination, allowedColors, combinationLength) {
+        0;
         let isValid = true;
         if (!validateLength(proposedCombination, combinationLength)) {
           console.writeln(`Wrong proposed combination length!!! (Correct length 4). Please try again`);
@@ -166,10 +169,8 @@ function playMastermind() {
       return ++attempts;
     }
 
-    function showWinningMessage(isCorrectCombination) {
-      if (isCorrectCombination) {
-        console.writeln(`:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`);
-      }
+    function showWinningMessage() {
+      console.writeln(`:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`);
     }
 
     function showLosingMessage(attempts, maximunAttempts) {
