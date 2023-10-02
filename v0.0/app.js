@@ -60,7 +60,7 @@ function playMastermind() {
     }
 
     function showAttempts(attempts) {
-      console.writeln(`\n${attempts + 1} attempt(s):\n****`);
+      console.writeln(`\n${attempts + 1} attempt${attempts !== 0 ? `s` : ``}:\n****`);
     }
 
     function getValidProposedCombination(allowedColors, combinationLength) {
