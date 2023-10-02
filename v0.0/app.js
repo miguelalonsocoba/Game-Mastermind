@@ -15,15 +15,16 @@ function playMastermind() {
     let attempts = 0;
     let isCorrectCombination;
     let resultProposedCombinations = [];
+    let proposedCombinations = [];
     const secretCombination = getSecreteCombinationWithoutRepeatedColors(ALLOWED_COLORS, COMBINATION_LENGTH);
     console.writeln(`Secret Combination: ${secretCombination}`);
     showTitle();
     do {
       showAttempts(attempts);
-      const proposedCombination = getValidProposedCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
-      resultProposedCombinations[attempts] = compare(secretCombination, proposedCombination);
+      proposedCombinations[attempts] = getValidProposedCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
+      resultProposedCombinations[attempts] = compare(secretCombination, proposedCombinations[attempts]);
       isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
-      showResult(proposedCombination, resultProposedCombinations);
+      showResult(proposedCombinations, resultProposedCombinations);
       attempts = increaseByOne(attempts);
     } while (!isCorrectCombination && attempts < MAXIMUN_ATTEMPTS);
     if (isCorrectCombination) {
@@ -159,10 +160,10 @@ function playMastermind() {
       return isCorrect;
     }
 
-    function showResult(proposedCombination, resultProposedCombinations) {
+    function showResult(proposedCombinations, resultProposedCombinations) {
       let msg = `\nResults:\n`;
-      for (let resultProposedCombination of resultProposedCombinations) {
-        msg += `${proposedCombination} --> ${resultProposedCombination}\n`;
+      for (let i = 0; i < resultProposedCombinations.length; i++) {
+        msg += `${proposedCombinations[i]} --> ${resultProposedCombinations[i]}\n`;
       }
       console.writeln(msg);
     }
