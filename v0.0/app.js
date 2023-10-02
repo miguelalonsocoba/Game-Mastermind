@@ -23,8 +23,8 @@ function playMastermind() {
       showAttempts(attempts);
       proposedCombinations[attempts] = getValidProposedCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
       resultProposedCombinations[attempts] = compare(secretCombination, proposedCombinations[attempts]);
-      isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
       showResult(proposedCombinations, resultProposedCombinations);
+      isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
       attempts = increaseByOne(attempts);
     } while (!isCorrectCombination && attempts < MAXIMUN_ATTEMPTS);
     if (isCorrectCombination) {
@@ -150,6 +150,14 @@ function playMastermind() {
       }
     }
 
+    function showResult(proposedCombinations, resultProposedCombinations) {
+      let msg = `\nResults:\n`;
+      for (let i = 0; i < resultProposedCombinations.length; i++) {
+        msg += `${proposedCombinations[i]} --> ${resultProposedCombinations[i]}\n`;
+      }
+      console.writeln(msg);
+    }
+
     function isCorrect(resultProposedCombination) {
       let isCorrect = true;
       for (let i = 0; isCorrect && i < resultProposedCombination.length; i++) {
@@ -158,14 +166,6 @@ function playMastermind() {
         }
       }
       return isCorrect;
-    }
-
-    function showResult(proposedCombinations, resultProposedCombinations) {
-      let msg = `\nResults:\n`;
-      for (let i = 0; i < resultProposedCombinations.length; i++) {
-        msg += `${proposedCombinations[i]} --> ${resultProposedCombinations[i]}\n`;
-      }
-      console.writeln(msg);
     }
 
     function increaseByOne(attempts) {
