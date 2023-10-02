@@ -15,7 +15,7 @@ function playMastermind() {
     let attempts = 0;
     let isCorrectCombination;
     let resultProposedCombinations = [];
-    const secretCombination = getSecreteCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
+    const secretCombination = getSecreteCombinationWithoutRepeatedColors(ALLOWED_COLORS, COMBINATION_LENGTH);
     console.writeln(`Secret Combination: ${secretCombination}`);
     showTitle();
     do {
@@ -33,7 +33,7 @@ function playMastermind() {
       console.writeln("\n\n----- MASTERMIND -----");
     }
 
-    function getSecreteCombination(allowedColors, combinationLength) {
+    function getSecreteCombinationWithoutRepeatedColors(allowedColors, combinationLength) {
       let secretCombination = [];
       for (let i = 0; i < combinationLength; i++) {
         let randomColor;
