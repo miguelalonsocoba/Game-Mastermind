@@ -10,18 +10,18 @@ function playMastermind() {
 
   function playGame() {
     const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
-    const COMBINATION_LENGTH = 4;
+    const COMBINATIONS_LENGTH = 4;
     const MAXIMUN_ATTEMPTS = 10;
     let attempts = 0;
     let isCorrectCombination;
     let resultProposedCombinations = [];
     let proposedCombinations = [];
-    const secretCombination = getSecreteCombinationWithoutRepeatedColors(ALLOWED_COLORS, COMBINATION_LENGTH);
+    const secretCombination = getSecreteCombinationWithoutRepeatedColors(ALLOWED_COLORS, COMBINATIONS_LENGTH);
     console.writeln(`Secret Combination: ${secretCombination}`);
     showTitle();
     do {
       showAttempts(attempts);
-      proposedCombinations[attempts] = getValidProposedCombination(ALLOWED_COLORS, COMBINATION_LENGTH);
+      proposedCombinations[attempts] = getValidProposedCombination(ALLOWED_COLORS, COMBINATIONS_LENGTH);
       resultProposedCombinations[attempts] = compare(secretCombination, proposedCombinations[attempts]);
       showResult(proposedCombinations, resultProposedCombinations);
       isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
@@ -120,6 +120,7 @@ function playMastermind() {
         }
       }
     }
+
     function compare(secretCombination, proposedCombination) {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
