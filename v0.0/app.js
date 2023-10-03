@@ -142,8 +142,8 @@ function playMastermind() {
 
       function verifyPoorlyPositioned(secretCombination, colorToVerify) {
         let isEquals = false;
-        for (let j = 0; !isEquals && j < secretCombination.length; j++) {
-          if (colorToVerify === secretCombination[j]) {
+        for (let i = 0; !isEquals && i < secretCombination.length; i++) {
+          if (colorToVerify === secretCombination[i]) {
             isEquals = true;
           }
         }
