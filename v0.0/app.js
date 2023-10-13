@@ -9,41 +9,46 @@ function playMastermind() {
   } while (isResumed());
 
   function playGame() {
-    const ALLOWED_COLORS = ["r", "g", "b", "y", "c", "m"];
-    const COMBINATIONS_LENGTH = 4;
-    const MAXIMUN_ATTEMPTS = 10;
+    let game = initializeGame();
     let attempts = 0;
     let isCorrectCombination;
     let resultProposedCombinations = [];
     let proposedCombinations = [];
-    const secretCombination = getSecreteCombinationWithoutRepeatedColors(ALLOWED_COLORS, COMBINATIONS_LENGTH);
-    console.writeln(`Secret Combination: ${secretCombination}`);
+    getSecreteCombinationWithoutRepeatedColors(game);
+    console.writeln(`Secret Combination: ${game.secretCombination}`);
     showTitle();
     do {
       showAttempts(attempts);
-      proposedCombinations[attempts] = getValidProposedCombination(ALLOWED_COLORS, COMBINATIONS_LENGTH);
-      resultProposedCombinations[attempts] = compare(secretCombination, proposedCombinations[attempts]);
+      proposedCombinations[attempts] = getValidProposedCombination(game);
+      resultProposedCombinations[attempts] = compare(game.secretCombination, proposedCombinations[attempts]);
       showResult(proposedCombinations, resultProposedCombinations);
       isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
       attempts = increaseByOne(attempts);
-    } while (!isCorrectCombination && attempts < MAXIMUN_ATTEMPTS);
+    } while (!isCorrectCombination && attempts < game.MAXIMUN_ATTEMPTS);
     if (isCorrectCombination) {
       showWinningMessage();
     }
-    if (attempts > MAXIMUN_ATTEMPTS) {
+    if (attempts > game.MAXIMUN_ATTEMPTS) {
       showLosingMessage();
     }
 
-    function getSecreteCombinationWithoutRepeatedColors(allowedColors, combinationLength) {
-      let secretCombination = [];
-      for (let i = 0; i < combinationLength; i++) {
+    function initializeGame() {
+      return {
+        ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
+        COMBINATIONS_LENGTH: 4,
+        MAXIMUN_ATTEMPTS: 10,
+        secretCombination: [],
+      };
+    }
+
+    function getSecreteCombinationWithoutRepeatedColors(game) {
+      for (let i = 0; i < game.COMBINATIONS_LENGTH; i++) {
         let randomColor;
         do {
-          randomColor = allowedColors[generateRandomNumber(allowedColors.length)];
-        } while (isRepeatedColor(randomColor, secretCombination));
-        secretCombination[i] = randomColor;
+          randomColor = game.ALLOWED_COLORS[generateRandomNumber(game.ALLOWED_COLORS.length)];
+        } while (isRepeatedColor(randomColor, game.secretCombination));
+        game.secretCombination[i] = randomColor;
       }
-      return secretCombination;
 
       function generateRandomNumber(length) {
         return parseInt(Math.random() * length);
@@ -68,20 +73,20 @@ function playMastermind() {
       console.writeln(`\n${attempts + 1} attempt${attempts !== 0 ? `s` : ``}:\n****`);
     }
 
-    function getValidProposedCombination(allowedColors, combinationLength) {
+    function getValidProposedCombination(game) {
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination:`);
-      } while (!validateCombination(proposedCombination, allowedColors, combinationLength));
+      } while (!validateCombination(proposedCombination, game));
       return proposedCombination;
 
-      function validateCombination(proposedCombination, allowedColors, combinationLength) {
+      function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
         0;
         let isValid = true;
-        if (!validateLength(proposedCombination, combinationLength)) {
+        if (!validateLength(proposedCombination, COMBINATIONS_LENGTH)) {
           console.writeln(`Wrong proposed combination length!!! (Correct length 4). Please try again`);
           isValid = false;
-        } else if (!validateColors(proposedCombination, allowedColors)) {
+        } else if (!validateColors(proposedCombination, ALLOWED_COLORS)) {
           console.writeln(`Wrong colors, they must be : rgbycm. Please try again`);
           isValid = false;
         } else if (validateRepeatedColors(proposedCombination)) {
