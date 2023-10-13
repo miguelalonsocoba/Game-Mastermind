@@ -10,25 +10,23 @@ function playMastermind() {
 
   function playGame() {
     let game = initializeGame();
-    let attempts = 0;
-    let isCorrectCombination;
     let resultProposedCombinations = [];
     let proposedCombinations = [];
     getSecreteCombinationWithoutRepeatedColors(game);
     console.writeln(`Secret Combination: ${game.secretCombination}`);
     showTitle();
     do {
-      showAttempts(attempts);
-      proposedCombinations[attempts] = getValidProposedCombination(game);
-      resultProposedCombinations[attempts] = compare(game.secretCombination, proposedCombinations[attempts]);
+      showAttempts(game.attempts);
+      proposedCombinations[game.attempts] = getValidProposedCombination(game);
+      resultProposedCombinations[game.attempts] = compare(game.secretCombination, proposedCombinations[game.attempts]);
       showResult(proposedCombinations, resultProposedCombinations);
-      isCorrectCombination = isCorrect(resultProposedCombinations[attempts]);
-      attempts = increaseByOne(attempts);
-    } while (!isCorrectCombination && attempts < game.MAXIMUN_ATTEMPTS);
-    if (isCorrectCombination) {
+      isCorrect(resultProposedCombinations[game.attempts], game);
+      increaseAttempsByOne(game);
+    } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
+    if (game.isCorrectCombination) {
       showWinningMessage();
     }
-    if (attempts > game.MAXIMUN_ATTEMPTS) {
+    if (game.attempts > game.MAXIMUN_ATTEMPTS) {
       showLosingMessage();
     }
 
@@ -38,6 +36,8 @@ function playMastermind() {
         COMBINATIONS_LENGTH: 4,
         MAXIMUN_ATTEMPTS: 10,
         secretCombination: [],
+        attempts: 0,
+        isCorrectCombination: false,
       };
     }
 
@@ -164,18 +164,18 @@ function playMastermind() {
       console.writeln(msg);
     }
 
-    function isCorrect(resultProposedCombination) {
+    function isCorrect(resultProposedCombination, game) {
       let isCorrect = true;
       for (let i = 0; isCorrect && i < resultProposedCombination.length; i++) {
         if (resultProposedCombination[i] === `Na` || resultProposedCombination[i] === `w`) {
           isCorrect = false;
         }
       }
-      return isCorrect;
+      game.isCorrectCombination = isCorrect;
     }
 
-    function increaseByOne(attempts) {
-      return ++attempts;
+    function increaseAttempsByOne(game) {
+      game.attempts++;
     }
 
     function showWinningMessage() {
