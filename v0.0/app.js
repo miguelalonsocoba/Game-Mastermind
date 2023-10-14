@@ -15,7 +15,7 @@ function playMastermind() {
       showAttempts(game.attempts);
       setValidProposedCombination(game);
       compareProposedCombinationWithSecretCombination(game);
-      showResult(game);
+      showComparisonResult(game);
       isCorrect(game);
       increaseAttempsByOne(game);
     } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
@@ -156,7 +156,7 @@ function playMastermind() {
       }
     }
 
-    function showResult(game) {
+    function showComparisonResult(game) {
       let msg = `\nResults:\n`;
       for (let i = 0; i < game.resultProposedCombinations.length; i++) {
         msg += `${game.proposedCombinations[i]} --> ${game.resultProposedCombinations[i]}\n`;
