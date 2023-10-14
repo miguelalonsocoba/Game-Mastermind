@@ -82,7 +82,7 @@ function playMastermind() {
       function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
         0;
         let isValid = true;
-        if (!validateLength(proposedCombination, COMBINATIONS_LENGTH)) {
+        if (proposedCombination.length !== COMBINATIONS_LENGTH) {
           console.writeln(`Wrong proposed combination length!!! (Correct length 4). Please try again`);
           isValid = false;
         } else if (!validateColors(proposedCombination, ALLOWED_COLORS)) {
@@ -93,10 +93,6 @@ function playMastermind() {
           isValid = false;
         }
         return isValid;
-
-        function validateLength(proposedCombination, combinationLength) {
-          return proposedCombination.length === combinationLength;
-        }
 
         function validateColors(proposedCombination, allowedColors) {
           let nValidColors = 0;
