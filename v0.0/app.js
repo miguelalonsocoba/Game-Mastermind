@@ -55,13 +55,12 @@ function playMastermind() {
       }
 
       function isRepeatedColor(color, secretCombination) {
-        let itIsRepeated = false;
-        for (let i = 0; !itIsRepeated && i < secretCombination.length; i++) {
+        for (let i = 0; i < secretCombination.length; i++) {
           if (color === secretCombination[i]) {
-            itIsRepeated = true;
+            return true;
           }
         }
-        return itIsRepeated;
+        return false;
       }
     }
 
