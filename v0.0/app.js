@@ -9,8 +9,7 @@ function playMastermind() {
   } while (isResumed());
 
   /**
-   * 1.- Dentro de la función initializeGame() se llame a la funcion getSecreteCombinationWithoutRepeatedColors() para inicializar el atributo secreteCombination del objeto.
-   * 2.- Implementar un objeto para los errores en la funcion validateCombination().
+   * 3.- Agregar otras al objeto de la initializeGame().
    *
    */
   function playGame() {
@@ -87,19 +86,22 @@ function playMastermind() {
       return proposedCombination;
 
       function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
-        0;
-        let isValid = true;
+        const MSG_ERRORS = {
+          length: `Wrong proposed combination length!!! (Correct length 4). Please try again`,
+          colorsNotValid: `Wrong colors, they must be : rgbycm. Please try again`,
+          repeatedColors: `Wrong, there are repeated colors. Please try again`,
+        };
         if (proposedCombination.length !== COMBINATIONS_LENGTH) {
-          console.writeln(`Wrong proposed combination length!!! (Correct length 4). Please try again`);
-          isValid = false;
+          console.writeln(MSG_ERRORS.length);
+          return false;
         } else if (!validateColors(proposedCombination, ALLOWED_COLORS)) {
-          console.writeln(`Wrong colors, they must be : rgbycm. Please try again`);
-          isValid = false;
-        } else if (validateRepeatedColors(proposedCombination)) {
-          console.writeln(`Wrong, there are repeated colors. Please try again`);
-          isValid = false;
+          console.writeln(MSG_ERRORS.colorsNotValid);
+          return false;
+        } else if (!validateRepeatedColors(proposedCombination)) {
+          console.writeln(MSG_ERRORS.repeatedColors);
+          return false;
         }
-        return isValid;
+        return true;
 
         function validateColors(proposedCombination, allowedColors) {
           let nValidColors = 0;
@@ -116,14 +118,14 @@ function playMastermind() {
         }
 
         function validateRepeatedColors(proposedCombination) {
-          const COLOR_NO_FOUND = -1;
+          const NO_FOUND = -1;
           let uniqueColors = [];
           for (let color of proposedCombination) {
-            if (uniqueColors.indexOf(color) === COLOR_NO_FOUND) {
+            if (uniqueColors.indexOf(color) === NO_FOUND) {
               uniqueColors[uniqueColors.length] = color;
             }
           }
-          return uniqueColors.length < proposedCombination.length;
+          return uniqueColors.length === proposedCombination.length;
         }
       }
     }
