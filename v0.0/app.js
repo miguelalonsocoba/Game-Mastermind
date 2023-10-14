@@ -14,7 +14,7 @@ function playMastermind() {
     do {
       showAttempts(game.attempts);
       setValidProposedCombination(game);
-      compare(game);
+      compareProposedCombinationWithSecretCombination(game);
       showResult(game);
       isCorrect(game);
       increaseAttempsByOne(game);
@@ -125,7 +125,7 @@ function playMastermind() {
       }
     }
 
-    function compare(game) {
+    function compareProposedCombinationWithSecretCombination(game) {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
       const EMPTY = `Na`;
