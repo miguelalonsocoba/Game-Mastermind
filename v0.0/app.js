@@ -15,13 +15,12 @@ function playMastermind() {
   function playGame() {
     let game = initializeGame();
     let resultProposedCombinations = [];
-    let proposedCombinations = [];
     console.writeln(`Secret Combination: ${game.secretCombination}`);
     do {
       showAttempts(game.attempts);
-      proposedCombinations[game.attempts] = setValidProposedCombination(game);
-      resultProposedCombinations[game.attempts] = compare(game.secretCombination, proposedCombinations[game.attempts]);
-      showResult(proposedCombinations, resultProposedCombinations);
+      setValidProposedCombination(game);
+      resultProposedCombinations[game.attempts] = compare(game);
+      showResult(game, resultProposedCombinations);
       isCorrect(resultProposedCombinations[game.attempts], game);
       increaseAttempsByOne(game);
     } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
@@ -41,6 +40,7 @@ function playMastermind() {
         secretCombination: [],
         attempts: 0,
         isCorrectCombination: false,
+        proposedCombinations: [],
       };
       setSecretCombinationWithoutRepeatedColors(game);
       return game;
@@ -83,7 +83,8 @@ function playMastermind() {
       do {
         proposedCombination = console.readString(`Propose a combination:`);
       } while (!validateCombination(proposedCombination, game));
-      return proposedCombination;
+      game.proposedCombinations[game.attempts] = proposedCombination;
+      // return proposedCombination;
 
       function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
         const MSG_ERRORS = {
@@ -130,14 +131,14 @@ function playMastermind() {
       }
     }
 
-    function compare(secretCombination, proposedCombination) {
+    function compare(game) {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
       let resultProposedCombination = [];
-      for (let i = 0; i < proposedCombination.length; i++) {
-        if (verifyCorrectPositioned(proposedCombination[i], secretCombination[i])) {
+      for (let i = 0; i < game.proposedCombinations[game.attempts].length; i++) {
+        if (verifyCorrectPositioned(game.proposedCombinations[game.attempts][i], game.secretCombination[i])) {
           resultProposedCombination[i] = WELL_POSITIONED;
-        } else if (verifyPoorlyPositioned(secretCombination, proposedCombination[i])) {
+        } else if (verifyPoorlyPositioned(game.secretCombination, game.proposedCombinations[game.attempts][i])) {
           resultProposedCombination[i] = POORLY_POSITIONED;
         } else {
           resultProposedCombination[i] = `Na`;
@@ -160,10 +161,10 @@ function playMastermind() {
       }
     }
 
-    function showResult(proposedCombinations, resultProposedCombinations) {
+    function showResult(game, resultProposedCombinations) {
       let msg = `\nResults:\n`;
       for (let i = 0; i < resultProposedCombinations.length; i++) {
-        msg += `${proposedCombinations[i]} --> ${resultProposedCombinations[i]}\n`;
+        msg += `${game.proposedCombinations[i]} --> ${resultProposedCombinations[i]}\n`;
       }
       console.writeln(msg);
     }
