@@ -17,7 +17,7 @@ function playMastermind() {
     showTitle();
     do {
       showAttempts(game.attempts);
-      proposedCombinations[game.attempts] = getValidProposedCombination(game);
+      proposedCombinations[game.attempts] = setValidProposedCombination(game);
       resultProposedCombinations[game.attempts] = compare(game.secretCombination, proposedCombinations[game.attempts]);
       showResult(proposedCombinations, resultProposedCombinations);
       isCorrect(resultProposedCombinations[game.attempts], game);
@@ -72,7 +72,7 @@ function playMastermind() {
       console.writeln(`\n${attempts + 1} attempt${attempts !== 0 ? `s` : ``}:\n****`);
     }
 
-    function getValidProposedCombination(game) {
+    function setValidProposedCombination(game) {
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination:`);
