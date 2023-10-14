@@ -8,20 +8,15 @@ function playMastermind() {
     playGame();
   } while (isResumed());
 
-  /**
-   * 3.- Agregar otras al objeto de la initializeGame().
-   *
-   */
   function playGame() {
     let game = initializeGame();
-    let resultProposedCombinations = [];
     console.writeln(`Secret Combination: ${game.secretCombination}`);
     do {
       showAttempts(game.attempts);
       setValidProposedCombination(game);
-      resultProposedCombinations[game.attempts] = compare(game);
-      showResult(game, resultProposedCombinations);
-      isCorrect(resultProposedCombinations[game.attempts], game);
+      compare(game);
+      showResult(game);
+      isCorrect(game);
       increaseAttempsByOne(game);
     } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
     if (game.isCorrectCombination) {
@@ -41,6 +36,7 @@ function playMastermind() {
         attempts: 0,
         isCorrectCombination: false,
         proposedCombinations: [],
+        resultProposedCombinations: [[]],
       };
       setSecretCombinationWithoutRepeatedColors(game);
       return game;
@@ -50,7 +46,6 @@ function playMastermind() {
       }
 
       function setSecretCombinationWithoutRepeatedColors(game) {
-        console.writeln(`Get secret combination ${game}`);
         for (let i = 0; i < game.COMBINATIONS_LENGTH; i++) {
           let randomColor;
           do {
@@ -84,7 +79,6 @@ function playMastermind() {
         proposedCombination = console.readString(`Propose a combination:`);
       } while (!validateCombination(proposedCombination, game));
       game.proposedCombinations[game.attempts] = proposedCombination;
-      // return proposedCombination;
 
       function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
         const MSG_ERRORS = {
@@ -144,7 +138,7 @@ function playMastermind() {
           resultProposedCombination[i] = `Na`;
         }
       }
-      return resultProposedCombination;
+      game.resultProposedCombinations[game.attempts] = resultProposedCombination;
 
       function verifyCorrectPositioned(proposedColor, secretColor) {
         return proposedColor === secretColor;
@@ -161,18 +155,21 @@ function playMastermind() {
       }
     }
 
-    function showResult(game, resultProposedCombinations) {
+    function showResult(game) {
       let msg = `\nResults:\n`;
-      for (let i = 0; i < resultProposedCombinations.length; i++) {
-        msg += `${game.proposedCombinations[i]} --> ${resultProposedCombinations[i]}\n`;
+      for (let i = 0; i < game.resultProposedCombinations.length; i++) {
+        msg += `${game.proposedCombinations[i]} --> ${game.resultProposedCombinations[i]}\n`;
       }
       console.writeln(msg);
     }
 
-    function isCorrect(resultProposedCombination, game) {
+    function isCorrect(game) {
       let isCorrect = true;
-      for (let i = 0; isCorrect && i < resultProposedCombination.length; i++) {
-        if (resultProposedCombination[i] === `Na` || resultProposedCombination[i] === `w`) {
+      for (let i = 0; isCorrect && i < game.resultProposedCombinations[game.attempts].length; i++) {
+        if (
+          game.resultProposedCombinations[game.attempts][i] === `Na` ||
+          game.resultProposedCombinations[game.attempts][i] === `w`
+        ) {
           isCorrect = false;
         }
       }
