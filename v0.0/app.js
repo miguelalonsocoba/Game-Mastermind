@@ -8,11 +8,15 @@ function playMastermind() {
     playGame();
   } while (isResumed());
 
+  /**
+   * 1.- Dentro de la función initializeGame() se llame a la funcion getSecreteCombinationWithoutRepeatedColors() para inicializar el atributo secreteCombination del objeto.
+   * 2.- Implementar un objeto para los errores en la funcion validateCombination().
+   *
+   */
   function playGame() {
     let game = initializeGame();
     let resultProposedCombinations = [];
     let proposedCombinations = [];
-    getSecreteCombinationWithoutRepeatedColors(game);
     console.writeln(`Secret Combination: ${game.secretCombination}`);
     do {
       showAttempts(game.attempts);
@@ -31,7 +35,7 @@ function playMastermind() {
 
     function initializeGame() {
       showTitle();
-      return {
+      let game = {
         ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
         COMBINATIONS_LENGTH: 4,
         MAXIMUN_ATTEMPTS: 10,
@@ -39,32 +43,35 @@ function playMastermind() {
         attempts: 0,
         isCorrectCombination: false,
       };
+      setSecretCombinationWithoutRepeatedColors(game);
+      return game;
 
       function showTitle() {
         console.writeln("\n\n----- MASTERMIND -----");
       }
-    }
 
-    function getSecreteCombinationWithoutRepeatedColors(game) {
-      for (let i = 0; i < game.COMBINATIONS_LENGTH; i++) {
-        let randomColor;
-        do {
-          randomColor = game.ALLOWED_COLORS[generateRandomNumber(game.ALLOWED_COLORS.length)];
-        } while (isRepeatedColor(randomColor, game.secretCombination));
-        game.secretCombination[i] = randomColor;
-      }
-
-      function generateRandomNumber(length) {
-        return parseInt(Math.random() * length);
-      }
-
-      function isRepeatedColor(color, secretCombination) {
-        for (let i = 0; i < secretCombination.length; i++) {
-          if (color === secretCombination[i]) {
-            return true;
-          }
+      function setSecretCombinationWithoutRepeatedColors(game) {
+        console.writeln(`Get secret combination ${game}`);
+        for (let i = 0; i < game.COMBINATIONS_LENGTH; i++) {
+          let randomColor;
+          do {
+            randomColor = game.ALLOWED_COLORS[generateRandomNumber(game.ALLOWED_COLORS.length)];
+          } while (isRepeatedColor(randomColor, game.secretCombination));
+          game.secretCombination[i] = randomColor;
         }
-        return false;
+
+        function generateRandomNumber(length) {
+          return parseInt(Math.random() * length);
+        }
+
+        function isRepeatedColor(color, secretCombination) {
+          for (let i = 0; i < secretCombination.length; i++) {
+            if (color === secretCombination[i]) {
+              return true;
+            }
+          }
+          return false;
+        }
       }
     }
 
