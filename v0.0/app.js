@@ -128,6 +128,7 @@ function playMastermind() {
     function compare(game) {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
+      const EMPTY = `Na`;
       let resultProposedCombination = [];
       for (let i = 0; i < game.proposedCombinations[game.attempts].length; i++) {
         if (verifyCorrectPositioned(game.proposedCombinations[game.attempts][i], game.secretCombination[i])) {
@@ -135,7 +136,7 @@ function playMastermind() {
         } else if (verifyPoorlyPositioned(game.secretCombination, game.proposedCombinations[game.attempts][i])) {
           resultProposedCombination[i] = POORLY_POSITIONED;
         } else {
-          resultProposedCombination[i] = `Na`;
+          resultProposedCombination[i] = EMPTY;
         }
       }
       game.resultProposedCombinations[game.attempts] = resultProposedCombination;
