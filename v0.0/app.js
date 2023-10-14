@@ -14,7 +14,6 @@ function playMastermind() {
     let proposedCombinations = [];
     getSecreteCombinationWithoutRepeatedColors(game);
     console.writeln(`Secret Combination: ${game.secretCombination}`);
-    showTitle();
     do {
       showAttempts(game.attempts);
       proposedCombinations[game.attempts] = setValidProposedCombination(game);
@@ -31,6 +30,7 @@ function playMastermind() {
     }
 
     function initializeGame() {
+      showTitle();
       return {
         ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
         COMBINATIONS_LENGTH: 4,
@@ -39,6 +39,10 @@ function playMastermind() {
         attempts: 0,
         isCorrectCombination: false,
       };
+
+      function showTitle() {
+        console.writeln("\n\n----- MASTERMIND -----");
+      }
     }
 
     function getSecreteCombinationWithoutRepeatedColors(game) {
@@ -62,10 +66,6 @@ function playMastermind() {
         }
         return false;
       }
-    }
-
-    function showTitle() {
-      console.writeln("\n\n----- MASTERMIND -----");
     }
 
     function showAttempts(attempts) {
