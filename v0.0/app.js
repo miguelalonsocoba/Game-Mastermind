@@ -9,7 +9,7 @@ function playMastermind() {
   } while (isResumed());
 
   function playGame() {
-    let game = initializeGame();
+    const game = initializeGame();
     console.writeln(`Secret Combination: ${game.secretCombination}`);
     do {
       showAttempts(game.attempts);
