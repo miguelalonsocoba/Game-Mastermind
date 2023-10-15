@@ -78,18 +78,18 @@ function playMastermind() {
 
       function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
         const MSG_ERRORS = {
-          length: `Wrong proposed combination length!!! (Correct length 4). Please try again`,
-          colorsNotValid: `Wrong colors, they must be : rgbycm. Please try again`,
-          repeatedColors: `Wrong, there are repeated colors. Please try again`,
+          LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again`,
+          COLORS_NOT_VALID: `Wrong colors, they must be : rgbycm. Please try again`,
+          REPEATED_COLORS: `Wrong, there are repeated colors. Please try again`,
         };
         if (proposedCombination.length !== COMBINATIONS_LENGTH) {
-          console.writeln(MSG_ERRORS.length);
+          console.writeln(MSG_ERRORS.LENGTH);
           return false;
         } else if (!validateColors(proposedCombination, ALLOWED_COLORS)) {
-          console.writeln(MSG_ERRORS.colorsNotValid);
+          console.writeln(MSG_ERRORS.COLORS_NOT_VALID);
           return false;
         } else if (!validateRepeatedColors(proposedCombination)) {
-          console.writeln(MSG_ERRORS.repeatedColors);
+          console.writeln(MSG_ERRORS.REPEATED_COLORS);
           return false;
         }
         return true;
