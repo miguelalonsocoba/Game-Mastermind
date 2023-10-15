@@ -95,17 +95,17 @@ function playMastermind() {
         return true;
 
         function validateColors(proposedCombination, allowedColors) {
-          let nValidColors = 0;
+          let validColors = 0;
           for (const proposedColor of proposedCombination) {
             let colorIsValid = false;
             for (let i = 0; !colorIsValid && i < allowedColors.length; i++) {
               if (proposedColor === allowedColors[i]) {
                 colorIsValid = true;
-                nValidColors++;
+                validColors++;
               }
             }
           }
-          return nValidColors === proposedCombination.length;
+          return validColors === proposedCombination.length;
         }
 
         function validateRepeatedColors(proposedCombination) {
