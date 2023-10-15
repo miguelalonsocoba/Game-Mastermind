@@ -129,14 +129,14 @@ function playMastermind() {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
       const EMPTY = `Na`;
-      let comparisonResult = [];
+      let comparisonResult = ``;
       for (let i = 0; i < game.proposedCombinations[game.attempts].length; i++) {
         if (verifyCorrectPositioned(game.proposedCombinations[game.attempts][i], game.secretCombination[i])) {
-          comparisonResult[i] = WELL_POSITIONED;
+          comparisonResult += WELL_POSITIONED;
         } else if (verifyPoorlyPositioned(game.secretCombination, game.proposedCombinations[game.attempts][i])) {
-          comparisonResult[i] = POORLY_POSITIONED;
+          comparisonResult += POORLY_POSITIONED;
         } else {
-          comparisonResult[i] = EMPTY;
+          comparisonResult += EMPTY;
         }
       }
       game.resultProposedCombinations[game.attempts] = comparisonResult;
