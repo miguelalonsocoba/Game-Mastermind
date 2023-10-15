@@ -36,7 +36,7 @@ function playMastermind() {
         attempts: 0,
         isCorrectCombination: false,
         proposedCombinations: [],
-        resultProposedCombinations: [[]], //Change name to "restultsOfComparingCombinations"
+        resultProposedCombinations: [], //Change name to "restultsOfComparingCombinations"
       };
       setSecretCombinationWithoutRepeatedColors(game);
       return game;
