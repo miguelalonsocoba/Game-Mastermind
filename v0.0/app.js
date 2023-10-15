@@ -16,7 +16,7 @@ function playMastermind() {
       setValidProposedCombination(game);
       compareProposedCombinationWithSecretCombination(game);
       showComparisonResult(game);
-      isCorrect(game);
+      isCorrectCombination(game);
       increaseAttempsByOne(game);
     } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
     if (game.isCorrectCombination) {
@@ -164,13 +164,10 @@ function playMastermind() {
       console.writeln(msg);
     }
 
-    function isCorrect(game) {
+    function isCorrectCombination(game) {
       let isCorrect = true;
       for (let i = 0; isCorrect && i < game.resultProposedCombinations[game.attempts].length; i++) {
-        if (
-          game.resultProposedCombinations[game.attempts][i] === `Na` ||
-          game.resultProposedCombinations[game.attempts][i] === `w`
-        ) {
+        if (game.resultProposedCombinations[game.attempts][i] !== `b`) {
           isCorrect = false;
         }
       }
