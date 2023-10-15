@@ -36,7 +36,7 @@ function playMastermind() {
         attempts: 0,
         isCorrectCombination: false,
         proposedCombinations: [],
-        resultProposedCombinations: [], //Change name to "restultsOfComparingCombinations"
+        restultsOfComparingCombinations: [],
       };
       setSecretCombinationWithoutRepeatedColors(game);
       return game;
@@ -139,7 +139,7 @@ function playMastermind() {
           comparisonResult += EMPTY;
         }
       }
-      game.resultProposedCombinations[game.attempts] = comparisonResult;
+      game.restultsOfComparingCombinations[game.attempts] = comparisonResult;
 
       function verifyCorrectPositioned(proposedColor, secretColor) {
         return proposedColor === secretColor;
@@ -158,16 +158,16 @@ function playMastermind() {
 
     function showComparisonResult(game) {
       let msg = `\nResults:\n`;
-      for (let i = 0; i < game.resultProposedCombinations.length; i++) {
-        msg += `${game.proposedCombinations[i]} --> ${game.resultProposedCombinations[i]}\n`;
+      for (let i = 0; i < game.restultsOfComparingCombinations.length; i++) {
+        msg += `${game.proposedCombinations[i]} --> ${game.restultsOfComparingCombinations[i]}\n`;
       }
       console.writeln(msg);
     }
 
     function isCorrectCombination(game) {
       let isCorrect = true;
-      for (let i = 0; isCorrect && i < game.resultProposedCombinations[game.attempts].length; i++) {
-        if (game.resultProposedCombinations[game.attempts][i] !== `b`) {
+      for (let i = 0; isCorrect && i < game.restultsOfComparingCombinations[game.attempts].length; i++) {
+        if (game.restultsOfComparingCombinations[game.attempts][i] !== `b`) {
           isCorrect = false;
         }
       }
