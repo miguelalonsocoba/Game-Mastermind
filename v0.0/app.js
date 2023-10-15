@@ -12,7 +12,7 @@ function playMastermind() {
     const game = initializeGame();
     console.writeln(`Secret Combination: ${game.secretCombination}`);
     do {
-      showAttempts(game.attempts);
+      showAttempts(game);
       setValidProposedCombination(game);
       compareProposedCombinationWithSecretCombination(game);
       showComparisonResult(game);
@@ -69,7 +69,7 @@ function playMastermind() {
       }
     }
 
-    function showAttempts(attempts) {
+    function showAttempts({ attempts }) {
       console.writeln(`\n${attempts + 1} attempt${attempts !== 0 ? `s` : ``}:\n****`);
     }
 
