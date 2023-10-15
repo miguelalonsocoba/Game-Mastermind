@@ -10,7 +10,6 @@ function playMastermind() {
 
   function playGame() {
     const game = initializeGame();
-    console.writeln(`Secret Combination: ${game.secretCombination}`);
     do {
       showAttempts(game);
       setValidProposedCombination(game);
@@ -39,6 +38,7 @@ function playMastermind() {
         restultsOfComparingCombinations: [],
       };
       setSecretCombinationWithoutRepeatedColors(game);
+      console.writeln(`Secret Combination: ${game.secretCombination}`);
       return game;
 
       function showTitle() {
@@ -49,13 +49,9 @@ function playMastermind() {
         for (let i = 0; i < game.COMBINATIONS_LENGTH; i++) {
           let randomColor;
           do {
-            randomColor = game.ALLOWED_COLORS[generateRandomNumber(game.ALLOWED_COLORS.length)];
+            randomColor = game.ALLOWED_COLORS[parseInt(Math.random() * game.ALLOWED_COLORS.length)];
           } while (isRepeatedColor(randomColor, game.secretCombination));
           game.secretCombination[i] = randomColor;
-        }
-
-        function generateRandomNumber(length) {
-          return parseInt(Math.random() * length);
         }
 
         function isRepeatedColor(color, secretCombination) {
