@@ -80,7 +80,7 @@ function playMastermind() {
       function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
         const MSG_ERRORS = {
           LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again`,
-          COLORS_NOT_VALID: `Wrong colors, they must be : rgbycm. Please try again`,
+          COLORS_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again`,
           REPEATED_COLORS: `Wrong, there are repeated colors. Please try again`,
         };
         if (proposedCombination.length !== COMBINATIONS_LENGTH) {
