@@ -106,10 +106,10 @@ function playMastermind() {
         }
 
         function thereAreRepeatedColors(proposedCombination) {
-          const NO_FOUND = -1;
+          const NOT_FOUND = -1;
           let uniqueColors = [];
           for (let color of proposedCombination) {
-            if (uniqueColors.indexOf(color) === NO_FOUND) {
+            if (uniqueColors.indexOf(color) === NOT_FOUND) {
               uniqueColors[uniqueColors.length] = color;
             }
           }
