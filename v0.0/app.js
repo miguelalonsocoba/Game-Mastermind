@@ -96,17 +96,13 @@ function playMastermind() {
         return true;
 
         function areValidColors(proposedCombination, allowedColors) {
-          let validColors = 0;
+          const NOT_FOUND = -1;
           for (const proposedColor of proposedCombination) {
-            let colorIsValid = false;
-            for (let i = 0; !colorIsValid && i < allowedColors.length; i++) {
-              if (proposedColor === allowedColors[i]) {
-                colorIsValid = true;
-                validColors++;
-              }
+            if (allowedColors.indexOf(proposedColor) === NOT_FOUND) {
+              return false;
             }
           }
-          return validColors === proposedCombination.length;
+          return true;
         }
 
         function thereAreRepeatedColors(proposedCombination) {
