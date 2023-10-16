@@ -122,11 +122,12 @@ function playMastermind() {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
       const EMPTY = `Na`;
+      const currentProposedCombination = game.proposedCombinations[game.attempts];
       let comparisonResult = ``;
-      for (let i = 0; i < game.proposedCombinations[game.attempts].length; i++) {
-        if (verifyCorrectPositioned(game.proposedCombinations[game.attempts][i], game.secretCombination[i])) {
+      for (let i = 0; i < currentProposedCombination.length; i++) {
+        if (verifyCorrectPositioned(currentProposedCombination[i], game.secretCombination[i])) {
           comparisonResult += WELL_POSITIONED;
-        } else if (verifyPoorlyPositioned(game.secretCombination, game.proposedCombinations[game.attempts][i])) {
+        } else if (verifyPoorlyPositioned(game.secretCombination, currentProposedCombination[i])) {
           comparisonResult += POORLY_POSITIONED;
         } else {
           comparisonResult += EMPTY;
