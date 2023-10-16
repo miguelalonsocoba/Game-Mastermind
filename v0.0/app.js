@@ -89,7 +89,7 @@ function playMastermind() {
         } else if (!areValidColors(proposedCombination, ALLOWED_COLORS)) {
           console.writeln(MSG_ERRORS.COLORS_NOT_VALID);
           return false;
-        } else if (!validateRepeatedColors(proposedCombination)) {
+        } else if (thereAreRepeatedColors(proposedCombination)) {
           console.writeln(MSG_ERRORS.REPEATED_COLORS);
           return false;
         }
@@ -109,7 +109,7 @@ function playMastermind() {
           return validColors === proposedCombination.length;
         }
 
-        function validateRepeatedColors(proposedCombination) {
+        function thereAreRepeatedColors(proposedCombination) {
           const NO_FOUND = -1;
           let uniqueColors = [];
           for (let color of proposedCombination) {
@@ -117,7 +117,7 @@ function playMastermind() {
               uniqueColors[uniqueColors.length] = color;
             }
           }
-          return uniqueColors.length === proposedCombination.length;
+          return uniqueColors.length !== proposedCombination.length;
         }
       }
     }
