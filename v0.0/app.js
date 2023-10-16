@@ -85,7 +85,7 @@ function playMastermind() {
         if (proposedCombination.length !== COMBINATIONS_LENGTH) {
           console.writeln(MSG_ERRORS.LENGTH);
           return false;
-        } else if (!validateColors(proposedCombination, ALLOWED_COLORS)) {
+        } else if (!areValidColors(proposedCombination, ALLOWED_COLORS)) {
           console.writeln(MSG_ERRORS.COLORS_NOT_VALID);
           return false;
         } else if (!validateRepeatedColors(proposedCombination)) {
@@ -94,7 +94,7 @@ function playMastermind() {
         }
         return true;
 
-        function validateColors(proposedCombination, allowedColors) {
+        function areValidColors(proposedCombination, allowedColors) {
           let validColors = 0;
           for (const proposedColor of proposedCombination) {
             let colorIsValid = false;
