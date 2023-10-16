@@ -26,8 +26,8 @@ function playMastermind() {
     }
 
     function initializeGame() {
-      showTitle();
       let game = {
+        TITLE: "\n\n----- MASTERMIND -----",
         ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
         COMBINATIONS_LENGTH: 4,
         MAXIMUN_ATTEMPTS: 10,
@@ -37,12 +37,13 @@ function playMastermind() {
         proposedCombinations: [],
         restultsOfComparingCombinations: [],
       };
+      showTitle(game);
       setSecretCombinationWithoutRepeatedColors(game);
       console.writeln(`Secret Combination: ${game.secretCombination}`);
       return game;
 
-      function showTitle() {
-        console.writeln("\n\n----- MASTERMIND -----");
+      function showTitle({ TITLE }) {
+        console.writeln(TITLE);
       }
 
       function setSecretCombinationWithoutRepeatedColors(game) {
