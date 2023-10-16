@@ -74,10 +74,10 @@ function playMastermind() {
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination:`);
-      } while (!validateCombination(proposedCombination, game));
+      } while (!isValidCombination(proposedCombination, game));
       game.proposedCombinations[game.attempts] = proposedCombination;
 
-      function validateCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
+      function isValidCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
         const MSG_ERRORS = {
           LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again`,
           COLORS_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again`,
