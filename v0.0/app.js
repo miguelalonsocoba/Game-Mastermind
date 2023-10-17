@@ -130,7 +130,7 @@ function playMastermind() {
     function compareProposedCombinationWithSecretCombination(game) {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
-      const EMPTY = `Na`;
+      const EMPTY = `E`;
       const currentProposedCombination = game.proposedCombinations[game.attempts];
       let comparisonResult = ``;
       for (let i = 0; i < currentProposedCombination.length; i++) {
