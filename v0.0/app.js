@@ -14,7 +14,7 @@ function playMastermind() {
       showAttempts(game);
       setValidProposedCombination(game);
       compareProposedCombinationWithSecretCombination(game);
-      showComparisonResult(game);
+      showComparisonResult(game); //Falta revisar
       isCorrectCombination(game);
       increaseAttempsByOne(game);
     } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
@@ -96,13 +96,22 @@ function playMastermind() {
         return true;
 
         function areValidColors(proposedCombination, allowedColors) {
-          const NOT_FOUND = -1;
           for (const proposedColor of proposedCombination) {
-            if (allowedColors.indexOf(proposedColor) === NOT_FOUND) {
+            if (!isAllowed(proposedColor, allowedColors)) {
               return false;
             }
           }
           return true;
+
+          function isAllowed(color, allowedColors) {
+            let allowed = false;
+            for (let i = 0; !allowed && i < allowedColors.length; i++) {
+              if (color === allowedColors[i]) {
+                allowed = true;
+              }
+            }
+            return allowed;
+          }
         }
 
         function thereAreRepeatedColors(proposedCombination) {
