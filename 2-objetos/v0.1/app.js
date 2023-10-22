@@ -43,6 +43,15 @@ function initYesNoDialog(question) {
 
 function initGame() {
   const game = {
+    TITLE: `\n\n----- MASTERMIND -----`,
+    ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
+    COMBINATIONS_LENGTH: 4,
+    MAXIMUN_ATTEMPTS: 2,
+    secretCombination: [],
+    attempts: 0,
+    isCorrectCombination: false,
+    proposedCombinations: [],
+    resultsOfComparingCombinations: [],
     isRepeatedColor: function (color, secretCombination) {
       for (let i = 0; i < secretCombination.length; i++) {
         if (color === secretCombination[i]) {
@@ -111,19 +120,10 @@ function initGame() {
   };
 
   return {
-    TITLE: `\n\n----- MASTERMIND -----`,
-    ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
-    COMBINATIONS_LENGTH: 4,
-    MAXIMUN_ATTEMPTS: 2,
-    secretCombination: [],
-    attempts: 0,
-    isCorrectCombination: false,
-    proposedCombinations: [],
-    resultsOfComparingCombinations: [],
     play: function () {
       this.showTitle();
       this.setSecretCombinationWithoutRepeatedColors();
-      console.writeln(`Secret Combination: ${this.secretCombination}`);
+      console.writeln(`Secret Combination: ${game.secretCombination}`);
       do {
         this.showAttempts();
         this.setValidProposedCombination();
@@ -131,7 +131,7 @@ function initGame() {
         this.showComparisonResult();
         this.verifyCorrectCombination();
         this.increaseAttemptsByOne();
-      } while (!this.isCorrectCombination && this.attempts < this.MAXIMUN_ATTEMPTS);
+      } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
       if (this.isCorrectCombination) {
         this.showWinningMessage();
       } else {
@@ -139,63 +139,63 @@ function initGame() {
       }
     },
     showTitle: function () {
-      console.writeln(this.TITLE);
+      console.writeln(game.TITLE);
     },
     setSecretCombinationWithoutRepeatedColors: function () {
-      for (let i = 0; i < this.COMBINATIONS_LENGTH; i++) {
+      for (let i = 0; i < game.COMBINATIONS_LENGTH; i++) {
         let randomColor;
         do {
-          randomColor = this.ALLOWED_COLORS[parseInt(Math.random() * this.ALLOWED_COLORS.length)];
-        } while (game.isRepeatedColor(randomColor, this.secretCombination));
-        this.secretCombination[i] = randomColor;
+          randomColor = game.ALLOWED_COLORS[parseInt(Math.random() * game.ALLOWED_COLORS.length)];
+        } while (game.isRepeatedColor(randomColor, game.secretCombination));
+        game.secretCombination[i] = randomColor;
       }
     },
     showAttempts: function () {
-      console.writeln(`\n${this.attempts + 1} attempt${this.attempts !== 0 ? `s` : ``}:\n****`);
+      console.writeln(`\n${game.attempts + 1} attempt${game.attempts !== 0 ? `s` : ``}:\n****`);
     },
     setValidProposedCombination: function () {
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination: `);
-      } while (!game.isValidCombination(proposedCombination, this));
-      this.proposedCombinations[this.attempts] = proposedCombination;
+      } while (!game.isValidCombination(proposedCombination, game));
+      game.proposedCombinations[game.attempts] = proposedCombination;
     },
     compareProposedCombinationWithSecretCombination: function () {
       const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
       const EMPTY = `E`;
-      const currentProposedCombination = this.proposedCombinations[this.attempts];
+      const currentProposedCombination = game.proposedCombinations[game.attempts];
       let comparisonResult = ``;
       for (let i = 0; i < currentProposedCombination.length; i++) {
-        if (game.isWellPositioned(currentProposedCombination[i], this.secretCombination[i])) {
+        if (game.isWellPositioned(currentProposedCombination[i], game.secretCombination[i])) {
           comparisonResult += WELL_POSITIONED;
-        } else if (game.isPoorlyPositioned(this.secretCombination, currentProposedCombination[i])) {
+        } else if (game.isPoorlyPositioned(game.secretCombination, currentProposedCombination[i])) {
           comparisonResult += POORLY_POSITIONED;
         } else {
           comparisonResult += EMPTY;
         }
       }
-      this.resultsOfComparingCombinations[this.attempts] = comparisonResult;
+      game.resultsOfComparingCombinations[game.attempts] = comparisonResult;
     },
     showComparisonResult: function () {
       let msg = `\nResults:\n`;
-      for (let i = 0; i < this.resultsOfComparingCombinations.length; i++) {
-        msg += `${this.proposedCombinations[i]} --> ${this.resultsOfComparingCombinations[i]}\n`;
+      for (let i = 0; i < game.resultsOfComparingCombinations.length; i++) {
+        msg += `${game.proposedCombinations[i]} --> ${game.resultsOfComparingCombinations[i]}\n`;
       }
       console.writeln(msg);
     },
     verifyCorrectCombination: function () {
       let isCorrect = true;
       const WELL_POSITIONED = `b`;
-      for (let i = 0; isCorrect && i < this.resultsOfComparingCombinations[this.attempts].length; i++) {
-        if (this.resultsOfComparingCombinations[this.attempts][i] !== WELL_POSITIONED) {
+      for (let i = 0; isCorrect && i < game.resultsOfComparingCombinations[game.attempts].length; i++) {
+        if (game.resultsOfComparingCombinations[game.attempts][i] !== WELL_POSITIONED) {
           isCorrect = false;
         }
       }
       this.isCorrectCombination = isCorrect;
     },
     increaseAttemptsByOne: function () {
-      this.attempts++;
+      game.attempts++;
     },
     showWinningMessage: function () {
       console.writeln(`:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`);
