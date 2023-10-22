@@ -20,8 +20,7 @@ function playMastermind() {
     } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
     if (game.isCorrectCombination) {
       showWinningMessage();
-    }
-    if (game.attempts > game.MAXIMUN_ATTEMPTS) {
+    } else {
       showLosingMessage();
     }
 
