@@ -42,7 +42,7 @@ function initYesNoDialog(question) {
 }
 
 function initGame() {
-  return (game = {
+  return {
     TITLE: `\n\n----- MASTERMIND -----`,
     ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
     COMBINATIONS_LENGTH: 4,
@@ -89,53 +89,8 @@ function initGame() {
       let proposedCombination;
       do {
         proposedCombination = console.readString(`Propose a combination: `);
-      } while (!this.isValidCombinatino(proposedCombination));
+      } while (!isValidCombination(proposedCombination, this));
       this.proposedCombinations[this.attempts] = proposedCombination;
-    },
-    isValidCombinatino: function (proposedCombination) {
-      const MSG_ERRORS = {
-        LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again.`,
-        COLOR_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again.`,
-        REPEATED_COLORS: `Wrong, there are repeated colors. Please try again.`,
-      };
-      if (proposedCombination.length !== this.COMBINATIONS_LENGTH) {
-        console.writeln(MSG_ERRORS.LENGTH);
-        return false;
-      } else if (!this.areValidColors(proposedCombination)) {
-        console.writeln(MSG_ERRORS.COLOR_NOT_VALID);
-        return false;
-      } else if (this.thereAreRepeatedColors(proposedCombination)) {
-        console.writeln(MSG_ERRORS.REPEATED_COLORS);
-        return false;
-      }
-      return true;
-    },
-    areValidColors: function (proposedCombination) {
-      for (let proposedColor of proposedCombination) {
-        if (!this.isAllowed(proposedColor)) {
-          return false;
-        }
-      }
-      return true;
-    },
-    isAllowed: function (color) {
-      let allowed = false;
-      for (let i = 0; !allowed && i < this.ALLOWED_COLORS.length; i++) {
-        if (color === this.ALLOWED_COLORS[i]) {
-          allowed = true;
-        }
-      }
-      return allowed;
-    },
-    thereAreRepeatedColors: function (proposedCombination) {
-      const NOT_FOUND = -1;
-      let uniqueColors = [];
-      for (let color of proposedCombination) {
-        if (uniqueColors.indexOf(color) === NOT_FOUND) {
-          uniqueColors[uniqueColors.length] = color;
-        }
-      }
-      return uniqueColors.length !== proposedCombination.length;
     },
     compareProposedCombinationWithSecretCombination: function () {
       const WELL_POSITIONED = `b`;
@@ -144,27 +99,15 @@ function initGame() {
       const currentProposedCombination = this.proposedCombinations[this.attempts];
       let comparisonResult = ``;
       for (let i = 0; i < currentProposedCombination.length; i++) {
-        if (this.isWellPositioned(currentProposedCombination[i], this.secretCombination[i])) {
+        if (isWellPositioned(currentProposedCombination[i], this.secretCombination[i])) {
           comparisonResult += WELL_POSITIONED;
-        } else if (this.isPoorlyPositioned(this.secretCombination, currentProposedCombination[i])) {
+        } else if (isPoorlyPositioned(this.secretCombination, currentProposedCombination[i])) {
           comparisonResult += POORLY_POSITIONED;
         } else {
           comparisonResult += EMPTY;
         }
       }
       this.resultsOfComparingCombinations[this.attempts] = comparisonResult;
-    },
-    isWellPositioned: function (proposedColor, secretColor) {
-      return proposedColor === secretColor;
-    },
-    isPoorlyPositioned: function (secretCombination, colorToVerify) {
-      let isEquals = false;
-      for (let i = 0; !isEquals && i < secretCombination.length; i++) {
-        if (colorToVerify === secretCombination[i]) {
-          isEquals = true;
-        }
-      }
-      return isEquals;
     },
     showComparisonResult: function () {
       let msg = `\nResults:\n`;
@@ -192,7 +135,7 @@ function initGame() {
     showLosingMessage: function () {
       console.writeln(`:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`);
     },
-  });
+  };
 
   function isRepeatedColor(color, secretCombination) {
     for (let i = 0; i < secretCombination.length; i++) {
@@ -201,5 +144,68 @@ function initGame() {
       }
     }
     return false;
+  }
+
+  function isValidCombination(proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
+    const MSG_ERRORS = {
+      LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again.`,
+      COLOR_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again.`,
+      REPEATED_COLORS: `Wrong, there are repeated colors. Please try again.`,
+    };
+    if (proposedCombination.length !== COMBINATIONS_LENGTH) {
+      console.writeln(MSG_ERRORS.LENGTH);
+      return false;
+    } else if (!areValidColors(proposedCombination, ALLOWED_COLORS)) {
+      console.writeln(MSG_ERRORS.COLOR_NOT_VALID);
+      return false;
+    } else if (thereAreRepeatedColors(proposedCombination)) {
+      console.writeln(MSG_ERRORS.REPEATED_COLORS);
+      return false;
+    }
+    return true;
+  }
+
+  function areValidColors(proposedCombination, allowedColors) {
+    for (let proposedColor of proposedCombination) {
+      if (!isAllowed(proposedColor, allowedColors)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function isAllowed(color, allowedColors) {
+    let allowed = false;
+    for (let i = 0; !allowed && i < allowedColors.length; i++) {
+      if (color === allowedColors[i]) {
+        allowed = true;
+      }
+    }
+    return allowed;
+  }
+
+  function thereAreRepeatedColors(proposedCombination) {
+    const NOT_FOUND = -1;
+    let uniqueColors = [];
+    for (let color of proposedCombination) {
+      if (uniqueColors.indexOf(color) === NOT_FOUND) {
+        uniqueColors[uniqueColors.length] = color;
+      }
+    }
+    return uniqueColors.length !== proposedCombination.length;
+  }
+
+  function isWellPositioned(proposedColor, secretColor) {
+    return proposedColor === secretColor;
+  }
+
+  function isPoorlyPositioned(secretCombination, colorToVerify) {
+    let isEquals = false;
+    for (let i = 0; !isEquals && i < secretCombination.length; i++) {
+      if (colorToVerify === secretCombination[i]) {
+        isEquals = true;
+      }
+    }
+    return isEquals;
   }
 }
