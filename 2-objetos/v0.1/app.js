@@ -13,6 +13,11 @@ function playMastermind() {
   } while (continueDialog.isAffirmative());
 }
 
+/*1.- Poner funciones privadas.
+ *2.- Poner propiedades del objeto como privadas
+ *3.- Modificar la función setValidProposedCombination(), para que almecene directamente el valor y no crear una variable local.
+ *4.- Generar objetos de la clase ProposedCombination, Result, SecretCombination.
+ */
 function initYesNoDialog(question) {
   return {
     question: question,
@@ -37,7 +42,7 @@ function initYesNoDialog(question) {
 }
 
 function initGame() {
-  const game = {
+  return (game = {
     TITLE: `\n\n----- MASTERMIND -----`,
     ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
     COMBINATIONS_LENGTH: 4,
@@ -73,17 +78,9 @@ function initGame() {
         let randomColor;
         do {
           randomColor = this.ALLOWED_COLORS[parseInt(Math.random() * this.ALLOWED_COLORS.length)];
-        } while (this.isRepeatedColor(randomColor, this.secretCombination));
+        } while (isRepeatedColor(randomColor, this.secretCombination));
         this.secretCombination[i] = randomColor;
       }
-    },
-    isRepeatedColor: function (color, secretCombination) {
-      for (let i = 0; i < secretCombination.length; i++) {
-        if (color === secretCombination[i]) {
-          return true;
-        }
-      }
-      return false;
     },
     showAttempts: function () {
       console.writeln(`\n${this.attempts + 1} attempt${this.attempts !== 0 ? `s` : ``}:\n****`);
@@ -195,6 +192,14 @@ function initGame() {
     showLosingMessage: function () {
       console.writeln(`:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`);
     },
-  };
-  return game;
+  });
+
+  function isRepeatedColor(color, secretCombination) {
+    for (let i = 0; i < secretCombination.length; i++) {
+      if (color === secretCombination[i]) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
