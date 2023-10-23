@@ -52,6 +52,7 @@ function initGame() {
     isCorrectCombination: false,
     proposedCombinations: [],
     resultsOfComparingCombinations: [],
+    WELL_POSITIONED: `b`,
     isRepeatedColor: function (color, secretCombination) {
       for (let i = 0; i < secretCombination.length; i++) {
         if (color === secretCombination[i]) {
@@ -159,14 +160,13 @@ function initGame() {
       } while (!game.isValidCombination(game.proposedCombinations[game.attempts], game));
     },
     compareProposedCombinationWithSecretCombination: function () {
-      const WELL_POSITIONED = `b`;
       const POORLY_POSITIONED = `w`;
       const EMPTY = `E`;
       const currentProposedCombination = game.proposedCombinations[game.attempts];
       let comparisonResult = ``;
       for (let i = 0; i < currentProposedCombination.length; i++) {
         if (game.isWellPositioned(currentProposedCombination[i], game.secretCombination[i])) {
-          comparisonResult += WELL_POSITIONED;
+          comparisonResult += game.WELL_POSITIONED;
         } else if (game.isPoorlyPositioned(game.secretCombination, currentProposedCombination[i])) {
           comparisonResult += POORLY_POSITIONED;
         } else {
@@ -183,9 +183,8 @@ function initGame() {
       console.writeln(msg);
     },
     verifyCorrectCombination: function () {
-      const WELL_POSITIONED = `b`;
       for (let i = 0; !game.isCorrectCombination && i < game.resultsOfComparingCombinations[game.attempts].length; i++) {
-        if (game.resultsOfComparingCombinations[game.attempts][i] !== WELL_POSITIONED) {
+        if (game.resultsOfComparingCombinations[game.attempts][i] !== game.WELL_POSITIONED) {
           return game.isCorrectCombination;
         }
       }
