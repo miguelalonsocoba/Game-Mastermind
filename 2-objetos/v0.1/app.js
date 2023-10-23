@@ -46,7 +46,7 @@ function initGame() {
     TITLE: `\n\n----- MASTERMIND -----`,
     ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
     COMBINATIONS_LENGTH: 4,
-    MAXIMUN_ATTEMPTS: 2,
+    MAXIMUN_ATTEMPTS: 10,
     secretCombination: [],
     attempts: 0,
     isCorrectCombination: false,
@@ -154,11 +154,9 @@ function initGame() {
       console.writeln(`\n${game.attempts + 1} attempt${game.attempts !== 0 ? `s` : ``}:\n****`);
     },
     setValidProposedCombination: function () {
-      let proposedCombination;
       do {
-        proposedCombination = console.readString(`Propose a combination: `);
-      } while (!game.isValidCombination(proposedCombination, game));
-      game.proposedCombinations[game.attempts] = proposedCombination;
+        game.proposedCombinations[game.attempts] = console.readString(`Propose a combination: `);
+      } while (!game.isValidCombination(game.proposedCombinations[game.attempts], game));
     },
     compareProposedCombinationWithSecretCombination: function () {
       const WELL_POSITIONED = `b`;
@@ -185,14 +183,14 @@ function initGame() {
       console.writeln(msg);
     },
     verifyCorrectCombination: function () {
-      let isCorrect = true;
       const WELL_POSITIONED = `b`;
-      for (let i = 0; isCorrect && i < game.resultsOfComparingCombinations[game.attempts].length; i++) {
+      for (let i = 0; !game.isCorrectCombination && i < game.resultsOfComparingCombinations[game.attempts].length; i++) {
         if (game.resultsOfComparingCombinations[game.attempts][i] !== WELL_POSITIONED) {
-          isCorrect = false;
+          return game.isCorrectCombination;
         }
       }
-      game.isCorrectCombination = isCorrect;
+      game.isCorrectCombination = true;
+      return game.isCorrectCombination;
     },
     increaseAttemptsByOne: function () {
       game.attempts++;
