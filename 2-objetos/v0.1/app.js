@@ -13,8 +13,8 @@ function playMastermind() {
   } while (continueDialog.isAffirmative());
 }
 
-/*1.- Poner funciones privadas.
- *2.- Poner propiedades del objeto como privadas
+/*1.- Poner funciones privadas. -> Done
+ *2.- Poner propiedades del objeto como privadas -> Done
  *3.- Modificar la función setValidProposedCombination(), para que almecene directamente el valor y no crear una variable local.
  *4.- Generar objetos de la clase ProposedCombination, Result, SecretCombination.
  */
@@ -132,7 +132,7 @@ function initGame() {
         this.verifyCorrectCombination();
         this.increaseAttemptsByOne();
       } while (!game.isCorrectCombination && game.attempts < game.MAXIMUN_ATTEMPTS);
-      if (this.isCorrectCombination) {
+      if (game.isCorrectCombination) {
         this.showWinningMessage();
       } else {
         this.showLosingMessage();
@@ -192,7 +192,7 @@ function initGame() {
           isCorrect = false;
         }
       }
-      this.isCorrectCombination = isCorrect;
+      game.isCorrectCombination = isCorrect;
     },
     increaseAttemptsByOne: function () {
       game.attempts++;
