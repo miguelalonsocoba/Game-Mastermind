@@ -127,7 +127,7 @@ function initGame() {
       do {
         board.showAttempts();
         proposedCombination.proposeAValid(board, game.ALLOWED_COLORS);
-        secretCombination.compare(proposedCombination.getProposedCombinations(), board);
+        secretCombination.compare(proposedCombination.getProposedCombinations(), board.getAttempts());
         board.showComparisonResult(
           proposedCombination.getProposedCombinations(),
           secretCombination.getResultsOfComparingCombinations()
@@ -148,7 +148,7 @@ function initGame() {
       TITLE: `\n\n----- MASTERMIND -----`,
       attempts: 0,
       COMBINATIONS_LENGTH: 4,
-      MAXIMUN_ATTEMPTS: 10,
+      MAXIMUN_ATTEMPTS: 3,
     };
     return {
       showTitle: function () {
@@ -168,7 +168,7 @@ function initGame() {
       },
       showComparisonResult: function (proposedCombinations, resultsOfComparingCombinations) {
         let msg = `\nResults:\n`;
-        for (let i = 0; i < that.resultsOfComparingCombinations.length; i++) {
+        for (let i = 0; i < resultsOfComparingCombinations.length; i++) {
           msg += `${proposedCombinations[i]} --> ${resultsOfComparingCombinations[i]}\n`;
         }
         console.writeln(msg);
@@ -213,9 +213,6 @@ function initGame() {
         }
         return isEquals;
       },
-      getIsCorrectCombination: function () {
-        return this.isCorrectCombination;
-      },
     };
     return {
       setWithoutRepeatedColors: function (allowedColors, combinationsLength) {
@@ -230,7 +227,7 @@ function initGame() {
       getSecretCombination: function () {
         return that.secretCombination;
       },
-      compare: function (combination, { attempts }) {
+      compare: function (combination, attempts) {
         const currentProposedCombination = combination[attempts];
         let comparisonResult = ``;
         for (let i = 0; i < currentProposedCombination.length; i++) {
@@ -245,7 +242,7 @@ function initGame() {
         that.resultsOfComparingCombinations[attempts] = comparisonResult;
       },
       getResultsOfComparingCombinations: function () {
-        return resultsOfComparingCombinations;
+        return that.resultsOfComparingCombinations;
       },
       verifyCorrectCombination: function (attempts) {
         for (let i = 0; !that.isCorrectCombination && i < that.resultsOfComparingCombinations[attempts].length; i++) {
@@ -254,6 +251,9 @@ function initGame() {
           }
         }
         that.isCorrectCombination = true;
+        return that.isCorrectCombination;
+      },
+      getIsCorrectCombination: function () {
         return that.isCorrectCombination;
       },
     };
