@@ -1,0 +1,54 @@
+@startuml
+class MasterMind
+class PlayMasterMind
+class InitYesNoDialog {
+  - question : String
+  + question : String
+  + answer : String
+  + read() : void
+  + isAffirmative() : boolean
+  + isNegative() : boolean
+}
+class InitGame {
+  - ALLOWED_COLORS : string[]
+  + play() : void 
+}
+class InitBoard {
+  - TITLE : String
+  - attempts : number
+  - COMBINATIONS_LENGTH : number
+  - MAXIMUN_ATTEMPTS :  number
+  + showTitle() : void
+  + showAttempts() : void
+  + getAttempts() : number
+  + getCombinationsLength() : number
+  + getMaximunAttempts() : number
+  + showComparisonResult(String[] proposedCombinations, String[] resultsOfComparingCombinations) : void
+  + increaseAttemptsByOne() : void
+  + showWinningMessage() : void
+  + showLosingMessage() : void
+}
+class InitSecretCombination {
+  - secretCombination : String[]
+  - WELL_POSITIONED : String "b"
+  - POORLY_POSITIONED : String "w"
+  - EMPTY : String "E"
+  - resultsOfComparingCombinations : String[]
+  - isCorrectCombination : boolean
+  - isRepeatedColor(String color, String[] secretCombination) : boolean
+  - isWellPositioned(String proposedColor, String secretColor) : boolean
+  - isPoorlyPositioned(String[] secretCombination, String colorToVerify) : boolean
+  
+}
+class InitProposedCombination
+
+MasterMind *-- PlayMasterMind
+
+PlayMasterMind --> InitYesNoDialog
+PlayMasterMind --> InitGame
+
+InitGame *-- InitBoard
+InitGame *-- InitSecretCombination
+InitGame *-- InitProposedCombination
+
+@enduml
