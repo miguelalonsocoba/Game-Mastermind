@@ -6,7 +6,6 @@ playMastermind();
 function playMastermind() {
   let continueDialog = initYesNoDialog(`¿Quieres jugar otra partida?`);
   do {
-    // To do
     const game = initGame();
     game.play();
     continueDialog.read();
@@ -44,76 +43,6 @@ function initYesNoDialog(question) {
 function initGame() {
   const game = {
     ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
-    secretCombination: [],
-    attempts: 0,
-    isCorrectCombination: false,
-    proposedCombinations: [],
-    resultsOfComparingCombinations: [],
-    isRepeatedColor: function (color, secretCombination) {
-      for (let i = 0; i < secretCombination.length; i++) {
-        if (color === secretCombination[i]) {
-          return true;
-        }
-      }
-      return false;
-    },
-    isValidCombination: function (proposedCombination, { ALLOWED_COLORS, COMBINATIONS_LENGTH }) {
-      const MSG_ERRORS = {
-        LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again.`,
-        COLOR_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again.`,
-        REPEATED_COLORS: `Wrong, there are repeated colors. Please try again.`,
-      };
-      if (proposedCombination.length !== COMBINATIONS_LENGTH) {
-        console.writeln(MSG_ERRORS.LENGTH);
-        return false;
-      } else if (!game.areValidColors(proposedCombination, ALLOWED_COLORS)) {
-        console.writeln(MSG_ERRORS.COLOR_NOT_VALID);
-        return false;
-      } else if (game.thereAreRepeatedColors(proposedCombination)) {
-        console.writeln(MSG_ERRORS.REPEATED_COLORS);
-        return false;
-      }
-      return true;
-    },
-    areValidColors: function (proposedCombination, allowedColors) {
-      for (let proposedColor of proposedCombination) {
-        if (!this.isAllowed(proposedColor, allowedColors)) {
-          return false;
-        }
-      }
-      return true;
-    },
-    isAllowed: function (color, allowedColors) {
-      let allowed = false;
-      for (let i = 0; !allowed && i < allowedColors.length; i++) {
-        if (color === allowedColors[i]) {
-          allowed = true;
-        }
-      }
-      return allowed;
-    },
-    thereAreRepeatedColors: function (proposedCombination) {
-      const NOT_FOUND = -1;
-      let uniqueColors = [];
-      for (let color of proposedCombination) {
-        if (uniqueColors.indexOf(color) === NOT_FOUND) {
-          uniqueColors[uniqueColors.length] = color;
-        }
-      }
-      return uniqueColors.length !== proposedCombination.length;
-    },
-    isWellPositioned: function (proposedColor, secretColor) {
-      return proposedColor === secretColor;
-    },
-    isPoorlyPositioned: function (secretCombination, colorToVerify) {
-      let isEquals = false;
-      for (let i = 0; !isEquals && i < secretCombination.length; i++) {
-        if (colorToVerify === secretCombination[i]) {
-          isEquals = true;
-        }
-      }
-      return isEquals;
-    },
   };
 
   return {
@@ -148,7 +77,7 @@ function initGame() {
       TITLE: `\n\n----- MASTERMIND -----`,
       attempts: 0,
       COMBINATIONS_LENGTH: 4,
-      MAXIMUN_ATTEMPTS: 3,
+      MAXIMUN_ATTEMPTS: 10,
     };
     return {
       showTitle: function () {
