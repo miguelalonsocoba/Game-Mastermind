@@ -38,9 +38,21 @@ class InitSecretCombination {
   - isRepeatedColor(String color, String[] secretCombination) : boolean
   - isWellPositioned(String proposedColor, String secretColor) : boolean
   - isPoorlyPositioned(String[] secretCombination, String colorToVerify) : boolean
-  
+  + setWithoutRepeatedColors(String[] allowedColors, number combinationsLength) : void
+  + getSecretCombination() : String[]
+  + compare(String[] combination, number attempts) : void
+  + getResultsOfComparingCombinations() : String[]
+  + verifyCorrectCombination(number attempts) : boolean
+  + getIsCorrectCombination() : boolean
 }
-class InitProposedCombination
+class InitProposedCombination {
+  - isValidCombination(String[] proposedCombination, InitBoard board, String[] allowedColors) : boolean
+  - areValidColor(String[] proposedCombination, String[] allowedColors) : boolean
+  - isAllowed(String color, String[] allowedColors) : boolean
+  - thereAreRepeatedColors(String[] proposedCombination) : boolean
+  + proposeAValid(InitBoard board, String[] allowedColors) : void
+  + getProposedCombinations() : String[]
+}
 
 MasterMind *-- PlayMasterMind
 
