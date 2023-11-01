@@ -15,14 +15,14 @@ class InitGame {
 }
 class InitBoard {
   - TITLE : String
-  - attempts : number
-  - COMBINATIONS_LENGTH : number
-  - MAXIMUN_ATTEMPTS :  number
+  - attempts : Number
+  - COMBINATIONS_LENGTH : Number
+  - MAXIMUN_ATTEMPTS : Number
   + showTitle() : void
   + showAttempts() : void
-  + getAttempts() : number
-  + getCombinationsLength() : number
-  + getMaximunAttempts() : number
+  + getAttempts() : Number
+  + getCombinationsLength() : Number
+  + getMaximunAttempts() : Number
   + showComparisonResult(String[] proposedCombinations, String[] resultsOfComparingCombinations) : void
   + increaseAttemptsByOne() : void
   + showWinningMessage() : void
@@ -38,11 +38,11 @@ class InitSecretCombination {
   - isRepeatedColor(String color, String[] secretCombination) : boolean
   - isWellPositioned(String proposedColor, String secretColor) : boolean
   - isPoorlyPositioned(String[] secretCombination, String colorToVerify) : boolean
-  + setWithoutRepeatedColors(String[] allowedColors, number combinationsLength) : void
+  + setWithoutRepeatedColors(String[] allowedColors, Number combinationsLength) : void
   + getSecretCombination() : String[]
-  + compare(String[] combination, number attempts) : void
+  + compare(String[] combination, Number attempts) : void
   + getResultsOfComparingCombinations() : String[]
-  + verifyCorrectCombination(number attempts) : boolean
+  + verifyCorrectCombination(Number attempts) : boolean
   + getIsCorrectCombination() : boolean
 }
 class InitProposedCombination {
@@ -62,5 +62,8 @@ PlayMasterMind --> InitGame
 InitGame *-- InitBoard
 InitGame *-- InitSecretCombination
 InitGame *-- InitProposedCombination
+
+InitSecretCombination ..> InitBoard
+InitSecretCombination ..> InitProposedCombination
 
 @enduml
