@@ -46,6 +46,7 @@ class InitSecretCombination {
   + getIsCorrectCombination() : boolean
 }
 class InitProposedCombination {
+  - proposedCombinations : String[]
   - isValidCombination(String[] proposedCombination, InitBoard board, String[] allowedColors) : boolean
   - areValidColor(String[] proposedCombination, String[] allowedColors) : boolean
   - isAllowed(String color, String[] allowedColors) : boolean
