@@ -47,10 +47,10 @@ class InitSecretCombination {
 }
 class InitProposedCombination {
   - proposedCombinations : String[]
-  - isValidCombination(String[] proposedCombination, InitBoard board, String[] allowedColors) : boolean
-  - areValidColor(String[] proposedCombination, String[] allowedColors) : boolean
+  - isValidCombination(String proposedCombination, InitBoard board, String[] allowedColors) : boolean
+  - areValidColors(String proposedCombination, String[] allowedColors) : boolean
   - isAllowed(String color, String[] allowedColors) : boolean
-  - thereAreRepeatedColors(String[] proposedCombination) : boolean
+  - thereAreRepeatedColors(String proposedCombination) : boolean
   + proposeAValid(InitBoard board, String[] allowedColors) : void
   + getProposedCombinations() : String[]
 }
