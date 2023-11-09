@@ -16,49 +16,58 @@ class InitYesNoDialog {
 class InitGame {
  + play() : void
 }
-class Board {
- - TITLE : String
- - ALLOWED_COLORS : String[]
- - COMBINATIONS_LENGTH : Number
- - MAXIMUN_ATTEMPTS : Number
+class InitBoard {
+ - TITLE : "MASTERMIND"
+ - ALLOWED_COLORS : ["r", "g", "b", "y", "c", "m"]
+ - COMBINATIONS_LENGTH : 4
+ - MAXIMUN_ATTEMPTS : 10
  - attempts : Number
- - resultsOfComparingCombinations : String[]
- - proposedCombinations : String[]
  
  + showTitle() : void
  + showAttempts() : void
  + getAttempts() : attempts
  + getCombinationsLength() : COMBINATIONS_LENGTH
  + getMaximunAttempts() : MAXIMUN_ATTEMPTS
- + showComparisonResult() : void
  + increaseAttemptsByOne() : void
  + showWinningMessage() : void
  + showLosingMessage() : void
+ + getAllowedColors() : ALLOWED_COLORS
  
 }
 
-class SecretCombinationCreator {
+class InitSecretCombinationCreator {
  - secretCombination : String[]
  - WELL_POSITIONED : "b"
  - POORLY_POSITIONED : "W"
  - EMPTY : "e"
- - correctCombination : boolean
+ - isCorrectCombination : false
+ - resultsOfComparingCombinations : String[]
  
+ - getWellPositioned() : WELL_POSITIONED
+ - getPoorlyPositioned() : POORLY_POSITIONED
+ - getEmpty() : EMPTY
+ - addToSecretCombination(color) : void
  - isRepeatedColor(color, secretCombination) : boolean
  - isWellPositioned(proposedColor, secretColor) : boolean
  - isPoorlyPositioned(secretCombination, colorToVerify) : boolean
+ - addResultsOfComparingCombinations(comparisonResult) : void
+ - setIsCorrectCombination(value) : void
  + setCombinationWithoutRepeatedColors(Board board) : void
  + getSecretCombination() : secretCombination
  + compare(String[] combination) : void
- + getResultsOfComparingCombination() : String[][]
  + verifyCorrectCombination() : boolean
  + isCorrectCombination() : correctCombination
+ + getResultsOfComparingCombination() : String[][]
+ + showComparisonResult() : void
 }
-class Decipher {
+class InitDecipher {
+ - proposedCombinations : String[]
+ 
  - isValidCombination(String proposedCombination, Board board) : boolean
- - areValidColors(String proposedCombination, Board board) : boolean
- - isAllowed(String color, Board board) : boolean
+ - areValidColors(String proposedCombination, String[] allowedColors) : boolean
+ - isAllowed(String color, String[] allowedColors) : boolean
  - thereAreRepeatedColors(String proposedCombination) : boolean
+ - addProposedCombination(combination) : void
  + proposeAValid(Board board) : void
  + getProposedCombinations() : String[]
 }
@@ -68,22 +77,23 @@ MasterMind *-- PlayMasterMind
 PlayMasterMind --> InitYesNoDialog
 PlayMasterMind --> InitGame
 
-InitGame *-- Board
-InitGame *-- SecretCombinationCreator
+InitGame *-- InitBoard
+InitGame *-- InitSecretCombinationCreator
+InitGame *-- InitDecipher
 
-note left of SecretCombinationCreator::compare
+note left of InitSecretCombinationCreator::compare
  Check
 end note
-note left of SecretCombinationCreator::getResultsOfComparingCombination
+note left of InitSecretCombinationCreator::getResultsOfComparingCombination
  Check
 end note
-note left of SecretCombinationCreator::verifyCorrectCombination
+note left of InitSecretCombinationCreator::verifyCorrectCombination
  Check
 end note
-note left of Decipher::getProposedCombinations
+note left of InitDecipher::getProposedCombinations
  Cambiar por getProposedCombinationCurrently(attempt) : String
 end note
-note left of SecretCombinationCreator::correctCombination
+note left of InitSecretCombinationCreator::correctCombination
  Cambiar por "es decifrada"
 end note
 @enduml

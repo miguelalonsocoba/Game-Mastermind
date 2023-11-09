@@ -151,8 +151,8 @@ function initGame() {
       getSecretCombination: function () {
         return that.secretCombination;
       },
-      compare: function (combination, attempts) {
-        const currentProposedCombination = combination[attempts];
+      compare: function (combinations, attempts) {
+        const currentProposedCombination = combinations[attempts];
         let comparisonResult = ``;
         for (let i = 0; i < currentProposedCombination.length; i++) {
           if (that.isWellPositioned(currentProposedCombination[i], that.secretCombination[i])) {

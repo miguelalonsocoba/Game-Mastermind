@@ -40,7 +40,7 @@ class InitSecretCombination {
   - isPoorlyPositioned(String[] secretCombination, String colorToVerify) : boolean
   + setWithoutRepeatedColors(String[] allowedColors, Number combinationsLength) : void
   + getSecretCombination() : String[]
-  + compare(String[] combination, Number attempts) : void
+  + compare(String[] combinations, Number attempts) : void
   + getResultsOfComparingCombinations() : String[]
   + verifyCorrectCombination(Number attempts) : boolean
   + getIsCorrectCombination() : boolean
