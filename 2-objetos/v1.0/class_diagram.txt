@@ -36,7 +36,7 @@ class InitBoard {
 }
 
 class InitSecretCombinationCreator {
- - secretCombination : String[]
+ - secretCombination : String
  - WELL_POSITIONED : "b"
  - POORLY_POSITIONED : "W"
  - EMPTY : "e"
@@ -52,7 +52,7 @@ class InitSecretCombinationCreator {
  - isPoorlyPositioned(secretCombination, colorToVerify) : boolean
  - addResultsOfComparingCombinations(comparisonResult) : void
  - setIsCorrectCombination(value) : void
- + setCombinationWithoutRepeatedColors(Board board) : void
+ - setCombinationWithoutRepeatedColors(Number combinationsLength, String[] allowedColors) : void
  + getSecretCombination() : secretCombination
  + compare(String[] combination) : void
  + verifyCorrectCombination() : boolean
@@ -68,7 +68,7 @@ class InitDecipher {
  - isAllowed(String color, String[] allowedColors) : boolean
  - thereAreRepeatedColors(String proposedCombination) : boolean
  - addProposedCombination(combination) : void
- + proposeAValid(Board board) : void
+ + proposeAValidCombination(Board board) : void
  + getProposedCombinations() : String[]
 }
 
