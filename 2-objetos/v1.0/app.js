@@ -41,17 +41,16 @@ function initYesNoDialog(question) {
 function initGame() {
   return {
     play: function () {
-      const board = initBoard();
-      const secretCombinaCreator = initSecretCombinationCreator();
+      const board = initBoard(); //La funcionalidad del Board solo es almacenar la combinación secreta, las combinaciones propuestas y los resultados de comparar ambas combinaciones.
+      const secretCombinaCreator = initSecretCombinationCreator(board.getCombinationLength(), board.getAllowedColors());
       const decipher = initDecipher();
 
       board.showTitle();
-      secretCombinaCreator.setCombinationWithoutRepeatedColors(board);
       console.writeln(secretCombinaCreator.getSecretCombination());
       do {
         board.showAttempts();
-        decipher.proposeAValid(board);
-        secretCombinaCreator.compare(decipher.getProposedCombinations[board.getAttempts()]);
+        decipher.proposeAValidCombination(board); //La combinación propuesta se debera agregar al Board.
+        secretCombinaCreator.compare(decipher.getProposedCombinations()[board.getAttempts()]);
         secretCombinaCreator.showComparisonResult(decipher.getProposedCombinations());
         secretCombinaCreator.verifyCorrectCombination();
         board.increaseAttemptsByOne();
@@ -104,9 +103,9 @@ function initGame() {
     };
   }
 
-  function initSecretCombinationCreator() {
+  function initSecretCombinationCreator(combinationsLength, allowedColors) {
     const that = {
-      secretCombination: [],
+      secretCombination: ``,
       WELL_POSITIONED: "b",
       POORLY_POSITIONED: "w",
       EMPTY: "e",
@@ -132,7 +131,7 @@ function initGame() {
         return false;
       },
       addToSecretCombination: function (color) {
-        this.secretCombination[this.secretCombination.length] = color;
+        that.secretCombination += color;
       },
       getWellPositioned: function () {
         return that.WELL_POSITIONED;
@@ -147,20 +146,23 @@ function initGame() {
         that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length] = comparisonResult;
       },
       setIsCorrectCombination: function (value) {
+        console.writeln(`-----------------Value: ${value} -----------------`);
         that.isCorrectCombination = value;
       },
-    };
-
-    return {
-      setCombinationWithoutRepeatedColors: function (board) {
-        for (let i = 0; i < board.getCombinationLength(); i++) {
+      setCombinationWithoutRepeatedColors: function (combinationsLength, allowedColors) {
+        for (let i = 0; i < combinationsLength; i++) {
           let randomColor;
           do {
-            randomColor = board.getAllowedColors()[parseInt(Math.random() * board.getAllowedColors().length)];
-          } while (that.isRepeatedColor(randomColor, this.getSecretCombination()));
+            randomColor = allowedColors[parseInt(Math.random() * allowedColors.length)];
+          } while (this.isRepeatedColor(randomColor, this.secretCombination));
           that.addToSecretCombination(randomColor);
         }
       },
+    };
+
+    that.setCombinationWithoutRepeatedColors(combinationsLength, allowedColors);
+
+    return {
       getSecretCombination: function () {
         return that.secretCombination;
       },
@@ -191,18 +193,18 @@ function initGame() {
         for (
           let i = 0;
           !this.isCorrectCombination() &&
-          i < this.getResultsOfComparingCombination()[this.getResultsOfComparingCombination().length];
+          i < this.getResultsOfComparingCombination()[this.getResultsOfComparingCombination().length - 1].length;
           i++
         ) {
           if (
-            this.getResultsOfComparingCombination()[this.getResultsOfComparingCombination().length][i] !==
+            this.getResultsOfComparingCombination()[this.getResultsOfComparingCombination().length - 1][i] !==
             that.getWellPositioned()
           ) {
             return this.isCorrectCombination();
           }
-          that.setIsCorrectCombination(true);
-          return this.isCorrectCombination();
         }
+        that.setIsCorrectCombination(true);
+        return this.isCorrectCombination();
       },
       isCorrectCombination: function () {
         return that.isCorrectCombination;
@@ -264,7 +266,7 @@ function initGame() {
     };
 
     return {
-      proposeAValid: function (board) {
+      proposeAValidCombination: function (board) {
         let combination;
         do {
           combination = console.readString(`Propose a combination: `);
