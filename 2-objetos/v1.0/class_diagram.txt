@@ -43,22 +43,22 @@ class InitSecretCombinationCreator {
  - isCorrectCombination : false
  - resultsOfComparingCombinations : String[]
  
+ - isRepeatedColor(String color, String secretCombination) : boolean
+ - isWellPositioned(String proposedColor, String secretColor) : boolean
+ - isPoorlyPositioned(String colorToVerify, String secretCombination) : boolean
+ - addToSecretCombination(String color) : void
  - getWellPositioned() : WELL_POSITIONED
  - getPoorlyPositioned() : POORLY_POSITIONED
  - getEmpty() : EMPTY
- - addToSecretCombination(color) : void
- - isRepeatedColor(color, secretCombination) : boolean
- - isWellPositioned(proposedColor, secretColor) : boolean
- - isPoorlyPositioned(secretCombination, colorToVerify) : boolean
- - addResultsOfComparingCombinations(comparisonResult) : void
- - setIsCorrectCombination(value) : void
+ - addResultsOfComparingCombinations(String comparisonResult) : void
+ - setIsCorrectCombination(Boolean value) : void
  - setCombinationWithoutRepeatedColors(Number combinationsLength, String[] allowedColors) : void
  + getSecretCombination() : secretCombination
- + compare(String[] combination) : void
+ + compare(String combination) : void
+ + showComparisonResult() : void
+ + getResultsOfComparingCombination() : resultsOfComparingCombinations
  + verifyCorrectCombination() : boolean
  + isCorrectCombination() : correctCombination
- + getResultsOfComparingCombination() : String[][]
- + showComparisonResult() : void
 }
 class InitDecipher {
  - proposedCombinations : String[]
@@ -67,9 +67,9 @@ class InitDecipher {
  - areValidColors(String proposedCombination, String[] allowedColors) : boolean
  - isAllowed(String color, String[] allowedColors) : boolean
  - thereAreRepeatedColors(String proposedCombination) : boolean
- - addProposedCombination(combination) : void
+ - addProposedCombination(String combination) : void
  + proposeAValidCombination(Board board) : void
- + getProposedCombinations() : String[]
+ + getProposedCombinations() : proposedCombinations
 }
 
 MasterMind *-- PlayMasterMind

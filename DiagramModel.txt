@@ -1,0 +1,58 @@
+@startuml
+class Mastermind
+class Board
+class Token
+class TokensResult
+class ProposalTokens
+class Player
+class SecretCombinationCreator
+class Decipher
+class Attempt
+class Action
+class GenerateSecretCombination
+class GenerateDecryption
+class Black
+class White
+class Red
+class Green
+class Blue
+class Yellow
+class Cian
+class Magenta
+
+Mastermind *-- Board
+Mastermind *-- "2" Player
+Mastermind *-- "80" Token
+Mastermind *-- "10" Attempt
+Mastermind *-- Action
+
+Player <|-- SecretCombinationCreator
+Player <|-- Decipher
+
+SecretCombinationCreator --> Board : create secret combination
+SecretCombinationCreator ..> GenerateSecretCombination
+
+Decipher --> Board : deciphers
+Decipher ..> "10" Attempt
+Decipher ..> "1..10" GenerateDecryption
+Decipher ..> "80" ProposalTokens
+
+Token <|-- TokensResult
+Token <|-- ProposalTokens
+
+Board o-- "0-80" Token
+
+Action <|-- GenerateSecretCombination
+Action <|-- GenerateDecryption
+
+TokensResult --> "20" Black
+TokensResult --> "20" White
+
+ProposalTokens --> Red
+ProposalTokens --> Green
+ProposalTokens --> Blue
+ProposalTokens --> Yellow
+ProposalTokens --> Cian
+ProposalTokens --> Magenta
+
+@enduml

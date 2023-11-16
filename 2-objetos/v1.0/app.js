@@ -146,7 +146,6 @@ function initGame() {
         that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length] = comparisonResult;
       },
       setIsCorrectCombination: function (value) {
-        console.writeln(`-----------------Value: ${value} -----------------`);
         that.isCorrectCombination = value;
       },
       setCombinationWithoutRepeatedColors: function (combinationsLength, allowedColors) {
