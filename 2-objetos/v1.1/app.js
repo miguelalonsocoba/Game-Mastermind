@@ -4,7 +4,7 @@ const console = new Console();
 playMasterMind();
 
 function playMasterMind() {
-    const continueDialog = initYesNoDialog(`Do you want play again?`);
+    const continueDialog = initYesNoDialog(`Do you want to play again?`);
     do {
         const game = initGame();
         game.play();
