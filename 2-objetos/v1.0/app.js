@@ -39,17 +39,22 @@ function initYesNoDialog(question) {
 }
 
 function initGame() {
+  const that = {
+    ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
+    COMBINATIONS_LENGTH: 4,
+  }
+
   return {
     play: function () {
-      const board = initBoard(); //La funcionalidad del Board solo es almacenar la combinación secreta, las combinaciones propuestas y los resultados de comparar ambas combinaciones.
-      const secretCombinaCreator = initSecretCombinationCreator(board.getCombinationLength(), board.getAllowedColors());
+      const board = initBoard();
+      const secretCombinaCreator = initSecretCombinationCreator(that.COMBINATIONS_LENGTH, that.ALLOWED_COLORS);
       const decipher = initDecipher();
 
       board.showTitle();
       console.writeln(secretCombinaCreator.getSecretCombination());
       do {
         board.showAttempts();
-        decipher.proposeAValidCombination(board); //La combinación propuesta se debera agregar al Board.
+        decipher.proposeAValidCombination(that.ALLOWED_COLORS, that.COMBINATIONS_LENGTH);
         secretCombinaCreator.compare(decipher.getProposedCombinations()[board.getAttempts()]);
         secretCombinaCreator.showComparisonResult(decipher.getProposedCombinations());
         secretCombinaCreator.verifyCorrectCombination();
@@ -66,8 +71,6 @@ function initGame() {
   function initBoard() {
     const that = {
       TITLE: `\n\n----- MASTERMIND -----`,
-      ALLOWED_COLORS: ["r", "g", "b", "y", "c", "m"],
-      COMBINATIONS_LENGTH: 4,
       MAXIMUN_ATTEMPTS: 10,
       attempts: 0,
     };
@@ -82,9 +85,6 @@ function initGame() {
       getAttempts: function () {
         return that.attempts;
       },
-      getCombinationLength: function () {
-        return that.COMBINATIONS_LENGTH;
-      },
       getMaximunAttempts: function () {
         return that.MAXIMUN_ATTEMPTS;
       },
@@ -96,9 +96,6 @@ function initGame() {
       },
       showLosingMessage: function () {
         console.writeln(`:( :( !!!!!!!!!!!! SORRY, YOU LOST !!!!!!!!!!!!`);
-      },
-      getAllowedColors: function () {
-        return that.ALLOWED_COLORS;
       },
     };
   }
@@ -214,26 +211,26 @@ function initGame() {
   function initDecipher() {
     const that = {
       proposedCombinations: [],
-      isValidCombination: function (proposedCombination, board) {
+      isValidCombination: function (combination, allowedColors, combinationsLength) {
         const MSG_ERRORS = {
           LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again.`,
           COLOR_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again.`,
           REPEATED_COLORS: `Wrong, there are repeated colors. Please try again.`,
         };
-        if (proposedCombination.length !== board.getCombinationLength()) {
+        if (combination.length !== combinationsLength) {
           console.writeln(MSG_ERRORS.LENGTH);
           return false;
-        } else if (!that.areValidColors(proposedCombination, board.getAllowedColors())) {
+        } else if (!that.areValidColors(combination, allowedColors)) {
           console.writeln(MSG_ERRORS.COLOR_NOT_VALID);
           return false;
-        } else if (that.thereAreRepeatedColors(proposedCombination)) {
+        } else if (that.thereAreRepeatedColors(combination)) {
           console.writeln(MSG_ERRORS.REPEATED_COLORS);
           return false;
         }
         return true;
       },
-      areValidColors: function (proposedCombination, allowedColors) {
-        for (let proposedColor of proposedCombination) {
+      areValidColors: function (combination, allowedColors) {
+        for (let proposedColor of combination) {
           if (!that.isAllowed(proposedColor, allowedColors)) {
             return false;
           }
@@ -265,11 +262,11 @@ function initGame() {
     };
 
     return {
-      proposeAValidCombination: function (board) {
+      proposeAValidCombination: function (allowedColors, combinationsLength) {
         let combination;
         do {
           combination = console.readString(`Propose a combination: `);
-        } while (!that.isValidCombination(combination, board));
+        } while (!that.isValidCombination(combination, allowedColors, combinationsLength));
         that.addProposedCombination(combination);
       },
       getProposedCombinations: function () {
