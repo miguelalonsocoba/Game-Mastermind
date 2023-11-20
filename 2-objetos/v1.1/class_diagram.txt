@@ -82,4 +82,10 @@
   InitGame *-- InitSecretCombinationCreator
   InitGame *-- InitDecipher
   
+  InitResult o-- "0-10" InitSecretCombinationCreator : "Results compare"
+  InitResult ..> InitDecipher : "Show proposed combinations"
+  
+  InitSecretCombinationCreator ..> InitDecipher : "Proposed combinations"
+  InitSecretCombinationCreator ..> InitResult : "Result
+  
   @enduml
