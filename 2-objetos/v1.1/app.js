@@ -78,7 +78,7 @@ function initGame() {
                 decipher.proposeAValidCombination(game.getAllowedColors(), game.getCombinationsLength());
                 result.addResultsOfComparingCombinations(secretCombinationCreator.compare(decipher.getProposedCombinationCurrently(game.getAttempts())));
                 result.showComparisonResult(decipher.getProposedCombinations());
-                secretCombinationCreator.verifyCorrectCombination(result.getResultsOfComparingCombinations()[game.getAttempts()]);
+                secretCombinationCreator.verifyCorrectCombination(result.getResultsOfComparingCombinationsCurrently(game.getAttempts()));
                 game.increaseAttemptsByOne();
             } while (!secretCombinationCreator.isCorrectCombination() && game.getAttempts() < game.getMaximunAttempts());
             if (secretCombinationCreator.isCorrectCombination()) {
@@ -110,8 +110,8 @@ function initGame() {
                 }
                 console.writeln(msg);
             },
-            getResultsOfComparingCombinations: function () {
-                return that.resultsOfComparingCombinations;
+            getResultsOfComparingCombinationsCurrently: function (currently) {
+                return that.resultsOfComparingCombinations[currently];
             }
         };
     }

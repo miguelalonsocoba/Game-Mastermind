@@ -19,6 +19,9 @@
    - TITLE : "MASTERMIND"
    - MAXIMUN_ATTEMPTS : 10
    - attempts : Number
+   - result : InitResult
+   - secretCombinationCreator : InitSecretCombinationCreator
+   - decipher : InitDecipher
    
    - showTitle() : void
    - showAttempts() : void
@@ -36,7 +39,7 @@
    + showLosingMessage() : void
    + addResutlsOfCompaingCombinations(String resultOfComparing) : void
    + showComparisonResult(String[] proposedCombinations) : void
-   + getResultsOfComparingCombination() : resultsOfComparingCombinations
+   + getResultsOfComparingCombinationsCurrently(Number currently) : String resultsOfComparingCombinations
   }
   
   class InitSecretCombinationCreator {
