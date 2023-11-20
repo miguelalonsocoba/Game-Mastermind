@@ -66,11 +66,11 @@ function initGame() {
             return game.ALLOWED_COLORS;
         }
     };
+        const result = initResult();
+        const secretCombinationCreator = initSecretCombinationCreator(game.getCombinationsLength(), game.getAllowedColors());
+        const decipher = initDecipher();
     return {
         play: function () {
-            const result = initResult();
-            const secretCombinationCreator = initSecretCombinationCreator(game.getCombinationsLength(), game.getAllowedColors());
-            const decipher = initDecipher();
             game.showTitle();
             console.writeln(secretCombinationCreator.getSecretCombination());
             do {
