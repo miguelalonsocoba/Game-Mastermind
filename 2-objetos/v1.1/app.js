@@ -20,7 +20,6 @@ function initYesNoDialog(question) {
             return that.answer === `no`;
         }
     };
-
     return {
         read: function () {
             let error = false;
@@ -66,14 +65,12 @@ function initGame() {
         getAllowedColors: function () {
             return game.ALLOWED_COLORS;
         }
-    }
-
+    };
     return {
         play: function () {
             const result = initResult();
             const secretCombinationCreator = initSecretCombinationCreator(game.getCombinationsLength(), game.getAllowedColors());
             const decipher = initDecipher();
-
             game.showTitle();
             console.writeln(secretCombinationCreator.getSecretCombination());
             do {
@@ -90,13 +87,12 @@ function initGame() {
                 result.showLosingMessage();
             }
         }
-    }
+    };
 
     function initResult() {
         const that = {
             resultsOfComparingCombinations: []
-        }
-
+        };
         return {
             showWinningMessage: function () {
                 console.writeln(`:) :) !!!!!!!!!!!! WELL DONE, YOU HAVE WON !!!!!!!!!!!`);
@@ -117,7 +113,7 @@ function initGame() {
             getResultsOfComparingCombinations: function () {
                 return that.resultsOfComparingCombinations;
             }
-        }
+        };
     }
 
     function initSecretCombinationCreator(combinationsLength, allowedColors) {
@@ -170,11 +166,8 @@ function initGame() {
                     that.addToSecretCombination(randomColor);
                 }
             },
-
         };
-
         that.setCombinationWithoutRepeatedColors(combinationsLength, allowedColors);
-
         return {
             getSecretCombination: function () {
                 return that.secretCombination;
@@ -204,7 +197,7 @@ function initGame() {
             isCorrectCombination: function () {
                 return that.isCorrectCombination;
             }
-        }
+        };
     }
 
     function initDecipher () {
@@ -258,8 +251,7 @@ function initGame() {
             addProposedCombination: function (combination) {
                 that.proposedCombinations[that.proposedCombinations.length] = combination;
             }
-        }
-
+        };
         return {
             proposeAValidCombination: function (allowedColors, combinationsLength) {
                 let combination;
@@ -274,6 +266,6 @@ function initGame() {
             getProposedCombinationCurrently: function (currently) {
                 return that.proposedCombinations[currently];
             }
-        }
+        };
     }
 }
