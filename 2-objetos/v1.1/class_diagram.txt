@@ -75,8 +75,8 @@
   
   MasterMind *-- PlayMasterMind
   
-  PlayMasterMind --> InitYesNoDialog
-  PlayMasterMind --> InitGame
+  PlayMasterMind *-- InitYesNoDialog
+  PlayMasterMind *-- InitGame
   
   InitGame *-- InitResult
   InitGame *-- InitSecretCombinationCreator
