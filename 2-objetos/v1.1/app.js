@@ -48,26 +48,14 @@ function initGame() {
             console.writeln(game.TITLE);
         },
         showAttempts: function () {
-            console.writeln(`\n${game.getAttempts() + 1} attempt${game.getAttempts() !== 0 ? `s` : ``}:\n****`);
-        },
-        getAttempts: function () {
-            return game.attempts;
-        },
-        getMaximunAttempts: function () {
-            return game.MAXIMUN_ATTEMPTS;
+            console.writeln(`\n${game.attempts + 1} attempt${game.attempts !== 0 ? `s` : ``}:\n****`);
         },
         increaseAttemptsByOne: function () {
             game.attempts++;
-        },
-        getCombinationsLength: function () {
-            return game.COMBINATIONS_LENGTH;
-        },
-        getAllowedColors: function () {
-            return game.ALLOWED_COLORS;
         }
     };
         const result = initResult();
-        const secretCombinationCreator = initSecretCombinationCreator(game.getCombinationsLength(), game.getAllowedColors());
+        const secretCombinationCreator = initSecretCombinationCreator(game.COMBINATIONS_LENGTH, game.ALLOWED_COLORS);
         const decipher = initDecipher();
     return {
         play: function () {
@@ -75,12 +63,12 @@ function initGame() {
             console.writeln(secretCombinationCreator.getSecretCombination());
             do {
                 game.showAttempts();
-                decipher.proposeAValidCombination(game.getAllowedColors(), game.getCombinationsLength());
-                result.addResultsOfComparingCombinations(secretCombinationCreator.compare(decipher.getProposedCombinationCurrently(game.getAttempts())));
+                decipher.proposeAValidCombination(game.ALLOWED_COLORS, game.COMBINATIONS_LENGTH);
+                result.addResultsOfComparingCombinations(secretCombinationCreator.compare(decipher.getProposedCombinationCurrently(game.attempts)));
                 result.showComparisonResult(decipher.getProposedCombinations());
-                secretCombinationCreator.verifyCorrectCombination(result.getResultsOfComparingCombinationsCurrently(game.getAttempts()));
+                secretCombinationCreator.verifyCorrectCombination(result.getResultsOfComparingCombinationsCurrently(game.attempts));
                 game.increaseAttemptsByOne();
-            } while (!secretCombinationCreator.isCorrectCombination() && game.getAttempts() < game.getMaximunAttempts());
+            } while (!secretCombinationCreator.isCorrectCombination() && game.attempts < game.MAXIMUN_ATTEMPTS);
             if (secretCombinationCreator.isCorrectCombination()) {
                 result.showWinningMessage();
             } else {
@@ -145,15 +133,6 @@ function initGame() {
             addToSecretCombination: function (color) {
                 that.secretCombination += color;
             },
-            getWellPositioned: function () {
-                return that.WELL_POSITIONED;
-            },
-            getPoorlyPositioned: function () {
-                return that.POORLY_POSITIONED;
-            },
-            getEmpty: function () {
-                return that.EMPTY;
-            },
             setIsCorrectCombination: function (value) {
                 that.isCorrectCombination = value;
             },
@@ -176,18 +155,18 @@ function initGame() {
                 let comparisonResult = ``;
                 for (let i = 0; i < combination.length; i++) {
                     if (that.isWellPositioned(combination[i], this.getSecretCombination()[i])) {
-                        comparisonResult += that.getWellPositioned();
+                        comparisonResult += that.WELL_POSITIONED;
                     } else if (that.isPoorlyPositioned(combination[i], this.getSecretCombination())) {
-                        comparisonResult += that.getPoorlyPositioned();
+                        comparisonResult += that.POORLY_POSITIONED;
                     } else {
-                        comparisonResult += that.getEmpty();
+                        comparisonResult += that.EMPTY;
                     }
                 }
                 return comparisonResult;
             },
             verifyCorrectCombination: function (resultOfComparingCombination) {
                 for (let i = 0; !this.isCorrectCombination() && i < resultOfComparingCombination.length; i++) {
-                    if (resultOfComparingCombination[i] !== that.getWellPositioned()) {
+                    if (resultOfComparingCombination[i] !== that.WELL_POSITIONED) {
                         return this.isCorrectCombination();
                     }
                 }
