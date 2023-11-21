@@ -1,6 +1,6 @@
   @startuml
-  class MasterMind
-  class PlayMasterMind {
+  class InitMasterMind {
+   - playMaserMind() : void
    - continueDialog : InitYesNoDialog
    - game : InitGame
   }
@@ -25,11 +25,7 @@
    
    - showTitle() : void
    - showAttempts() : void
-   - getAttempts() : attempts
-   - getMaximunAttempts() : MAXIMUN_ATTEMPTS
    - increaseAttemptsByOne() : void
-   - getCombinationsLength() : Number COMBINATIONS_LENGTH
-   - getAllowedColors() : String[] ALLOWED_COLORS
    + play() : void
   }
   class InitResult {
@@ -53,9 +49,6 @@
    - isWellPositioned(String proposedColor, String secretColor) : boolean
    - isPoorlyPositioned(String colorToVerify, String secretCombination) : boolean
    - addToSecretCombination(String color) : void
-   - getWellPositioned() : WELL_POSITIONED
-   - getPoorlyPositioned() : POORLY_POSITIONED
-   - getEmpty() : EMPTY
    - setIsCorrectCombination(Boolean value) : void
    - setCombinationWithoutRepeatedColors(Number combinationsLength, String[] allowedColors) : void
    + getSecretCombination() : secretCombination
@@ -76,10 +69,8 @@
    + getProposedCombinationCurrently(Number currently) : String proposedCombinationCurrently
   }
   
-  MasterMind *-- PlayMasterMind
-  
-  PlayMasterMind *-- InitYesNoDialog
-  PlayMasterMind *-- InitGame
+  InitMasterMind *-- InitYesNoDialog
+  InitMasterMind *-- InitGame
   
   InitGame *-- InitResult
   InitGame *-- InitSecretCombinationCreator

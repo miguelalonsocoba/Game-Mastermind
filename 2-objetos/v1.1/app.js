@@ -1,15 +1,21 @@
 const { Console } = require("console-mpds");
 const console = new Console();
 
-playMasterMind();
+const game = initMasterMind();
+game.playMasterMind();
 
-function playMasterMind() {
+function initMasterMind() {
     const continueDialog = initYesNoDialog(`Do you want to play again?`);
-    do {
-        const game = initGame();
-        game.play();
-        continueDialog.read();
-    } while (continueDialog.isAffirmative());
+    const game = initGame();
+    
+    return {
+        playMasterMind: function () {
+            do {
+                game.play();
+                continueDialog.read();
+            } while (continueDialog.isAffirmative());
+        }
+    }
 }
 
 function initYesNoDialog(question) {
