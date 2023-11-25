@@ -2,14 +2,14 @@ const { Console } = require("console-mpds");
 const console = new Console();
 
 const game = initMasterMind();
-game.playMasterMind();
+game.play();
 
 function initMasterMind() {
     const continueDialog = initYesNoDialog(`Do you want to play again?`);
     const game = initGame();
 
     return {
-        playMasterMind: function () {
+        play: function () {
             do {
                 game.play();
                 continueDialog.read();
@@ -69,7 +69,7 @@ function initGame() {
             console.writeln(secretCombinationCreator.getSecretCombination());
             do {
                 game.showAttempts();
-                decipher.proposeAValidCombination(game.ALLOWED_COLORS, game.COMBINATIONS_LENGTH);
+                decipher.proposeAValidCombination(game);
                 result.addResultsOfComparingCombinations(secretCombinationCreator.compare(decipher.getProposedCombinationCurrently(game.attempts)));
                 result.showComparisonResult(decipher.getProposedCombinations());
                 secretCombinationCreator.verifyCorrectCombination(result.getResultsOfComparingCombinationsCurrently(game.attempts));
@@ -188,16 +188,16 @@ function initGame() {
     function initDecipher () {
         const that = {
             proposedCombinations: [],
-            isValidCombination: function (combination, allowedColors, combinationsLength) {
+            isValidCombination: function (combination, game) {
                 const MSG_ERRORS = {
-                    LENGTH: `Wrong proposed combination length!!! (Correct length 4). Please try again.`,
+                    LENGTH: `Wrong proposed combination length!!! (Correct length ${game.COMBINATIONS_LENGTH}). Please try again.`,
                     COLOR_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again.`,
                     REPEATED_COLORS: `Wrong, there are repeated colors. Please try again.`,
                   };
-                  if (combination.length !== combinationsLength) {
+                  if (combination.length !== game.COMBINATIONS_LENGTH) {
                     console.writeln(MSG_ERRORS.LENGTH);
                     return false;
-                  } else if (!that.areValidColors(combination, allowedColors)){
+                  } else if (!that.areValidColors(combination, game.ALLOWED_COLORS)){
                     console.writeln(MSG_ERRORS.COLOR_NOT_VALID);
                     return false;
                   } else if (that.thereAreRepeatedColors(combination)) {
@@ -238,11 +238,11 @@ function initGame() {
             }
         };
         return {
-            proposeAValidCombination: function (allowedColors, combinationsLength) {
+            proposeAValidCombination: function (game) {
                 let combination;
                 do {
                     combination = console.readString(`Propose a combination: `);
-                } while (!that.isValidCombination(combination, allowedColors, combinationsLength));
+                } while (!that.isValidCombination(combination, game));
                 that.addProposedCombination(combination);
             },
             getProposedCombinations: function () {

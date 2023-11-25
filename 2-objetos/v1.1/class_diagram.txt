@@ -59,12 +59,12 @@
   class InitDecipher {
    - proposedCombinations : String[]
    
-   - isValidCombination(String combination, String[] allowedColors, Number combinationsLength) : boolean
+   - isValidCombination(String combination, Game game) : boolean
    - areValidColors(String combination, String[] allowedColors) : boolean
    - isAllowed(String color, String[] allowedColors) : boolean
    - thereAreRepeatedColors(String combination) : boolean
    - addProposedCombination(String combination) : void
-   + proposeAValidCombination(String[] allowedColors, Number combinationsLength) : void
+   + proposeAValidCombination(Game game) : void
    + getProposedCombinations() : proposedCombinations
    + getProposedCombinationCurrently(Number currently) : String proposedCombinationCurrently
   }
