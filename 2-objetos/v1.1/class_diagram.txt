@@ -1,8 +1,9 @@
   @startuml
   class InitMasterMind {
-   - playMaserMind() : void
    - continueDialog : InitYesNoDialog
    - game : InitGame
+   
+   + play() : void
   }
   class InitYesNoDialog {
    - question : String
@@ -44,6 +45,8 @@
    - POORLY_POSITIONED : "W"
    - EMPTY : "e"
    - isCorrectCombination : false
+   - combinationsLength : Number
+   - allowedColors : String[]
    
    - isRepeatedColor(String color, String secretCombination) : boolean
    - isWellPositioned(String proposedColor, String secretColor) : boolean
