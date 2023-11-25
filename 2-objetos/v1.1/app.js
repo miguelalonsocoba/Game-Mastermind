@@ -7,7 +7,7 @@ game.playMasterMind();
 function initMasterMind() {
     const continueDialog = initYesNoDialog(`Do you want to play again?`);
     const game = initGame();
-    
+
     return {
         playMasterMind: function () {
             do {
@@ -60,9 +60,9 @@ function initGame() {
             game.attempts++;
         }
     };
-        const result = initResult();
-        const secretCombinationCreator = initSecretCombinationCreator(game.COMBINATIONS_LENGTH, game.ALLOWED_COLORS);
-        const decipher = initDecipher();
+    const result = initResult();
+    const secretCombinationCreator = initSecretCombinationCreator(game.COMBINATIONS_LENGTH, game.ALLOWED_COLORS);
+    const decipher = initDecipher();
     return {
         play: function () {
             game.showTitle();
