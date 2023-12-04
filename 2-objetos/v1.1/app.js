@@ -66,7 +66,7 @@ function initGame() {
   };
   return {
     play: function () {
-      game.secretCombinationCreator = initSecretCombinationCreator(game.COMBINATIONS_LENGTH, game.ALLOWED_COLORS);
+      game.secretCombinationCreator = initSecretCombinationCreator(game);
       game.showTitle();
       console.writeln(game.secretCombinationCreator.getSecretCombination());
       do {
@@ -116,7 +116,7 @@ function initGame() {
     };
   }
 
-  function initSecretCombinationCreator(combinationsLength, allowedColors) {
+  function initSecretCombinationCreator({ COMBINATIONS_LENGTH, ALLOWED_COLORS }) {
     const that = {
       secretCombination: ``,
       WELL_POSITIONED: `b`,
@@ -158,7 +158,7 @@ function initGame() {
         }
       },
     };
-    that.setCombinationWithoutRepeatedColors(combinationsLength, allowedColors);
+    that.setCombinationWithoutRepeatedColors(COMBINATIONS_LENGTH, ALLOWED_COLORS);
     return {
       getSecretCombination: function () {
         return that.secretCombination;
