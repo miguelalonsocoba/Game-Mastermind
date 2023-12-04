@@ -194,16 +194,16 @@ function initGame() {
   function initDecipher() {
     const that = {
       proposedCombinations: [],
-      isValidCombination: function (combination, game) {
+      isValidCombination: function (combination, { COMBINATIONS_LENGTH, ALLOWED_COLORS }) {
         const MSG_ERRORS = {
-          LENGTH: `Wrong proposed combination length!!! (Correct length ${game.COMBINATIONS_LENGTH}). Please try again.`,
+          LENGTH: `Wrong proposed combination length!!! (Correct length ${COMBINATIONS_LENGTH}). Please try again.`,
           COLOR_NOT_VALID: `Wrong colors, they must be "rgbycm". Please try again.`,
           REPEATED_COLORS: `Wrong, there are repeated colors. Please try again.`,
         };
-        if (combination.length !== game.COMBINATIONS_LENGTH) {
+        if (combination.length !== COMBINATIONS_LENGTH) {
           console.writeln(MSG_ERRORS.LENGTH);
           return false;
-        } else if (!that.areValidColors(combination, game.ALLOWED_COLORS)) {
+        } else if (!that.areValidColors(combination, ALLOWED_COLORS)) {
           console.writeln(MSG_ERRORS.COLOR_NOT_VALID);
           return false;
         } else if (that.thereAreRepeatedColors(combination)) {
