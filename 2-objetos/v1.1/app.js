@@ -116,7 +116,7 @@ function initGame() {
     };
   }
 
-  function initSecretCombinationCreator({ COMBINATIONS_LENGTH, ALLOWED_COLORS }) {
+  function initSecretCombinationCreator(game) {
     const that = {
       secretCombination: ``,
       WELL_POSITIONED: `b`,
@@ -148,17 +148,17 @@ function initGame() {
       setIsCorrectCombination: function (value) {
         that.isCorrectCombination = value;
       },
-      setCombinationWithoutRepeatedColors: function (combinationsLength, allowedColors) {
-        for (let i = 0; i < combinationsLength; i++) {
+      setCombinationWithoutRepeatedColors: function ({ COMBINATIONS_LENGTH, ALLOWED_COLORS }) {
+        for (let i = 0; i < COMBINATIONS_LENGTH; i++) {
           let randomColor;
           do {
-            randomColor = allowedColors[parseInt(Math.random() * allowedColors.length)];
+            randomColor = ALLOWED_COLORS[parseInt(Math.random() * ALLOWED_COLORS.length)];
           } while (that.isRepeatedColor(randomColor, that.secretCombination));
           that.addToSecretCombination(randomColor);
         }
       },
     };
-    that.setCombinationWithoutRepeatedColors(COMBINATIONS_LENGTH, ALLOWED_COLORS);
+    that.setCombinationWithoutRepeatedColors(game);
     return {
       getSecretCombination: function () {
         return that.secretCombination;
