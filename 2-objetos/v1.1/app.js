@@ -4,14 +4,17 @@ const console = new Console();
 initMasterMind().play();
 
 function initMasterMind() {
+  const that = {
+    continueDialog: initYesNoDialog(`Do you want to play again? `),
+    game: undefined,
+  };
   return {
     play: function () {
-      const continueDialog = initYesNoDialog(`Do you want to play again?`);
       do {
-        const game = initGame();
-        game.play();
-        continueDialog.read();
-      } while (continueDialog.isAffirmative());
+        that.game = initGame();
+        that.game.play();
+        that.continueDialog.read();
+      } while (that.continueDialog.isAffirmative());
     },
   };
 }
