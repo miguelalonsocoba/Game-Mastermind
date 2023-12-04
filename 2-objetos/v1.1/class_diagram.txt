@@ -62,7 +62,7 @@
   class InitDecipher {
    - proposedCombinations : String[]
    
-   - isValidCombination(String combination, Game game) : boolean
+   - isValidCombination(String combination, combinationsLength, allowedColors) : boolean
    - areValidColors(String combination, String[] allowedColors) : boolean
    - isAllowed(String color, String[] allowedColors) : boolean
    - thereAreRepeatedColors(String combination) : boolean
