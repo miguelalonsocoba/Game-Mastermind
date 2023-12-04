@@ -60,28 +60,31 @@ function initGame() {
     increaseAttemptsByOne: function () {
       game.attempts++;
     },
+    result: initResult(),
+    secretCombinationCreator: undefined,
+    decipher: initDecipher(),
   };
-  const result = initResult();
-  const secretCombinationCreator = initSecretCombinationCreator(game.COMBINATIONS_LENGTH, game.ALLOWED_COLORS);
-  const decipher = initDecipher();
   return {
     play: function () {
+      game.secretCombinationCreator = initSecretCombinationCreator(game.COMBINATIONS_LENGTH, game.ALLOWED_COLORS);
       game.showTitle();
-      console.writeln(secretCombinationCreator.getSecretCombination());
+      console.writeln(game.secretCombinationCreator.getSecretCombination());
       do {
         game.showAttempts();
-        decipher.proposeAValidCombination(game);
-        result.addResultsOfComparingCombinations(
-          secretCombinationCreator.compare(decipher.getProposedCombinationCurrently(game.attempts))
+        game.decipher.proposeAValidCombination(game);
+        game.result.addResultsOfComparingCombinations(
+          game.secretCombinationCreator.compare(game.decipher.getProposedCombinationCurrently(game.attempts))
         );
-        result.showComparisonResult(decipher.getProposedCombinations());
-        secretCombinationCreator.verifyCorrectCombination(result.getResultsOfComparingCombinationsCurrently(game.attempts));
+        game.result.showComparisonResult(game.decipher.getProposedCombinations());
+        game.secretCombinationCreator.verifyCorrectCombination(
+          game.result.getResultsOfComparingCombinationsCurrently(game.attempts)
+        );
         game.increaseAttemptsByOne();
-      } while (!secretCombinationCreator.isCorrectCombination() && game.attempts < game.MAXIMUN_ATTEMPTS);
-      if (secretCombinationCreator.isCorrectCombination()) {
-        result.showWinningMessage();
+      } while (!game.secretCombinationCreator.isCorrectCombination() && game.attempts < game.MAXIMUN_ATTEMPTS);
+      if (game.secretCombinationCreator.isCorrectCombination()) {
+        game.result.showWinningMessage();
       } else {
-        result.showLosingMessage();
+        game.result.showLosingMessage();
       }
     },
   };
