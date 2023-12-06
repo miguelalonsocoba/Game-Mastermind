@@ -33,7 +33,6 @@
    - resultsOfComparingCombinations : String[]
    - isCorrectCombination : false
    - WELL_POSITIONED : b
-   - POORLY_POSITIONED : w
   
    + showWinningMessage() : void
    + showLosingMessage() : void
