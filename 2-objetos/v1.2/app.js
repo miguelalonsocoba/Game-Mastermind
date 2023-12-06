@@ -75,7 +75,7 @@ function initGame() {
         game.result.addResultsOfComparingCombinations(
           game.secretCombinationCreator.compare(game.decipher.getProposedCombinationCurrently(game.attempts))
         );
-        game.result.showComparisonResult(game.decipher.getProposedCombinations());
+        game.result.showComparisonResults(game.decipher.getProposedCombinations());
         game.result.verifyCorrectCombination();
         game.increaseAttemptsByOne();
       } while (!game.result.isCorrectCombination() && game.attempts < game.MAXIMUN_ATTEMPTS);
@@ -103,7 +103,7 @@ function initGame() {
       addResultsOfComparingCombinations: function (resultOfComparing) {
         that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length] = resultOfComparing;
       },
-      showComparisonResult: function (proposedCombinations) {
+      showComparisonResults: function (proposedCombinations) {
         let msg = `\nResults:\n`;
         for (let i = 0; i < that.resultsOfComparingCombinations.length; i++) {
           msg += `${proposedCombinations[i]} --> ${that.resultsOfComparingCombinations[i]}\n`;
