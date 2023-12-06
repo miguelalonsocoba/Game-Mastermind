@@ -92,7 +92,6 @@ function initGame() {
       resultsOfComparingCombinations: [],
       isCorrectCombination: false,
       WELL_POSITIONED: `b`,
-      POORLY_POSITIONED: `w`,
     };
     return {
       showWinningMessage: function () {
@@ -115,13 +114,9 @@ function initGame() {
         return that.resultsOfComparingCombinations[currently];
       },
       verifyCorrectCombination: function () {
-        for (
-          let i = 0;
-          !this.isCorrectCombination() &&
-          i < that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length - 1].length;
-          i++
-        ) {
-          if (that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length - 1][i] !== that.WELL_POSITIONED) {
+        const currentCombination = that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length - 1];
+        for (let i = 0; !this.isCorrectCombination() && i < currentCombination.length; i++) {
+          if (currentCombination[i] !== that.WELL_POSITIONED) {
             return this.isCorrectCombination();
           }
         }
