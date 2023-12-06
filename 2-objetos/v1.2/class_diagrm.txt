@@ -1,0 +1,90 @@
+  @startuml
+  class InitMasterMind {
+   - continueDialog : InitYesNoDialog
+   - game : InitGame
+   
+   + play() : void
+  }
+  class InitYesNoDialog {
+   - question : String
+   - answer : String
+   
+   - isNegative() : boolean
+   + read() : void
+   + isAffirmative() : boolean
+  }
+  
+  class InitGame {
+   - ALLOWED_COLORS : ["r", "g", "b", "y", "c", "m"]
+   - COMBINATIONS_LENGTH : 4
+   - TITLE : "MASTERMIND"
+   - MAXIMUN_ATTEMPTS : 10
+   - attempts : Number
+   - result : InitResult
+   - secretCombinationCreator : InitSecretCombinationCreator
+   - decipher : InitDecipher
+   
+   - showTitle() : void
+   - showAttempts() : void
+   - increaseAttemptsByOne() : void
+   + play() : void
+  }
+  class InitResult {
+   - resultsOfComparingCombinations : String[]
+   - isCorrectCombination : false
+   - WELL_POSITIONED : b
+   - POORLY_POSITIONED : w
+  
+   + showWinningMessage() : void
+   + showLosingMessage() : void
+   + addResutlsOfCompaingCombinations(String resultOfComparing) : void
+   + showComparisonResult(String[] proposedCombinations) : void
+   + getResultsOfComparingCombinationsCurrently(Number currently) : String resultsOfComparingCombinations
+   + verifyCorrectCombination() : void
+   + isCorrectCombination() : isCorrectCombination
+  }
+  
+  class InitSecretCombinationCreator {
+   - secretCombination : String
+   - WELL_POSITIONED : "b"
+   - POORLY_POSITIONED : "W"
+   - EMPTY : "e"
+   - isCorrectCombination : false
+   - combinationsLength : Number
+   - allowedColors : String[]
+   
+   - isRepeatedColor(String color, String secretCombination) : boolean
+   - isWellPositioned(String proposedColor, String secretColor) : boolean
+   - isPoorlyPositioned(String colorToVerify, String secretCombination) : boolean
+   - addToSecretCombination(String color) : void
+   - setCombinationWithoutRepeatedColors(Number combinationsLength, String[] allowedColors) : void
+   + getSecretCombination() : secretCombination
+   + compare(String combination) : String
+  }
+  class InitDecipher {
+   - proposedCombinations : String[]
+   
+   - isValidCombination(String combination, combinationsLength, allowedColors) : boolean
+   - areValidColors(String combination, String[] allowedColors) : boolean
+   - isAllowed(String color, String[] allowedColors) : boolean
+   - thereAreRepeatedColors(String combination) : boolean
+   - addProposedCombination(String combination) : void
+   + proposeAValidCombination(Game game) : void
+   + getProposedCombinations() : proposedCombinations
+   + getProposedCombinationCurrently(Number currently) : String proposedCombinationCurrently
+  }
+  
+  InitMasterMind *-- InitYesNoDialog
+  InitMasterMind *-- InitGame
+  
+  InitGame *-- InitResult
+  InitGame *-- InitSecretCombinationCreator
+  InitGame *-- InitDecipher
+  
+  InitResult o-- "0-10" InitSecretCombinationCreator : "Results compare"
+  InitResult ..> InitDecipher : "Show proposed combinations"
+  
+  InitSecretCombinationCreator ..> InitDecipher : "Proposed combinations"
+  InitSecretCombinationCreator ..> InitResult : "Result
+  
+  @enduml
