@@ -60,6 +60,9 @@ function initGame() {
     increaseAttemptsByOne: function () {
       game.attempts++;
     },
+    thereAreAttempts: function () {
+      return game.attempts < game.MAXIMUN_ATTEMPTS;
+    },
     result: initResult(),
     secretCombinationCreator: undefined,
     decipher: initDecipher(),
@@ -78,7 +81,7 @@ function initGame() {
         game.result.showComparisonResults(game.decipher.getProposedCombinations());
         game.result.verifyCorrectCombination();
         game.increaseAttemptsByOne();
-      } while (!game.result.isCorrectCombination() && game.attempts < game.MAXIMUN_ATTEMPTS);
+      } while (!game.result.isCorrectCombination() && game.thereAreAttempts());
       if (game.result.isCorrectCombination()) {
         game.result.showWinningMessage();
       } else {
