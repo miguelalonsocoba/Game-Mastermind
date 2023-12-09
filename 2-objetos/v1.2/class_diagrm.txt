@@ -31,7 +31,7 @@
   }
   class InitResult {
    - resultsOfComparingCombinations : String[]
-   - isCorrectCombination : false
+   - isCorrectCombination : boolean
    - WELL_POSITIONED : b
   
    + showWinningMessage() : void
