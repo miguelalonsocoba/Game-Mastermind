@@ -27,6 +27,7 @@
    - showTitle() : void
    - showAttempts() : void
    - increaseAttemptsByOne() : void
+   - thereAreAttempts() : boolean
    + play() : void
   }
   class InitResult {
