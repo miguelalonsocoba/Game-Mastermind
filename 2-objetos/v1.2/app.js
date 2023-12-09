@@ -90,7 +90,7 @@ function initGame() {
   function initResult() {
     const that = {
       resultsOfComparingCombinations: [],
-      isCorrectCombination: false,
+      isCorrectCombination: undefined,
       WELL_POSITIONED: `b`,
     };
     return {
@@ -115,13 +115,12 @@ function initGame() {
       },
       verifyCorrectCombination: function () {
         const currentCombination = that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length - 1];
-        for (let i = 0; !this.isCorrectCombination() && i < currentCombination.length; i++) {
+        that.isCorrectCombination = true;
+        for (let i = 0; this.isCorrectCombination() && i < currentCombination.length; i++) {
           if (currentCombination[i] !== that.WELL_POSITIONED) {
-            return this.isCorrectCombination();
+            that.isCorrectCombination = false;
           }
         }
-        that.isCorrectCombination = true;
-        return that.isCorrectCombination;
       },
       isCorrectCombination: function () {
         return that.isCorrectCombination;
