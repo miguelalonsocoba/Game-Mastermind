@@ -39,7 +39,6 @@
    + showLosingMessage() : void
    + addResutlsOfCompaingCombinations(String resultOfComparing) : void
    + showComparisonResult(String[] proposedCombinations) : void
-   + getResultsOfComparingCombinationsCurrently(Number currently) : String resultsOfComparingCombinations
    + verifyCorrectCombination() : void
    + isCorrectCombination() : isCorrectCombination
   }
