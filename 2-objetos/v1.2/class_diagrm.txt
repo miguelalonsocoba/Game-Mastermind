@@ -56,9 +56,7 @@
    - isRepeatedColor(String color, String secretCombination) : boolean
    - isWellPositioned(String proposedColor, String secretColor) : boolean
    - isPoorlyPositioned(String colorToVerify, String secretCombination) : boolean
-   - addToSecretCombination(String color) : void
    - setCombinationWithoutRepeatedColors(Number combinationsLength, String[] allowedColors) : void
-   + getSecretCombination() : secretCombination
    + compare(String combination) : String
   }
   class InitDecipher {
