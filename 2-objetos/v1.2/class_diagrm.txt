@@ -1,4 +1,5 @@
   @startuml
+  title Modular Design
   class InitMasterMind {
    - continueDialog : InitYesNoDialog
    - game : InitGame
@@ -70,6 +71,7 @@
    + getProposedCombinations() : proposedCombinations
    + getProposedCombinationCurrently(Number currently) : String proposedCombinationCurrently
   }
+  note left: Verificar viabilidad de eliminar el metodo getProposedCombinationCurrently() y que la clase cliente pida todas las combinaciones propuestas y sea ella quien recupera la combinación actual
   
   InitMasterMind *-- InitYesNoDialog
   InitMasterMind *-- InitGame
