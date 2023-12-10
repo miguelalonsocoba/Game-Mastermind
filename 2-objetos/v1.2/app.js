@@ -113,10 +113,10 @@ function initGame() {
         console.writeln(msg);
       },
       verifyCorrectCombination: function () {
-        const currentCombination = that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length - 1];
+        const currentResult = that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length - 1];
         that.isCorrectCombination = true;
-        for (let i = 0; this.isCorrectCombination() && i < currentCombination.length; i++) {
-          if (currentCombination[i] !== that.WELL_POSITIONED) {
+        for (let i = 0; this.isCorrectCombination() && i < currentResult.length; i++) {
+          if (currentResult[i] !== that.WELL_POSITIONED) {
             that.isCorrectCombination = false;
           }
         }
