@@ -75,7 +75,7 @@ function initGame() {
         game.showAttempts();
         game.decipher.proposeAValidCombination(game);
         game.result.addResultsOfComparingCombinations(
-          game.secretCombinationCreator.compare(game.decipher.getProposedCombinationCurrently(game.attempts))
+          game.secretCombinationCreator.compare(game.decipher.getProposedCombinations()[game.attempts])
         );
         game.result.showComparisonResults(game.decipher.getProposedCombinations());
         game.result.verifyCorrectCombination();
@@ -244,9 +244,6 @@ function initGame() {
       },
       getProposedCombinations: function () {
         return that.proposedCombinations;
-      },
-      getProposedCombinationCurrently: function (currently) {
-        return that.proposedCombinations[currently];
       },
     };
   }
