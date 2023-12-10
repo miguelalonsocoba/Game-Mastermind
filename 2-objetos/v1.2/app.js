@@ -112,9 +112,6 @@ function initGame() {
         }
         console.writeln(msg);
       },
-      getResultsOfComparingCombinationsCurrently: function (currently) {
-        return that.resultsOfComparingCombinations[currently];
-      },
       verifyCorrectCombination: function () {
         const currentCombination = that.resultsOfComparingCombinations[that.resultsOfComparingCombinations.length - 1];
         that.isCorrectCombination = true;
