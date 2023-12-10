@@ -71,7 +71,6 @@ function initGame() {
     play: function () {
       game.secretCombinationCreator = initSecretCombinationCreator(game);
       game.showTitle();
-      console.writeln(game.secretCombinationCreator.getSecretCombination());
       do {
         game.showAttempts();
         game.decipher.proposeAValidCombination(game);
@@ -157,30 +156,25 @@ function initGame() {
         }
         return false;
       },
-      addToSecretCombination: function (color) {
-        that.secretCombination += color;
-      },
       setCombinationWithoutRepeatedColors: function ({ COMBINATIONS_LENGTH, ALLOWED_COLORS }) {
         for (let i = 0; i < COMBINATIONS_LENGTH; i++) {
           let randomColor;
           do {
             randomColor = ALLOWED_COLORS[parseInt(Math.random() * ALLOWED_COLORS.length)];
           } while (that.isRepeatedColor(randomColor, that.secretCombination));
-          that.addToSecretCombination(randomColor);
+          that.secretCombination += randomColor;
         }
       },
     };
     that.setCombinationWithoutRepeatedColors(game);
+    console.writeln(`Secrete combination: ${that.secretCombination}`);
     return {
-      getSecretCombination: function () {
-        return that.secretCombination;
-      },
       compare: function (combination) {
         let comparisonResult = ``;
         for (let i = 0; i < combination.length; i++) {
-          if (that.isWellPositioned(combination[i], this.getSecretCombination()[i])) {
+          if (that.isWellPositioned(combination[i], that.secretCombination[i])) {
             comparisonResult += that.WELL_POSITIONED;
-          } else if (that.isPoorlyPositioned(combination[i], this.getSecretCombination())) {
+          } else if (that.isPoorlyPositioned(combination[i], that.secretCombination)) {
             comparisonResult += that.POORLY_POSITIONED;
           } else {
             comparisonResult += that.EMPTY;
