@@ -2,7 +2,6 @@
   title Modular Design
   class InitMasterMind {
    - continueDialog : InitYesNoDialog
-   - game : InitGame
    
    + play() : void
   }
@@ -49,7 +48,6 @@
    - WELL_POSITIONED : "b"
    - POORLY_POSITIONED : "W"
    - EMPTY : "e"
-   - isCorrectCombination : false
    - combinationsLength : Number
    - allowedColors : String[]
    
