@@ -6,13 +6,11 @@ initMasterMind().play();
 function initMasterMind() {
   const that = {
     continueDialog: initYesNoDialog(`Do you want to play again? `),
-    game: undefined,
   };
   return {
     play: function () {
       do {
-        that.game = initGame();
-        that.game.play();
+        initGame().play();
         that.continueDialog.read();
       } while (that.continueDialog.isAffirmative());
     },
