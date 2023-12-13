@@ -131,7 +131,6 @@ function initGame() {
       WELL_POSITIONED: `b`,
       POORLY_POSITIONED: `w`,
       EMPTY: `e`,
-      isCorrectCombination: false,
       isRepeatedColor: function (color, secretCombination) {
         for (let i = 0; i < secretCombination.length; i++) {
           if (color === secretCombination[i]) {
