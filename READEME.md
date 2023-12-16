@@ -29,7 +29,6 @@ Termina al averiguarse la combinación (es decir, se consigue una combinación c
 ## Vocabulario {#vocabulary}
 
 ![Vocabulario](/docs/diagrams/out/mastermind_domain_model/mastermind_domain_model.svg)
-![Vocabulario](/docs/diagrams/out/mastermind_domain_model/mastermind_domain_model2.svg)
 
 ## Estado inicial {#initial_state}
 
