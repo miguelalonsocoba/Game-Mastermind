@@ -17,7 +17,6 @@ function initMasterMind() {
 
 function initYesNoDialog(question) {
   const that = {
-    question: question,
     answer: ``,
     isNegative: function () {
       return that.answer === `no`;
@@ -27,7 +26,7 @@ function initYesNoDialog(question) {
     read: function () {
       let error = false;
       do {
-        that.answer = console.readString(that.question);
+        that.answer = console.readString(question);
         error = !this.isAffirmative() && !that.isNegative();
         if (error) {
           console.writeln(`Please answer "yes" or "no"`);
