@@ -80,6 +80,5 @@
   InitResult ..> InitDecipher : "Show proposed combinations"
   
   InitSecretCombinationCreator ..> InitDecipher : "Proposed combinations"
-  InitSecretCombinationCreator ..> InitResult : "Result
   
   @enduml
