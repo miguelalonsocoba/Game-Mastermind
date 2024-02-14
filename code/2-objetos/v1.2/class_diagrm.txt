@@ -1,11 +1,11 @@
   @startuml
   title Modular Design
-  class InitMasterMind {
-   - continueDialog : InitYesNoDialog
+  class MasterMind {
+   - continueDialog : YesNoDialog
    
    + play() : void
   }
-  class InitYesNoDialog {
+  class YesNoDialog {
    - question : String
    - answer : String
    
@@ -14,7 +14,7 @@
    + isAffirmative() : boolean
   }
   
-  class InitGame {
+  class Game {
    - ALLOWED_COLORS : ["r", "g", "b", "y", "c", "m"]
    - COMBINATIONS_LENGTH : 4
    - TITLE : "MASTERMIND"
@@ -30,7 +30,7 @@
    - thereAreAttempts() : boolean
    + play() : void
   }
-  class InitResult {
+  class Result {
    - resultsOfComparingCombinations : String[]
    - isCorrectCombination : boolean
    - WELL_POSITIONED : b
@@ -43,7 +43,7 @@
    + isCorrectCombination() : isCorrectCombination
   }
   
-  class InitSecretCombinationCreator {
+  class SecretCombinationCreator {
    - secretCombination : String
    - WELL_POSITIONED : "b"
    - POORLY_POSITIONED : "W"
@@ -57,7 +57,7 @@
    - setCombinationWithoutRepeatedColors(Number combinationsLength, String[] allowedColors) : void
    + compare(String combination) : String
   }
-  class InitDecipher {
+  class Decipher {
    - proposedCombinations : String[]
    
    - isValidCombination(String combination, combinationsLength, allowedColors) : boolean
@@ -69,16 +69,16 @@
    + getProposedCombinations() : proposedCombinations
   }
   
-  InitMasterMind *-- InitYesNoDialog
-  InitMasterMind *-- InitGame
+  MasterMind *-- YesNoDialog
+  MasterMind *-- Game
   
-  InitGame *-- InitResult
-  InitGame *-- InitSecretCombinationCreator
-  InitGame *-- InitDecipher
+  Game *-- Result
+  Game *-- SecretCombinationCreator
+  Game *-- Decipher
   
-  InitResult o-- "0-10" InitSecretCombinationCreator : "Results compare"
-  InitResult ..> InitDecipher : "Show proposed combinations"
+  Result o-- "0-10" SecretCombinationCreator : "Results compare"
+  Result ..> Decipher : "Show proposed combinations"
   
-  InitSecretCombinationCreator ..> InitDecipher : "Proposed combinations"
+  SecretCombinationCreator ..> Decipher : "Proposed combinations"
   
   @enduml
