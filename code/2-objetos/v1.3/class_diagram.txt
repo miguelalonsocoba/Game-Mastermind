@@ -1,0 +1,78 @@
+@startuml
+class Mastermind {
+  + play()
+}
+class Game {
+  - Array proposalsCombinations
+  - SecretCombination secreteCombination
+  
+  + play()
+  + show()
+  + isEndGame()
+  + isWinner()
+  + isLooser()
+}
+class YesNoDialog {
+  - String question
+  - String answer
+  
+  + read()
+  + isAffirmative()
+  + isNegative()
+}
+class SecretCombination {
+  - Combination combination
+  
+  + gerResult()
+  + getBlacks()
+  + getWhites()
+}
+class ProposalCombination {
+  - Combination combination
+  
+  + show()
+  + getCombination()
+  + read()
+  + length()
+  + contains(color, index)
+}
+class Result
+class Combination {
+  - Number COMBINATION_LENGTH = 4
+  - String COLORS = "rgbycm"
+  - Array colors
+  + show()
+  + length()
+  + contains(color, index)
+  + getColor(index)
+  + hasValidLength()
+  + hasValidColors()
+  + hasRepeatedColors()
+  + setColors()
+  + fillWithRandomColors()
+  + red()
+}
+enum Colors {
+  RED
+  BLUE
+  YELLOW
+  GREEN
+  CYAN
+  MAGENTA
+}
+
+Mastermind --> Game
+Mastermind --> YesNoDialog
+
+Game o-- "0..10" ProposalCombination
+Game *-- SecretCombination
+Game ..> "0..10" Result
+
+ProposalCombination *-- Combination
+
+SecretCombination ..> ProposalCombination
+SecretCombination *-- Combination
+SecretCombination ..> Result
+
+Combination *-- Colors
+@enduml
