@@ -7,16 +7,16 @@ class YesNoDialogView {
   
   + read()
   + isAffirmative()
-  + isNegative()
+  - isNegative()
 }
 class GameView {
   - Game game
   
   + play()
-  + show()
+  - show()
 }
 class ProposalCombinationView {
-  + getProposalConbination()
+  + readProposalConbination()
   + show()
 }
 class Game {

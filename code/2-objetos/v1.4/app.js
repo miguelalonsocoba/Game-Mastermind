@@ -17,12 +17,17 @@ function initMastermindView() {
 
 function initYesNoDialogView(question) {
   let answer = ``;
+
+  function isNegative() {
+    return answer === `no`;
+  }
+
   return {
     read: function () {
       let error;
       do {
         answer = console.readString(question);
-        error = !this.isAffirmative() && !this.isNegative();
+        error = !this.isAffirmative() && !isNegative();
         if (error) {
           console.writeln(`Por favor, responda "si" o "no"`);
         }
@@ -31,37 +36,36 @@ function initYesNoDialogView(question) {
     isAffirmative: function () {
       return answer === `si`;
     },
-    isNegative: function () {
-      return answer === `no`;
-    },
   };
 }
 
 function initGameView() {
   const game = initGame();
+
+  function show() {
+    console.writeln(`${game.getAttempts()} attempt(s):\n****`);
+    for (let i = 0; i < game.getAttempts(); i++) {
+      initProposalCombinationView().show(game.getProposalCombination(i));
+      initResultView().show(game.getResult(i));
+    }
+  }
+
   return {
     play: function () {
       console.writeln(`----- MASTERMIND -----`);
       do {
-        this.show();
-        const proposalCombination = initProposalCombinationView().getProposalCombination();
+        show();
+        const proposalCombination = initProposalCombinationView().readProposalCombination();
         game.addProposalCombination(proposalCombination);
       } while (!game.isEndGame());
       console.writeln(game.isWinner() ? "Has ganado!!! ;-)" : "Has perdido!!! :-(");
-    },
-    show: function () {
-      console.writeln(`${game.getAttempts()} attempt(s):\n****`);
-      for (i = 0; i < game.getAttempts(); i++) {
-        initProposalCombinationView().show(game.getProposalCombination(i));
-        initResultView().show(game.getResult(i));
-      }
     },
   };
 }
 
 function initProposalCombinationView() {
   return {
-    getProposalCombination: function () {
+    readProposalCombination: function () {
       let error;
       let proposalCombination = initProposalCombination();
       do {
