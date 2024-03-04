@@ -39,46 +39,42 @@ function initYesNoDialogView(question) {
 
 function initGameView() {
   const game = initGame();
+
+  function show() {
+    console.writeln(`${game.getAttempts()} attempt(s):\n****`);
+    for (i = 0; i < game.getAttempts(); i++) {
+      initProposalCombinationView().show(game.getProposalCombination(i));
+      initResultView().show(game.getResult(i));
+    }
+  }
+
   return {
     play: function () {
       console.writeln(`----- MASTERMIND -----`);
       do {
-        this.show();
-        const proposalCombination = initProposalCombinationView().getProposalCombination();
-        game.addProposalCombination(proposalCombination);
+        show();
+        game.addProposalCombination(initProposalCombinationView().readProposalCombination());
       } while (!game.isEndGame());
       console.writeln(game.isWinner() ? "Has ganado!!! ;-)" : "Has perdido!!! :-(");
-    },
-    show: function () {
-      console.writeln(`${game.getAttempts()} attempt(s):\n****`);
-      for (i = 0; i < game.getAttempts(); i++) {
-        initProposalCombinationView().show(game.getProposalCombination(i));
-        initResultView().show(game.getResult(i));
-      }
     },
   };
 }
 
 function initProposalCombinationView() {
   return {
-    getProposalCombination: function () {
-      let error;
+    readProposalCombination: function () {
       let proposalCombination = initProposalCombination();
       do {
-        response = console.readString(`Propon una combinacion:`);
-        proposalCombination.setColors(response);
-        if (!proposalCombination.hasValidLength()) {
-          console.writeln(`- La longitud de la combinacion es incorrecta!`);
-        } else if (proposalCombination.hasRepeatedColors()) {
-          console.writeln(`- Combinación propuesta incorrecta, al menos, un color está repetido.`);
-        } else if (!proposalCombination.hasValidColors()) {
-          console.writeln(`- Colores invalidos, los colores son" :${COLORS}`);
+        const colors = console.readString(`Propon una combinacion:`);
+        proposalCombination.setColors(colors);
+        proposalCombination.valid();
+        console.writeln(`HasError: ${proposalCombination.hasError()}`);
+        console.writeln(`ErrorMessage: ${proposalCombination.getErrorMessage()}`);
+        if (proposalCombination.hasError()) {
+          console.writeln(`--------------------------------`);
+          console.writeln(proposalCombination.getErrorMessage());
         }
-        error =
-          !proposalCombination.hasValidLength() ||
-          !proposalCombination.hasValidColors() ||
-          proposalCombination.hasRepeatedColors();
-      } while (error);
+      } while (proposalCombination.hasError());
       return proposalCombination;
     },
     show: function (proposalCombination) {
@@ -168,6 +164,9 @@ function initSecretCombination() {
 
 function initProposalCombination() {
   const combination = initCombination();
+  let error;
+  let errorMessage;
+
   return {
     show: function () {
       combination.show();
@@ -190,21 +189,33 @@ function initProposalCombination() {
     getColors: function () {
       return combination.getColors();
     },
-    hasValidLength: function () {
-      return combination.hasValidLength();
+    valid: function () {
+      console.writeln(`Valid: ${error}`);
+      if (!combination.hasValidLength()) {
+        error = !combination.hasValidLength();
+        errorMessage = `- La longuitud de la combinación es incorrecta!`;
+        console.writeln(`Error----------------------------------------: ${error}`);
+      } else if (combination.hasRepeatedColors()) {
+        error = combination.hasRepeatedColors();
+        errorMessage = `- Combinación propuesta incorrecta, al menos, un color está repetido.`;
+      } else if (!combination.hasValidColors()) {
+        error = !combination.hasValidColors();
+        errorMessage = `- Colores invalidos, los colores son ${combination.getAllowedColors()}`;
+        console.writeln(`Error: ${combination.hasValidColors()}`);
+      }
     },
-    hasValidColors: function () {
-      return combination.hasValidColors();
+    hasError: function () {
+      return error;
     },
-    hasRepeatedColors: function () {
-      return combination.hasRepeatedColors();
+    getErrorMessage: function () {
+      return errorMessage;
     },
   };
 }
 
 function initCombination() {
   const COMBINATION_LENGTH = 4;
-  const COLORS = "rgbycm";
+  const ALLOWED_COLORS = "rgbycm";
   let colors = [];
   return {
     show: function () {
@@ -231,14 +242,14 @@ function initCombination() {
       return colors;
     },
     hasValidLength: function () {
+      console.writeln(`In HasValidLength----------------------------`);
       return colors.length === COMBINATION_LENGTH;
     },
     hasValidColors: function () {
-      const gameColors = initCombination();
-      gameColors.setColors(COLORS);
+      this.setColors(ALLOWED_COLORS);
       let hasValidColors = true;
       for (let i = 0; i < colors.length; i++) {
-        hasValidColors &= gameColors.contains(colors[i]);
+        hasValidColors &= this.contains(colors[i]);
       }
       return hasValidColors;
     },
@@ -258,11 +269,14 @@ function initCombination() {
     },
     fillWithRandomColors: function () {
       do {
-        randomColor = COLORS[parseInt(Math.random() * 6)];
+        randomColor = ALLOWED_COLORS[parseInt(Math.random() * 6)];
         if (!this.contains(randomColor)) {
           colors[colors.length] = randomColor;
         }
       } while (!this.hasValidLength());
+    },
+    getAllowedColors: function () {
+      return ALLOWED_COLORS;
     },
   };
 }
