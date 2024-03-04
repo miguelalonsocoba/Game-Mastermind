@@ -72,7 +72,7 @@ function initProposalCombinationView() {
         } else if (proposalCombination.hasRepeatedColors()) {
           console.writeln(`- Combinación propuesta incorrecta, al menos, un color está repetido.`);
         } else if (!proposalCombination.hasValidColors()) {
-          console.writeln(`- Colores invalidos, los colores son" :${COLORS}`);
+          console.writeln(`- Colores invalidos, los colores son" :${proposalCombination.getAllowedColors()}`);
         }
         error =
           !proposalCombination.hasValidLength() ||
@@ -169,9 +169,6 @@ function initSecretCombination() {
 function initProposalCombination() {
   const combination = initCombination();
   return {
-    show: function () {
-      combination.show();
-    },
     getCombination: function () {
       return combination;
     },
@@ -199,17 +196,17 @@ function initProposalCombination() {
     hasRepeatedColors: function () {
       return combination.hasRepeatedColors();
     },
+    getAllowedColors: function () {
+      return combination.getAllowedColors();
+    },
   };
 }
 
 function initCombination() {
   const COMBINATION_LENGTH = 4;
-  const COLORS = "rgbycm";
+  const ALLOWED_COLORS = "rgbycm";
   let colors = [];
   return {
-    show: function () {
-      console.write(colors);
-    },
     length: function () {
       return colors.length;
     },
@@ -235,7 +232,7 @@ function initCombination() {
     },
     hasValidColors: function () {
       const gameColors = initCombination();
-      gameColors.setColors(COLORS);
+      gameColors.setColors(ALLOWED_COLORS);
       let hasValidColors = true;
       for (let i = 0; i < colors.length; i++) {
         hasValidColors &= gameColors.contains(colors[i]);
@@ -258,11 +255,15 @@ function initCombination() {
     },
     fillWithRandomColors: function () {
       do {
-        randomColor = COLORS[parseInt(Math.random() * 6)];
+        randomColor = ALLOWED_COLORS[parseInt(Math.random() * 6)];
         if (!this.contains(randomColor)) {
           colors[colors.length] = randomColor;
         }
       } while (!this.hasValidLength());
+      console.writeln(`Secrete combination: ${colors}`);
+    },
+    getAllowedColors: function () {
+      return ALLOWED_COLORS;
     },
   };
 }
