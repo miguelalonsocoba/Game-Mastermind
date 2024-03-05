@@ -55,8 +55,7 @@ function initGameView() {
       console.writeln(`----- MASTERMIND -----`);
       do {
         show();
-        const proposalCombination = initProposalCombinationView().readProposalCombination();
-        game.addProposalCombination(proposalCombination);
+        game.addProposalCombination(initProposalCombinationView().readProposalCombination());
       } while (!game.isEndGame());
       console.writeln(game.isWinner() ? "Has ganado!!! ;-)" : "Has perdido!!! :-(");
     },
