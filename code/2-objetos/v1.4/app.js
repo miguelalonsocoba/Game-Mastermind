@@ -68,7 +68,7 @@ function initProposalCombinationView() {
       let error;
       let proposalCombination = initProposalCombination();
       do {
-        response = console.readString(`Propon una combinacion:`);
+        const response = console.readString(`Propon una combinación:`);
         proposalCombination.setColors(response);
         if (!proposalCombination.hasValidLength()) {
           console.writeln(`- La longitud de la combinacion es incorrecta!`);
