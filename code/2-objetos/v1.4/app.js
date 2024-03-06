@@ -126,17 +126,7 @@ function initSecretCombination() {
     getResult: function (proposalCombination) {
       const blacks = this.getBlacks(proposalCombination);
       const whites = this.getWhites(proposalCombination);
-      return {
-        isWinner() {
-          return blacks === proposalCombination.length();
-        },
-        getBlacks() {
-          return blacks;
-        },
-        getWhites() {
-          return whites;
-        },
-      };
+      return initResult(blacks, whites);
     },
     getBlacks: function (proposalCombination) {
       let blacks = 0;
@@ -155,6 +145,20 @@ function initSecretCombination() {
           whites++;
         }
       }
+      return whites;
+    },
+  };
+}
+
+function initResult(blacks, whites) {
+  return {
+    isWinner() {
+      return blacks === initCombination().getCombinationLength();
+    },
+    getBlacks() {
+      return blacks;
+    },
+    getWhites() {
       return whites;
     },
   };
@@ -280,6 +284,9 @@ function initCombination() {
     },
     getAllowedColors: function () {
       return ALLOWED_COLORS;
+    },
+    getCombinationLength: function () {
+      return COMBINATION_LENGTH;
     },
   };
 }
