@@ -97,13 +97,13 @@ function initGame() {
       proposalsCombinations.push(proposalCombination);
     },
     isEndGame() {
-      return this.isWinner() || this.isLoser();
+      return this.isWinner() || this.isCompleteTheBoard();
     },
     isWinner() {
       const lastProposalCombination = proposalsCombinations[proposalsCombinations.length - 1];
       return secretCombination.getResult(lastProposalCombination).isWinner();
     },
-    isLoser() {
+    isCompleteTheBoard() {
       const MAX_ATTEMPTS = 10;
       return proposalsCombinations.length === MAX_ATTEMPTS;
     },
