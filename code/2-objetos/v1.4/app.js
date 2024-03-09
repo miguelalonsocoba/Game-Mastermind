@@ -125,7 +125,7 @@ function initSecretCombination() {
 
   function fillWithRandomColors() {
     do {
-      let randomColor = combination.getAllowedColors()[parseInt(Math.random() * 6)];
+      let randomColor = combination.getAllowedColors()[parseInt(Math.random() * combination.getAllowedColors().length)];
       if (!combination.contains(randomColor)) {
         combination.addColor(randomColor);
       }
