@@ -92,20 +92,21 @@ function initResultView() {
 function initGame() {
   let proposalsCombinations = [];
   const secretCombination = initSecretCombination();
+
+  function isCompleteTheBoard() {
+    const MAX_ATTEMPTS = 10;
+    return proposalsCombinations.length === MAX_ATTEMPTS;
+  }
   return {
     addProposalCombination(proposalCombination) {
       proposalsCombinations.push(proposalCombination);
     },
     isEndGame() {
-      return this.isWinner() || this.isCompleteTheBoard();
+      return this.isWinner() || isCompleteTheBoard();
     },
     isWinner() {
       const lastProposalCombination = proposalsCombinations[proposalsCombinations.length - 1];
       return secretCombination.getResult(lastProposalCombination).isWinner();
-    },
-    isCompleteTheBoard() {
-      const MAX_ATTEMPTS = 10;
-      return proposalsCombinations.length === MAX_ATTEMPTS;
     },
     getAttempts() {
       return proposalsCombinations.length;
@@ -133,30 +134,32 @@ function initSecretCombination() {
     console.writeln(`Secrete combination: ${combination.getColors()}`);
   }
 
+  function getBlacks(proposalCombination) {
+    let blacks = 0;
+    for (let i = 0; i < combination.length(); i++) {
+      if (proposalCombination.contains(combination.getColor(i), i)) {
+        blacks++;
+      }
+    }
+    return blacks;
+  }
+
+  function getWhites(proposalCombination) {
+    let whites = 0;
+    for (let i = 0; i < combination.length(); i++) {
+      const color = combination.getColor(i);
+      if (proposalCombination.contains(color) && !proposalCombination.contains(color, i)) {
+        whites++;
+      }
+    }
+    return whites;
+  }
+
   return {
     getResult: function (proposalCombination) {
-      const blacks = this.getBlacks(proposalCombination);
-      const whites = this.getWhites(proposalCombination);
+      const blacks = getBlacks(proposalCombination);
+      const whites = getWhites(proposalCombination);
       return initResult(blacks, whites);
-    },
-    getBlacks: function (proposalCombination) {
-      let blacks = 0;
-      for (let i = 0; i < combination.length(); i++) {
-        if (proposalCombination.contains(combination.getColor(i), i)) {
-          blacks++;
-        }
-      }
-      return blacks;
-    },
-    getWhites: function (proposalCombination) {
-      let whites = 0;
-      for (let i = 0; i < combination.length(); i++) {
-        const color = combination.getColor(i);
-        if (proposalCombination.contains(color) && !proposalCombination.contains(color, i)) {
-          whites++;
-        }
-      }
-      return whites;
     },
   };
 }

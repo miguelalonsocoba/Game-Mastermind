@@ -20,56 +20,69 @@ class ProposalCombinationView {
   + show()
 }
 class Game {
-  - Array proposalsCombination
+  - Array[ProposalCombination] proposalsCombination
   - SecretCombination secretCombination
   
-  + addProposalCombination(proposalCombination)
-  + isEndGame()
-  + isWinne()
-  + isLoser()
-  + getAttempts()
-  + getResult(index)
-  + getProposalConbination(index)
+  + void addProposalCombination(ProposalCombination proposalCombination)
+  + Boolean isEndGame()
+  + Boolean isWinne()
+  + Number getAttempts()
+  + Result getResult(Number index)
+  + ProposalCombination getProposalConbination(Number index)
+  - Boolean isCompleteTheBoard() 
 }
 class ProposalCombination {
   - Combination combination
+  - Boolean error
+  - String errorMessage
   
-  + show()
-  + getCombination()
-  + length()
-  + contains(color, index)
-  + setColors(colors)
-  + getColors()
-  + hasValidLength()
-  + hasValidColors()
-  + hasRepeatedColors()
+  + Combination getCombination()
+  + Number length()
+  + Boolean contains(String color, Number index)
+  + void setColors(String colors)
+  + Array getColors()
+  + vod validate()
+  + Boolean hasError()
+  + String getErrorMessage()
+  - Boolean hasValidLength()
+  - Boolean hasValidColors()
+  - Boolean hasRepeatedColors()
 }
 class SecretCombination {
   - Combination combination
   
-  + getResult()
-  + getBlacks()
-  + getWhites()
+  + Result getResult(ProposalCombination proposalCombination)
+  - Number getBlacks(ProposalCombination proposalCombination)
+  - Number getWhites(ProposalCombination proposalCombination)
+  - void fillWithRandomColors()
 }
 class ResultView {
   + shoow()
 }
-class Result
+class Result {
+  - Number blacks
+  - Number whites
+  
+  + Boolean isWinner()
+  + Number getBlacks()
+  + Number getWhites()
+}
 class Combination {
   - Number COMBINATION_LENTH = 4
-  - String COLORS = "rgbycm"
+  - String ALLOWED_COLORS = "rgbycm"
   - Array colors
   
-  + shoow()
-  + length()
-  + contains(color, index)
-  + getColor()
-  + getColors(index)
-  + hasValidLength()
-  + hasValidColors()
-  + hasRepeatedColors()
-  + setColors()
-  + filWhithRandomColors()
+  + Number length()
+  + Boolean contains(String color, Number index)
+  + String getColor(Number index)
+  + Array getColors()
+  + Boolean hasValidLength()
+  + Boolean hasValidColors()
+  + Boolean hasRepeatedColors()
+  + void setColors(String otherColors)
+  + void addColor(String color)
+  + String getAllowedColors()
+  + Number getCombinationLength()
 }
 enum Colors {
   RED
