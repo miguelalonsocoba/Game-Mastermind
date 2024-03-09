@@ -121,7 +121,18 @@ function initGame() {
 
 function initSecretCombination() {
   const combination = initCombination();
-  combination.fillWithRandomColors();
+  fillWithRandomColors();
+
+  function fillWithRandomColors() {
+    do {
+      let randomColor = combination.getAllowedColors()[parseInt(Math.random() * 6)];
+      if (!combination.contains(randomColor)) {
+        combination.addColor(randomColor);
+      }
+    } while (!combination.hasValidLength());
+    console.writeln(`Secrete combination: ${combination.getColors()}`);
+  }
+
   return {
     getResult: function (proposalCombination) {
       const blacks = this.getBlacks(proposalCombination);
@@ -270,14 +281,8 @@ function initCombination() {
     setColors: function (otherColors) {
       colors = otherColors;
     },
-    fillWithRandomColors: function () {
-      do {
-        randomColor = ALLOWED_COLORS[parseInt(Math.random() * 6)];
-        if (!this.contains(randomColor)) {
-          colors[colors.length] = randomColor;
-        }
-      } while (!this.hasValidLength());
-      console.writeln(`Secrete combination: ${colors}`);
+    addColor: function (color) {
+      colors.push(color);
     },
     getAllowedColors: function () {
       return ALLOWED_COLORS;
