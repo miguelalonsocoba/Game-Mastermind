@@ -258,9 +258,9 @@ function initCombination() {
     },
     hasRepeatedColors: function () {
       let hasRepeatedColors = false;
-      for (let i = 0; i < colors.length; i++) {
-        for (let j = 0; j < colors.length; j++) {
-          if (colors[i] === colors[j] && i !== j) {
+      for (let i = 0; i < colors.length - 1; i++) {
+        for (let j = i + 1; j < colors.length; j++) {
+          if (colors[i] === colors[j]) {
             hasRepeatedColors = true;
           }
         }
