@@ -189,10 +189,7 @@ function initProposalCombination() {
       return combination.length();
     },
     contains: function (color, index) {
-      if (arguments.length == 2) {
-        return combination.contains(color, index);
-      }
-      return combination.contains(color);
+      return combination.contains(color, index);
     },
     setColors: function (colors) {
       combination.setColors(colors);
@@ -231,7 +228,7 @@ function initCombination() {
       return colors.length;
     },
     contains: function (color, index) {
-      if (arguments.length == 2) {
+      if (index !== undefined) {
         return colors[index] === color;
       }
       for (let i = 0; i < colors.length; i++) {
